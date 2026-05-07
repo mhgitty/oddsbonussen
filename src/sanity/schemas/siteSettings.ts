@@ -10,8 +10,6 @@ export const siteSettingsType = defineType({
   name: 'siteSettings',
   title: '⚙️ Siteindstillinger',
   type: 'document',
-  // Singleton — only one document of this type
-  __experimental_actions: ['update', 'publish'],
   groups: [
     { name: 'header', title: '🔝 Header' },
     { name: 'footer', title: '🔻 Footer' },

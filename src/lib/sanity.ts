@@ -39,18 +39,36 @@ export async function getPostBySlug(slug: string) {
 
 // ─── Pages ────────────────────────────────────────────────────────────────────
 
+// Page fields shared by single and nested lookups
+const PAGE_FIELDS = `
+  _id, title, slug, intro, body, metaTitle, metaDescription,
+  "parentSlug": parent->slug.current,
+  "parentTitle": parent->title,
+  "featuredImage": featuredImage { "url": asset->url, alt },
+  "author": author-> {
+    name, bio, linkedin, x, facebook,
+    "imageUrl": image.asset->url
+  },
+  ${COMPARISON_TABLE_FRAGMENT}
+`
+
 export async function getPageBySlug(slug: string) {
   return client.fetch(
-    `*[_type == "page" && slug.current == $slug][0] {
-      _id, title, slug, intro, body, metaTitle, metaDescription,
-      "featuredImage": featuredImage { "url": asset->url, alt },
-      "author": author-> {
-        name, bio, linkedin, x, facebook,
-        "imageUrl": image.asset->url
-      },
-      ${COMPARISON_TABLE_FRAGMENT}
-    }`,
+    `*[_type == "page" && slug.current == $slug && !defined(parent)][0] { ${PAGE_FIELDS} }`,
     { slug }
+  )
+}
+
+/** Resolve a page by its full URL path (supports 1 or 2 segments) */
+export async function getPageByPath(segments: string[]) {
+  if (segments.length === 1) {
+    return getPageBySlug(segments[0])
+  }
+  // Two-segment path: /parent/child
+  const [parentSlug, childSlug] = segments
+  return client.fetch(
+    `*[_type == "page" && slug.current == $childSlug && parent->slug.current == $parentSlug][0] { ${PAGE_FIELDS} }`,
+    { parentSlug, childSlug }
   )
 }
 

@@ -6,7 +6,7 @@ import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getPageBySlug } from '@/lib/sanity'
+import { getPageByPath } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -14,33 +14,44 @@ export const revalidate = 3600
 
 const BASE = 'https://oddsbonussen.dk'
 
-interface Props { params: Promise<{ slug: string }> }
+interface Props { params: Promise<{ slug: string[] }> }
+
+function buildPath(segments: string[]) {
+  return '/' + segments.join('/')
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const page = await getPageBySlug(slug).catch(() => null)
+  const page = await getPageByPath(slug).catch(() => null)
   if (!page) return {}
   const title = page.metaTitle || page.title
   const description = page.metaDescription || page.intro || ''
-  const canonical = `${BASE}/${slug}`
+  const canonical = `${BASE}${buildPath(slug)}`
   return { title, description, alternates: { canonical } }
 }
 
 export default async function DynamicPage({ params }: Props) {
   const { slug } = await params
-  const page = await getPageBySlug(slug).catch(() => null)
+  const page = await getPageByPath(slug).catch(() => null)
   if (!page) notFound()
 
-  const canonical = `${BASE}/${slug}`
+  const canonical = `${BASE}${buildPath(slug)}`
+
+  // Build breadcrumb — include parent if present
+  const breadcrumbItems = [{ name: 'Hjem', item: BASE }]
+  if (page.parentSlug && page.parentTitle) {
+    breadcrumbItems.push({ name: page.parentTitle, item: `${BASE}/${page.parentSlug}` })
+  }
+  breadcrumbItems.push({ name: page.title, item: canonical })
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-          { '@type': 'ListItem', position: 2, name: page.title, item: canonical },
-        ],
+        itemListElement: breadcrumbItems.map((item, i) => ({
+          '@type': 'ListItem', position: i + 1, name: item.name, item: item.item,
+        })),
       },
       {
         '@type': 'WebPage',

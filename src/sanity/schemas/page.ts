@@ -189,6 +189,15 @@ export const pageType = defineType({
   fields: [
     defineField({ name: 'title', title: 'Titel', type: 'string', group: 'content', validation: (r) => r.required() }),
     defineField({ name: 'slug',  title: 'Slug',  type: 'slug',   group: 'content', options: { source: 'title' }, validation: (r) => r.required() }),
+    defineField({
+      name: 'parent',
+      title: 'Forældreside',
+      type: 'reference',
+      to: [{ type: 'page' }],
+      group: 'content',
+      options: { disableNew: true },
+      description: 'Valgfri — genererer URL som /forælder/denne-side og tilføjer brødkrumme',
+    }),
     defineField({ name: 'intro', title: 'Intro', type: 'text',   rows: 3, group: 'content' }),
     ...comparisonTableFields.map(f => ({ ...f, group: 'content' })) as any,
     { ...bodyField, group: 'content' } as any,

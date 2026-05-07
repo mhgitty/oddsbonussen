@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { TableBlockInput } from '../components/TableBlockInput'
+import { comparisonTableFields } from './comparisonTable'
 
 export const bodyField = defineField({
   name: 'body',
@@ -189,6 +190,7 @@ export const pageType = defineType({
     defineField({ name: 'title', title: 'Titel', type: 'string', group: 'content', validation: (r) => r.required() }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', group: 'content', options: { source: 'title' }, validation: (r) => r.required() }),
     defineField({ name: 'intro', title: 'Intro', type: 'text', rows: 3, group: 'content' }),
+    ...comparisonTableFields.map(f => ({ ...f, group: 'content' })) as any,
     { ...bodyField, group: 'content' } as any,
     defineField({ name: 'metaTitle', title: 'Meta titel', type: 'string', group: 'seo' }),
     defineField({ name: 'metaDescription', title: 'Meta beskrivelse', type: 'text', rows: 3, group: 'seo' }),

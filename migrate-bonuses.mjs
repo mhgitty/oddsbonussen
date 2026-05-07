@@ -49,6 +49,20 @@ const num           = (v) => { const n = parseFloat(String(v)); return isNaN(n) 
 // ─── IMAGE UPLOAD ─────────────────────────────────────────────────────────────
 
 const imageCache = new Map()
+const mediaAltCache = new Map()
+
+async function getMediaAlt(mediaId) {
+  if (!mediaId) return null
+  if (mediaAltCache.has(mediaId)) return mediaAltCache.get(mediaId)
+  try {
+    const res = await fetch(`${WP_BASE}/wp-json/wp/v2/media/${mediaId}`)
+    if (!res.ok) return null
+    const data = await res.json()
+    const alt = data.alt_text || data.title?.rendered || null
+    mediaAltCache.set(mediaId, alt)
+    return alt
+  } catch { return null }
+}
 
 async function uploadImage(src) {
   if (!src || src.startsWith('data:')) return null
@@ -70,8 +84,8 @@ async function uploadImage(src) {
   }
 }
 
-const imageRef = (assetId) => assetId
-  ? { _type: 'image', asset: { _type: 'reference', _ref: assetId } }
+const imageRef = (assetId, alt) => assetId
+  ? { _type: 'image', asset: { _type: 'reference', _ref: assetId }, ...(alt ? { alt } : {}) }
   : null
 
 // ─── INLINE SPANS ─────────────────────────────────────────────────────────────
@@ -320,13 +334,35 @@ async function htmlToPortableText(html, offerUrl = '') {
 }
 
 // ─── ACF image helper ─────────────────────────────────────────────────────────
-// ACF image fields return either a URL string, or an object with { url, sizes, ... }
+// ACF image fields return:
+//   - a URL string
+//   - an object with { url, alt, sizes, ... }
+//   - an integer attachment ID (when ACF is set to return ID)
 
 function acfImageUrl(val) {
   if (!val) return null
   if (typeof val === 'string' && val.startsWith('http')) return val
-  if (typeof val === 'object') return val.url || val.sizes?.medium_large || val.sizes?.large || null
+  if (typeof val === 'object' && val !== null) return val.url || val.sizes?.large || val.sizes?.medium_large || null
   return null
+}
+
+function acfImageAlt(val) {
+  if (!val || typeof val !== 'object') return null
+  return val.alt || val.title || null
+}
+
+async function acfImageUrlFromId(val) {
+  // If ACF returns an integer attachment ID, fetch the media object
+  if (typeof val === 'number' && val > 0) {
+    const alt = await getMediaAlt(val)
+    try {
+      const res = await fetch(`${WP_BASE}/wp-json/wp/v2/media/${val}`)
+      if (!res.ok) return { url: null, alt: null }
+      const data = await res.json()
+      return { url: data.source_url || null, alt: data.alt_text || data.title?.rendered || null }
+    } catch { return { url: null, alt: null } }
+  }
+  return { url: acfImageUrl(val), alt: acfImageAlt(val) }
 }
 
 // ─── BOOKMAKER LOOKUP ─────────────────────────────────────────────────────────
@@ -405,34 +441,43 @@ async function main() {
       // ── Body ──────────────────────────────────────────────────────────────
       const body = await htmlToPortableText(wp.content?.rendered || '', str(acf.offer_url) || '')
 
-      // ── Casino logo ───────────────────────────────────────────────────────
-      const logoUrl = acfImageUrl(acf.casino_logo) || acfImageUrl(acf.casino_logo_square)
-        || acfImageUrl(acf.kampagne_billede) || yoast.og_image?.[0]?.url
+      // ── Casino logo — only from ACF logo fields, never from featured/OG image
+      const { url: logoUrl, alt: logoAlt } = await acfImageUrlFromId(acf.casino_logo)
+        .then(r => r.url ? r : acfImageUrlFromId(acf.casino_logo_square))
       const logoRef = logoUrl ? await uploadImage(logoUrl) : null
 
-      // ── Campaign image (separate from logo) ───────────────────────────────
+      // ── Campaign image ─────────────────────────────────────────────────────
       const kampagneBilledeUrl = acfImageUrl(acf.kampagne_billede)
-      const kampagneBilledeRef = (kampagneBilledeUrl && kampagneBilledeUrl !== logoUrl)
-        ? await uploadImage(kampagneBilledeUrl) : null
+      const kampagneBilledeRef = kampagneBilledeUrl ? await uploadImage(kampagneBilledeUrl) : null
+
+      // ── OG image — featured image from Yoast, goes into ogImage field ──────
+      const ogImageUrl = yoast.og_image?.[0]?.url
+      const ogImageRef = ogImageUrl ? await uploadImage(ogImageUrl) : null
+      const ogImageAlt = await getMediaAlt(wp.featured_media) || yoast.og_title || title
 
       // ── Bookmaker reference ───────────────────────────────────────────────
       const bookmakerRef = resolveBookmakerRef(acf.casino, bookmakerMap)
 
       // ── Build document ────────────────────────────────────────────────────
+      const offerUrl = str(acf.offer_url)
+
       const doc = {
         _id:   `wp-bonus-${wp.id}`,
         _type: 'bonus',
         title,
         slug:  { _type: 'slug', current: slug },
 
+        // Active — true only if offer URL is set
+        active: !!offerUrl,
+
         // Bookmaker relation
         ...(bookmakerRef ? { bookmaker: bookmakerRef } : {}),
 
         // Core info
         ...(str(acf.casino_navn)            ? { casinoNavn: str(acf.casino_navn) }                       : {}),
-        ...(str(acf.offer_url)              ? { offerUrl: str(acf.offer_url) }                           : {}),
+        ...(offerUrl                        ? { offerUrl }                                                : {}),
         ...(str(acf.bonus_type)             ? { bonusType: str(acf.bonus_type) }                         : {}),
-        ...(logoRef                         ? { casinoLogo: imageRef(logoRef) }                          : {}),
+        ...(logoRef                         ? { casinoLogo: imageRef(logoRef, logoAlt) }                 : {}),
 
         // Odds bonus
         ...(str(acf.odds_bonus_titel)       ? { oddsBonusTitel: str(acf.odds_bonus_titel) }              : {}),
@@ -476,6 +521,7 @@ async function main() {
         ...(body.length                     ? { body }                                                   : {}),
         ...(yoast.title                     ? { metaTitle: yoast.title }                                 : {}),
         ...(yoast.description               ? { metaDescription: yoast.description }                    : {}),
+        ...(ogImageRef                      ? { ogImage: imageRef(ogImageRef, ogImageAlt) }              : {}),
       }
 
       await sanity.createOrReplace(doc)

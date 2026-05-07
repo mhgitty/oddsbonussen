@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { bodyField } from './page'
+import { comparisonTableFields } from './comparisonTable'
 
 export const homepageType = defineType({
   name: 'homepage',
@@ -76,7 +77,10 @@ export const homepageType = defineType({
       ],
     }),
 
-    // Body content (renders below the comparison table)
+    // Comparison table (renders above body text)
+    ...comparisonTableFields.map(f => ({ ...f, group: 'content' })) as any,
+
+    // Body content
     { ...bodyField, group: 'content' } as any,
 
     // SEO

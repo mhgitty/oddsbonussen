@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
+import { ComparisonTable } from '@/components/ComparisonTable'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
@@ -57,16 +58,24 @@ export default async function DynamicPage({ params }: Props) {
       <JsonLd data={jsonLd} />
       <Navbar />
       <HeroSection title={page.title} intro={page.intro} />
-      <div className="article-layout">
-        <article className="article-content">
-          {page.body && <PortableTextRenderer value={page.body} />}
-        </article>
-        {page.body && (
+
+      {/* Comparison table — configured per page in Sanity Studio */}
+      {page.showComparisonTable && page.comparisonTable && (
+        <div className="section" style={{ paddingBottom: page.body ? '0' : undefined }}>
+          <ComparisonTable data={page.comparisonTable} />
+        </div>
+      )}
+
+      {page.body && (
+        <div className="article-layout">
+          <article className="article-content">
+            <PortableTextRenderer value={page.body} />
+          </article>
           <aside className="toc-sidebar">
             <TableOfContents body={page.body} />
           </aside>
-        )}
-      </div>
+        </div>
+      )}
       <Footer />
     </>
   )

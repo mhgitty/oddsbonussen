@@ -5,11 +5,13 @@ import { categoryType } from './category'
 import { homepageType } from './homepage'
 import { bookmakerType } from './bookmaker'
 import { bonusType } from './bonus'
+import { comparisonTableTemplateType } from './comparisonTableTemplate'
 
 export const schemaTypes = [
   homepageType,
   bookmakerType,
   bonusType,
+  comparisonTableTemplateType,
   postType,
   pageType,
   authorType,

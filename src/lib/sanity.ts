@@ -43,7 +43,8 @@ export async function getPageBySlug(slug: string) {
   return client.fetch(
     `*[_type == "page" && slug.current == $slug][0] {
       _id, title, slug, intro, body, metaTitle, metaDescription,
-      "featuredImage": featuredImage { "url": asset->url, alt }
+      "featuredImage": featuredImage { "url": asset->url, alt },
+      ${COMPARISON_TABLE_FRAGMENT}
     }`,
     { slug }
   )
@@ -88,7 +89,7 @@ export async function getBookmakerBySlug(slug: string) {
 
 export async function getBonuses(limit = 50) {
   return client.fetch(
-    `*[_type == "bonus"] | order(oddsBonusPlacering asc, _createdAt desc) [0...$limit] {
+    `*[_type == "bonus" && active == true] | order(oddsBonusPlacering asc, _createdAt desc) [0...$limit] {
       _id, title, slug,
       oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
       oddsBonusPlacering, minimumOdds, minimumIndbetaling, gennemspilskrav,
@@ -122,13 +123,39 @@ export async function getBonusBySlug(slug: string) {
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
 
+// ─── Comparison table fragment ─────────────────────────────────────────────────
+// Pages store showComparisonTable (bool) + comparisonTemplate (reference).
+// We expand the reference inline so the frontend gets the same data shape.
+const COMPARISON_TABLE_FRAGMENT = `
+  showComparisonTable,
+  "comparisonTable": comparisonTemplate-> {
+    tableType,
+    bonuses[]-> {
+      _id, title, slug, active,
+      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
+      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      offerUrl, terms, casinoNavn,
+      "casinoLogo":      casinoLogo      { "url": asset->url, alt },
+      "kampagneBillede": kampagneBillede { "url": asset->url, alt },
+      "bookmaker": bookmaker-> { name, slug }
+    },
+    bookmakers[]-> {
+      _id, name, slug, usp, score, trustpilot,
+      indbetalingsbonus, freeSpinsBonus, minIndbetaling, gennemspilskrav,
+      url, terms,
+      "logo": logo { "url": asset->url, alt }
+    }
+  }
+`
+
 export async function getHomepage() {
   return client.fetch(
     `*[_type == "homepage" && _id == "homepage"][0] {
       heroHeading, heroGreenText, intro, body,
       howItWorksTitle, showHowItWorks, howItWorksItems,
       metaTitle, metaDescription,
-      "featuredImage": featuredImage { "url": asset->url, alt }
+      "featuredImage": featuredImage { "url": asset->url, alt },
+      ${COMPARISON_TABLE_FRAGMENT}
     }`
   )
 }

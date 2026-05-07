@@ -29,6 +29,16 @@ export const bonusType = defineType({
       validation: (r) => r.required(),
     }),
 
+    // ── Active ────────────────────────────────────────────────────────────────
+    defineField({
+      name: 'active',
+      title: 'Aktiv',
+      type: 'boolean',
+      group: 'info',
+      description: 'Kun aktive bonusser vises i sammenligningslister',
+      initialValue: false,
+    }),
+
     // ── Bookmaker relation ────────────────────────────────────────────────────
     defineField({
       name: 'bookmaker',

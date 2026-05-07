@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Variables ──────────────────────────────────────────────────────────── */
+:root {
+  --green: #16a34a;
+  --green-dark: #15803d;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: clip; }
+
+body {
+  background: #f9fafb;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+/* ─── Layout helpers ─────────────────────────────────────────────────────── */
+.section         { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
+.section-narrow  { max-width: 760px;  margin: 0 auto; padding: 48px 24px; }
+
+/* ─── Article layout: content + sticky TOC sidebar ──────────────────────── */
+.article-layout {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 56px;
+  align-items: start;
+}
+.article-content { min-width: 0; }
+.toc-sidebar {
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f3f4f6; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+/* ─── Navbar ─────────────────────────────────────────────────────────────── */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-logo { text-decoration: none; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.navbar-nav  { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.nav-link-cta {
+  background: #16a34a;
+  color: #fff !important;
+  font-weight: 500;
+  padding: 8px 14px;
+  margin-left: 4px;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.hero-section {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 48px 24px 40px;
+}
+.hero-heading {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  max-width: 700px;
+}
+.hero-subtext {
+  font-size: 16px;
+  color: #6b7280;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+/* ─── Blog / bonus grid ──────────────────────────────────────────────────── */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ─── Footer grid ────────────────────────────────────────────────────────── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE — ≤ 768px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .section, .section-narrow { padding: 28px 16px; }
+  .hero-section { padding: 32px 16px 28px; }
+  .hero-subtext { font-size: 15px; }
+  .navbar-inner { padding: 0 16px; height: 52px; }
+  .nav-link { font-size: 13.5px; padding: 6px 8px; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .article-layout { grid-template-columns: 1fr; gap: 0; padding: 28px 16px 60px; }
+  .toc-sidebar { display: none; }
+
+  /* Bookmaker card — stack on mobile */
+  .bookmaker-card-inner {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TABLET — 769px – 1024px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .nav-link-cta { display: none; }
+  .article-layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+
+  /* Bookmaker card — tighter on tablet */
+  .bookmaker-card-inner {
+    grid-template-columns: 90px 1fr auto !important;
+    gap: 14px !important;
+  }
+}

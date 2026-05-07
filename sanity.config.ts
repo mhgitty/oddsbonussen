@@ -7,6 +7,7 @@ import { WideStudioLayout } from './src/sanity/StudioLayout'
 export default defineConfig({
   name: 'default',
   title: 'Oddsbonussen.dk',
+  basePath: '/studio',
 
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,

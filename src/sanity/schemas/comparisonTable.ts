@@ -16,6 +16,13 @@ export const comparisonTableFields = [
     description: 'Vises over brødteksten',
   }),
   defineField({
+    name: 'comparisonTableTitle',
+    title: 'Sammenligningstabel titel',
+    type: 'string',
+    description: 'Valgfri H2 der vises lige over tabellen — gælder kun denne side',
+    hidden: ({ document }: any) => !document?.showComparisonTable,
+  }),
+  defineField({
     name: 'comparisonTemplate',
     title: '📊 Sammenligningsskabelon',
     type: 'reference',

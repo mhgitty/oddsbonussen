@@ -127,7 +127,7 @@ export async function getBonusBySlug(slug: string) {
 // Pages store showComparisonTable (bool) + comparisonTemplate (reference).
 // We expand the reference inline so the frontend gets the same data shape.
 const COMPARISON_TABLE_FRAGMENT = `
-  showComparisonTable,
+  showComparisonTable, comparisonTableTitle,
   "comparisonTable": comparisonTemplate-> {
     tableType,
     bonuses[]-> {

@@ -78,14 +78,12 @@ export default async function DynamicPage({ params }: Props) {
       {/* Comparison table — configured per page in Sanity Studio */}
       {page.showComparisonTable && page.comparisonTable && (
         <div className="section" style={{ paddingBottom: page.body ? '0' : undefined }}>
-          <div style={{ maxWidth: '1080px', margin: '0 auto', width: '100%' }}>
-            {page.comparisonTableTitle && (
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>
-                {page.comparisonTableTitle}
-              </h2>
-            )}
-            <ComparisonTable data={page.comparisonTable} />
-          </div>
+          {page.comparisonTableTitle && (
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>
+              {page.comparisonTableTitle}
+            </h2>
+          )}
+          <ComparisonTable data={page.comparisonTable} />
         </div>
       )}
 

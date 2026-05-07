@@ -84,14 +84,12 @@ export default async function HomePage() {
       {/* Comparison table — configured in Sanity Studio */}
       {hp?.showComparisonTable && hp?.comparisonTable && (
         <div className="section" style={{ paddingBottom: hp?.body ? '0' : undefined }}>
-          <div style={{ maxWidth: '1080px', margin: '0 auto', width: '100%' }}>
-            {hp.comparisonTableTitle && (
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>
-                {hp.comparisonTableTitle}
-              </h2>
-            )}
-            <ComparisonTable data={hp.comparisonTable} />
-          </div>
+          {hp.comparisonTableTitle && (
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>
+              {hp.comparisonTableTitle}
+            </h2>
+          )}
+          <ComparisonTable data={hp.comparisonTable} />
         </div>
       )}
 

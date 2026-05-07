@@ -21,14 +21,6 @@ export const homepageType = defineType({
       initialValue: 'Find den bedste betting bonus i Danmark',
     }),
     defineField({
-      name: 'heroGreenText',
-      title: 'Grøn del af overskriften',
-      type: 'string',
-      group: 'hero',
-      description: 'Vises med grøn farve på en ny linje under overskriften',
-      initialValue: 'i Danmark',
-    }),
-    defineField({
       name: 'intro',
       title: 'Intro',
       type: 'text',

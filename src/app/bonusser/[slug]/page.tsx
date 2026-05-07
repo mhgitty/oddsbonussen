@@ -3,8 +3,9 @@ import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
+import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
-import { getBonusBySlug } from '@/lib/sanity'
+import { getBonusBySlug, getSiteSettings } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -25,8 +26,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BonusPage({ params }: Props) {
   const { slug } = await params
-  const bonus = await getBonusBySlug(slug).catch(() => null)
+  const [bonus, settings] = await Promise.all([
+    getBonusBySlug(slug).catch(() => null),
+    getSiteSettings().catch(() => null),
+  ])
   if (!bonus) notFound()
+  const author = settings?.defaultAuthor ?? null
 
   const canonical = `${BASE}/bonusser/${slug}`
   const jsonLd = {
@@ -58,6 +63,11 @@ export default async function BonusPage({ params }: Props) {
           </aside>
         )}
       </div>
+      {author && (
+        <div className="section" style={{ paddingTop: '0' }}>
+          <AuthorBio author={author} compact />
+        </div>
+      )}
       <Footer />
     </>
   )

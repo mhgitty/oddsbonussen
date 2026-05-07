@@ -3,9 +3,10 @@ import { Footer } from '@/components/Footer'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getBookmakerBySlug, getPosts } from '@/lib/sanity'
+import { getBookmakerBySlug, getPosts, getSiteSettings } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import { AuthorBio } from '@/components/AuthorBio'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -50,11 +51,13 @@ function ScoreMeter({ score }: { score: number }) {
 
 export default async function BookmakerPage({ params }: Props) {
   const { slug } = await params
-  const [bm, latestPosts] = await Promise.all([
+  const [bm, latestPosts, settings] = await Promise.all([
     getBookmakerBySlug(slug).catch(() => null),
     getPosts(6),
+    getSiteSettings().catch(() => null),
   ])
   if (!bm) notFound()
+  const author = settings?.defaultAuthor ?? null
 
   const canonical = `${BASE}/betting-sider/${slug}`
 
@@ -194,6 +197,12 @@ export default async function BookmakerPage({ params }: Props) {
           </aside>
         )}
       </div>
+
+      {author && (
+        <div className="section" style={{ paddingTop: '0' }}>
+          <AuthorBio author={author} compact />
+        </div>
+      )}
 
       <Footer />
     </>

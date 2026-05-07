@@ -11,10 +11,21 @@ export const siteSettingsType = defineType({
   title: '⚙️ Siteindstillinger',
   type: 'document',
   groups: [
-    { name: 'header', title: '🔝 Header' },
-    { name: 'footer', title: '🔻 Footer' },
+    { name: 'general', title: '⚙️ Generelt' },
+    { name: 'header',  title: '🔝 Header' },
+    { name: 'footer',  title: '🔻 Footer' },
   ],
   fields: [
+    // ── Default author ────────────────────────────────────────────────────────
+    defineField({
+      name: 'defaultAuthor',
+      title: 'Standard forfatter',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      group: 'general',
+      description: 'Vises som forfatter-kort nederst på alle sider, bookmaker- og bonussider',
+    }),
+
     // ── Header ────────────────────────────────────────────────────────────────
     defineField({
       name: 'headerNav',

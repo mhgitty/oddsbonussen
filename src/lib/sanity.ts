@@ -175,6 +175,10 @@ export async function getBonusBySlug(slug: string) {
 export const getSiteSettings = cache(async () => {
   return client.fetch(
     `*[_type == "siteSettings"][0] {
+      "defaultAuthor": defaultAuthor-> {
+        name, bio, linkedin, x, facebook,
+        "imageUrl": image.asset->url
+      },
       headerNav[] { label, url, isHighlighted },
       footerTagline,
       footerColumns[] {

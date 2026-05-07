@@ -6,7 +6,7 @@ import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getPageBySlug } from '@/lib/sanity'
+import { getPageBySlug, getSiteSettings } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -22,7 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BettingSiderPage() {
-  const page = await getPageBySlug('betting-sider').catch(() => null)
+  const [page, settings] = await Promise.all([
+    getPageBySlug('betting-sider').catch(() => null),
+    getSiteSettings().catch(() => null),
+  ])
+  const author = (page as any)?.author ?? settings?.defaultAuthor ?? null
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -46,12 +50,16 @@ export default async function BettingSiderPage() {
     ],
   }
 
-  // No page configured in Sanity yet — show a plain fallback
   if (!page) {
     return (
       <>
         <Navbar />
         <HeroSection title="Betting sider" intro="Oversigt over alle danske bookmakers." />
+        {author && (
+          <div className="section" style={{ paddingTop: '0' }}>
+            <AuthorBio author={author} compact />
+          </div>
+        )}
         <Footer />
       </>
     )
@@ -85,9 +93,9 @@ export default async function BettingSiderPage() {
         </div>
       )}
 
-      {page.author && (
+      {author && (
         <div className="section" style={{ paddingTop: '0' }}>
-          <AuthorBio author={page.author} compact />
+          <AuthorBio author={author} compact />
         </div>
       )}
 

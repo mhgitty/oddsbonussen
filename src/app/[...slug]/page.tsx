@@ -6,7 +6,7 @@ import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getPageByPath } from '@/lib/sanity'
+import { getPageByPath, getSiteSettings } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -32,8 +32,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DynamicPage({ params }: Props) {
   const { slug } = await params
-  const page = await getPageByPath(slug).catch(() => null)
+  const [page, settings] = await Promise.all([
+    getPageByPath(slug).catch(() => null),
+    getSiteSettings().catch(() => null),
+  ])
   if (!page) notFound()
+  const author = page.author ?? settings?.defaultAuthor ?? null
 
   const canonical = `${BASE}${buildPath(slug)}`
 
@@ -94,10 +98,9 @@ export default async function DynamicPage({ params }: Props) {
         </div>
       )}
 
-      {/* Author block — full width, below all content */}
-      {page.author && (
+      {author && (
         <div className="section" style={{ paddingTop: '0' }}>
-          <AuthorBio author={page.author} compact />
+          <AuthorBio author={author} compact />
         </div>
       )}
 

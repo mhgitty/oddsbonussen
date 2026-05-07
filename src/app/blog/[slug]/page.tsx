@@ -5,7 +5,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorMeta } from '@/components/AuthorMeta'
 import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
-import { getPostBySlug, getPosts } from '@/lib/sanity'
+import { getPostBySlug, getPosts, getSiteSettings } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -56,11 +56,13 @@ function extractFaqs(body: any[]): Array<{ question: string; answer: string }> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const [post, latestPosts] = await Promise.all([
+  const [post, latestPosts, settings] = await Promise.all([
     getPostBySlug(slug).catch(() => null),
     getPosts(6),
+    getSiteSettings().catch(() => null),
   ])
   if (!post) notFound()
+  const author = post.author ?? settings?.defaultAuthor ?? null
 
   const canonical = `${BASE}/blog/${slug}`
   const faqs = post.body ? extractFaqs(post.body) : []
@@ -143,15 +145,15 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="article-layout">
         {/* Main content */}
         <article className="article-content">
-          {post.author && (
+          {author && (
             <AuthorMeta
-              author={post.author}
+              author={author}
               publishedAt={post.publishedAt}
               lastUpdated={post.lastUpdated}
             />
           )}
           {post.body && <PortableTextRenderer value={post.body} posts={latestPosts} />}
-          {post.author && <AuthorBio author={post.author} />}
+          {author && <AuthorBio author={author} />}
         </article>
 
         {/* Sticky TOC sidebar */}

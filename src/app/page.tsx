@@ -31,8 +31,7 @@ export default async function HomePage() {
     getHomepage().catch(() => null),
   ])
 
-  const heroHeading = hp?.heroHeading || 'Find de bedste'
-  const heroGreen   = hp?.heroGreenText || 'betting bonusser'
+  const heroHeading = hp?.heroHeading || 'Find de bedste betting bonusser i Danmark'
   const heroSubtext = hp?.intro || 'Vi sammenligner og anmelder alle store bookmakers i Danmark. Find den bedste velkomstbonus og kom godt i gang.'
 
   const faqs = (hp?.body ?? [])
@@ -76,8 +75,7 @@ export default async function HomePage() {
       <section className="hero-section">
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h1 className="hero-heading">
-            {heroHeading}<br />
-            <span style={{ color: '#16a34a' }}>{heroGreen}</span>
+            {heroHeading}
           </h1>
           <p className="hero-subtext">{heroSubtext}</p>
         </div>

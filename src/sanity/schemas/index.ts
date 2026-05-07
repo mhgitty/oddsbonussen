@@ -6,8 +6,10 @@ import { homepageType } from './homepage'
 import { bookmakerType } from './bookmaker'
 import { bonusType } from './bonus'
 import { comparisonTableTemplateType } from './comparisonTableTemplate'
+import { siteSettingsType } from './siteSettings'
 
 export const schemaTypes = [
+  siteSettingsType,
   homepageType,
   bookmakerType,
   bonusType,

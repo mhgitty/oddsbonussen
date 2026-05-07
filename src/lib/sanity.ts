@@ -1,4 +1,5 @@
 import { createClient } from 'next-sanity'
+import { cache } from 'react'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -167,6 +168,26 @@ export async function getBonusBySlug(slug: string) {
     { slug }
   )
 }
+
+// ─── Site settings (menus) ────────────────────────────────────────────────────
+// Wrapped in React cache() so Navbar + Footer share one fetch per page render.
+
+export const getSiteSettings = cache(async () => {
+  return client.fetch(
+    `*[_type == "siteSettings"][0] {
+      headerNav[] { label, url, isHighlighted },
+      footerTagline,
+      footerColumns[] {
+        title,
+        items[] { label, url }
+      },
+      footerNote,
+      footerDisclaimer
+    }`,
+    {},
+    { next: { revalidate: 3600 } }
+  )
+})
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
 

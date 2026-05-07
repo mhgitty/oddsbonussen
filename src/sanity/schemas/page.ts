@@ -125,6 +125,21 @@ export const bodyField = defineField({
     },
     {
       type: 'object',
+      name: 'ctaButton',
+      title: 'CTA Knap',
+      fields: [
+        { name: 'text', title: 'Knaptekst', type: 'string' },
+        { name: 'url',  title: 'URL',       type: 'url' },
+      ],
+      preview: {
+        select: { title: 'text', subtitle: 'url' },
+        prepare({ title, subtitle }: any) {
+          return { title: title || 'CTA Knap', subtitle: subtitle || '' }
+        },
+      },
+    },
+    {
+      type: 'object',
       name: 'tableBlock',
       title: 'Tabel',
       components: { input: TableBlockInput },

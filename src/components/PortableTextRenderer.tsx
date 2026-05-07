@@ -79,6 +79,35 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       ),
     },
     types: {
+      ctaButton: ({ value }: any) => {
+        if (!value?.url) return null
+        return (
+          <div style={{ margin: '28px 0' }}>
+            <a
+              href={value.url}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '15px 24px',
+                background: 'linear-gradient(135deg, var(--green) 0%, #16a34a 100%)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: '16px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                textDecoration: 'none',
+                letterSpacing: '-0.01em',
+                boxShadow: '0 4px 14px rgba(34,197,94,0.25)',
+                transition: 'opacity .15s',
+              }}
+            >
+              {value.text || 'Hent bonus'}
+            </a>
+          </div>
+        )
+      },
       calloutBlock: ({ value }: any) => <CalloutBlock value={value} />,
       faqBlock: ({ value }: any) => <FaqBlock value={value} />,
       prosConsBlock: ({ value }: any) => <ProsConsBlock value={value} />,

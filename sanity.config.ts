@@ -18,7 +18,7 @@ export default defineConfig({
         S.list()
           .title('Indhold')
           .items([
-            // Singleton: Homepage
+            // Singletons
             S.listItem()
               .title('🏠 Forside')
               .id('homepage')
@@ -26,6 +26,14 @@ export default defineConfig({
                 S.document()
                   .schemaType('homepage')
                   .documentId('homepage')
+              ),
+            S.listItem()
+              .title('⚙️ Siteindstillinger')
+              .id('siteSettings')
+              .child(
+                S.document()
+                  .schemaType('siteSettings')
+                  .documentId('siteSettings')
               ),
             S.divider(),
             S.listItem()
@@ -36,6 +44,10 @@ export default defineConfig({
               .title('🎁 Bonusser')
               .schemaType('bonus')
               .child(S.documentTypeList('bonus').title('Alle bonusser')),
+            S.listItem()
+              .title('📊 Sammenligningsskabeloner')
+              .schemaType('comparisonTableTemplate')
+              .child(S.documentTypeList('comparisonTableTemplate').title('Skabeloner')),
             S.divider(),
             S.listItem()
               .title('📝 Indlæg')

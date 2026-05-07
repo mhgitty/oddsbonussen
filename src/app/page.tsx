@@ -1,11 +1,11 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { BookmakerCard } from '@/components/BookmakerCard'
+import { BonusCard } from '@/components/BonusCard'
 import { PostCard } from '@/components/PostCard'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getBookmakers, getPosts, getHomepage } from '@/lib/sanity'
+import { getBonuses, getPosts, getHomepage } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [bookmakers, posts, hp] = await Promise.all([
-    getBookmakers().catch(() => []),
+  const [bonuses, posts, hp] = await Promise.all([
+    getBonuses().catch(() => []),
     getPosts(6).catch(() => []),
     getHomepage().catch(() => null),
   ])
@@ -92,14 +92,14 @@ export default async function HomePage() {
           </h2>
           <a href="/betting-sider" style={{ fontSize: '13.5px', color: 'var(--green)', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>
         </div>
-        {(bookmakers as any[]).length === 0 ? (
+        {(bonuses as any[]).length === 0 ? (
           <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '48px', textAlign: 'center', color: 'var(--text-faint)' }}>
-            <p>Ingen bookmakers endnu — tilføj dem i Sanity Studio.</p>
+            <p>Ingen bonusser endnu — tilføj dem i Sanity Studio.</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {(bookmakers as any[]).map((bm: any, i: number) => (
-              <BookmakerCard key={bm._id} {...bm} rank={i + 1} />
+            {(bonuses as any[]).map((bonus: any, i: number) => (
+              <BonusCard key={bonus._id} {...bonus} rank={i + 1} />
             ))}
           </div>
         )}

@@ -86,20 +86,35 @@ export async function getBookmakerBySlug(slug: string) {
 
 // ─── Bonusser ─────────────────────────────────────────────────────────────────
 
-export async function getBonusser(limit = 20) {
+export async function getBonuses(limit = 50) {
   return client.fetch(
-    `*[_type == "bonus"] | order(_createdAt desc) [0...$limit] {
-      _id, title, slug, intro
+    `*[_type == "bonus"] | order(oddsBonusPlacering asc, _createdAt desc) [0...$limit] {
+      _id, title, slug,
+      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
+      oddsBonusPlacering, minimumOdds, minimumIndbetaling, gennemspilskrav,
+      offerUrl, terms, bonusType, casinoNavn,
+      "casinoLogo":    casinoLogo    { "url": asset->url, alt },
+      "kampagneBillede": kampagneBillede { "url": asset->url, alt },
+      "bookmaker": bookmaker-> { name, slug }
     }`,
     { limit }
   )
 }
 
+// Keep old name as alias for any existing usage
+export const getBonusser = getBonuses
+
 export async function getBonusBySlug(slug: string) {
   return client.fetch(
     `*[_type == "bonus" && slug.current == $slug][0] {
-      _id, title, slug, intro, body, metaTitle, metaDescription,
-      "ogImage": ogImage { "url": asset->url, alt }
+      _id, title, slug, body, metaTitle, metaDescription,
+      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
+      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      offerUrl, terms, bonusType, casinoNavn,
+      "casinoLogo":      casinoLogo      { "url": asset->url, alt },
+      "kampagneBillede": kampagneBillede { "url": asset->url, alt },
+      "ogImage":         ogImage         { "url": asset->url, alt },
+      "bookmaker": bookmaker-> { name, slug }
     }`,
     { slug }
   )

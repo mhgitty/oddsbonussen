@@ -166,6 +166,33 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
+
+  /* Bonus card — stack on mobile */
+  .bonus-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .bonus-card-grid > *:first-child {
+    min-height: 200px;
+    height: 200px;
+  }
+  .bonus-card-middle {
+    grid-template-columns: 1fr !important;
+  }
+  .bonus-card-vdivider {
+    display: none !important;
+  }
+  .bonus-card-stats {
+    padding: 18px 20px 14px !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .bonus-card-title-cell {
+    padding: 18px 20px !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .bonus-card-cta {
+    border-left: none !important;
+    padding: 16px 20px !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -182,5 +209,20 @@ h1, h2, h3, h4, h5, h6 {
   .bookmaker-card-inner {
     grid-template-columns: 90px 1fr auto !important;
     gap: 14px !important;
+  }
+
+  /* Bonus card — narrower image on tablet */
+  .bonus-card-grid {
+    grid-template-columns: 180px 1fr auto !important;
+  }
+  .bonus-card-stats {
+    padding: 16px 20px !important;
+  }
+  .bonus-card-title-cell {
+    padding: 16px 20px !important;
+  }
+  .bonus-card-cta {
+    min-width: 160px !important;
+    padding: 16px 16px !important;
   }
 }

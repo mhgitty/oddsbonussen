@@ -37,6 +37,31 @@ export async function getPostBySlug(slug: string) {
   )
 }
 
+// ─── Comparison table fragment ─────────────────────────────────────────────────
+// Pages store showComparisonTable (bool) + comparisonTemplate (reference).
+// We expand the reference inline so the frontend gets the same data shape.
+const COMPARISON_TABLE_FRAGMENT = `
+  showComparisonTable, comparisonTableTitle,
+  "comparisonTable": comparisonTemplate-> {
+    tableType,
+    bonuses[]-> {
+      _id, title, slug, active,
+      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
+      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      offerUrl, terms, casinoNavn,
+      "casinoLogo":      casinoLogo      { "url": asset->url, alt },
+      "kampagneBillede": kampagneBillede { "url": asset->url, alt },
+      "bookmaker": bookmaker-> { name, slug }
+    },
+    bookmakers[]-> {
+      _id, name, slug, usp, score, trustpilot,
+      indbetalingsbonus, freeSpinsBonus, minIndbetaling, gennemspilskrav,
+      url, terms,
+      "logo": logo { "url": asset->url, alt }
+    }
+  }
+`
+
 // ─── Pages ────────────────────────────────────────────────────────────────────
 
 // Page fields shared by single and nested lookups
@@ -144,31 +169,6 @@ export async function getBonusBySlug(slug: string) {
 }
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
-
-// ─── Comparison table fragment ─────────────────────────────────────────────────
-// Pages store showComparisonTable (bool) + comparisonTemplate (reference).
-// We expand the reference inline so the frontend gets the same data shape.
-const COMPARISON_TABLE_FRAGMENT = `
-  showComparisonTable, comparisonTableTitle,
-  "comparisonTable": comparisonTemplate-> {
-    tableType,
-    bonuses[]-> {
-      _id, title, slug, active,
-      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
-      minimumOdds, minimumIndbetaling, gennemspilskrav,
-      offerUrl, terms, casinoNavn,
-      "casinoLogo":      casinoLogo      { "url": asset->url, alt },
-      "kampagneBillede": kampagneBillede { "url": asset->url, alt },
-      "bookmaker": bookmaker-> { name, slug }
-    },
-    bookmakers[]-> {
-      _id, name, slug, usp, score, trustpilot,
-      indbetalingsbonus, freeSpinsBonus, minIndbetaling, gennemspilskrav,
-      url, terms,
-      "logo": logo { "url": asset->url, alt }
-    }
-  }
-`
 
 export async function getHomepage() {
   return client.fetch(

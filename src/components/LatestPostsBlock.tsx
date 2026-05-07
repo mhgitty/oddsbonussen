@@ -43,14 +43,14 @@ export function LatestPostsBlock({ value, posts }: LatestPostsBlockProps) {
           fontFamily: 'var(--font-display)',
           fontSize: '22px',
           fontWeight: 700,
-          color: '#111827',
+          color: 'var(--text)',
           letterSpacing: '-0.03em',
           margin: 0,
         }}>
           {title}
         </h2>
         {showViewAll && (
-          <Link href="/blog" style={{ fontSize: '13px', color: '#16a34a', textDecoration: 'none', fontWeight: 500 }}>
+          <Link href="/blog" style={{ fontSize: '13px', color: 'var(--green)', textDecoration: 'none', fontWeight: 500 }}>
             Se alle →
           </Link>
         )}

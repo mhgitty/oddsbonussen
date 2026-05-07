@@ -32,12 +32,12 @@ export default async function BettingSiderPage() {
       <JsonLd data={breadcrumb} />
       <Navbar />
 
-      <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '40px 24px 32px' }}>
+      <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: '#111827', marginBottom: '8px', letterSpacing: '-0.03em' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px', letterSpacing: '-0.03em' }}>
             Bedste betting sider
           </h1>
-          <p style={{ fontSize: '15px', color: '#6b7280' }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)' }}>
             Vi har testet og anmeldt {(bookmakers as any[]).length > 0 ? (bookmakers as any[]).length : 'alle store'} bookmakers. Rangeret efter bonus, odds og brugeroplevelse.
           </p>
         </div>
@@ -45,7 +45,7 @@ export default async function BettingSiderPage() {
 
       <div className="section">
         {(bookmakers as any[]).length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '64px', color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-faint)' }}>
             <p>Ingen bookmakers endnu — tilføj dem i Sanity Studio.</p>
           </div>
         ) : (

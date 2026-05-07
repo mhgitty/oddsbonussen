@@ -20,13 +20,13 @@ export function PostCard({ title, slug, excerpt, publishedAt, readingTime, categ
   return (
     <Link href={`/blog/${slug.current}`} style={{ textDecoration: 'none' }}>
       <article style={{
-        background: '#fff', border: '1px solid #e5e7eb', borderRadius: '10px',
+        background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '10px',
         padding: featured ? '28px' : '20px', height: '100%',
       }}>
         {category && (
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '5px',
-            background: '#f0fdf4', color: '#16a34a', fontSize: '11.5px', fontWeight: 500,
+            background: 'rgba(34,197,94,0.12)', color: 'var(--green)', fontSize: '11.5px', fontWeight: 500,
             padding: '3px 10px', borderRadius: '20px', marginBottom: '12px',
           }}>
             {category.emoji} {category.name}
@@ -34,16 +34,16 @@ export function PostCard({ title, slug, excerpt, publishedAt, readingTime, categ
         )}
         <h3 style={{
           fontFamily: 'var(--font-display)', fontSize: featured ? '20px' : '16px',
-          fontWeight: 700, color: '#111827', lineHeight: 1.35, marginBottom: '10px', letterSpacing: '-0.02em',
+          fontWeight: 700, color: 'var(--text)', lineHeight: 1.35, marginBottom: '10px', letterSpacing: '-0.02em',
         }}>
           {title}
         </h3>
         {excerpt && (
-          <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, marginBottom: '16px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: '16px' }}>
             {excerpt}
           </p>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '12px', color: '#9ca3af' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '12px', color: 'var(--text-faint)' }}>
           {date && <span>{date}</span>}
           {readingTime && <><span>·</span><span>{readingTime} min læsning</span></>}
         </div>

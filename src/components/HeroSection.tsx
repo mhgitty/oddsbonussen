@@ -15,15 +15,15 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
 
   return (
     <section style={{
-      background: '#fff',
-      borderBottom: '1px solid #e5e7eb',
+      background: 'var(--bg-hero)',
+      borderBottom: '1px solid var(--border)',
       padding: '48px 24px 40px',
     }}>
       <div style={{ maxWidth, margin: '0 auto' }}>
         {eyebrow && (
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            background: '#f0fdf4', color: '#16a34a',
+            background: 'rgba(34,197,94,0.12)', color: 'var(--green)',
             fontSize: '12px', fontWeight: 600,
             padding: '4px 12px', borderRadius: '20px',
             marginBottom: '16px',
@@ -36,7 +36,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(28px, 4.5vw, 48px)',
           fontWeight: 800,
-          color: '#111827',
+          color: 'var(--text)',
           lineHeight: 1.15,
           letterSpacing: '-0.03em',
           marginBottom: intro ? '16px' : '0',
@@ -46,7 +46,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
         </h1>
 
         {dateStr && (
-          <div style={{ fontSize: '12.5px', color: '#9ca3af', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '5px' }}>
             <span>📅</span> Sidst opdateret: {dateStr}
           </div>
         )}
@@ -54,7 +54,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
         {intro && (
           <p style={{
             fontSize: '16px',
-            color: '#6b7280',
+            color: 'var(--text-muted)',
             lineHeight: 1.7,
             maxWidth: '640px',
             margin: 0,

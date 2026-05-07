@@ -6,9 +6,22 @@
 
 /* ─── Variables ──────────────────────────────────────────────────────────── */
 :root {
-  --green: #16a34a;
-  --green-dark: #15803d;
+  --green: #22c55e;
+  --green-dark: #16a34a;
   --font-display: 'Plus Jakarta Sans', sans-serif;
+
+  /* Dark palette */
+  --bg:          #202d34;
+  --bg-raised:   #283640;
+  --bg-card:     #283640;
+  --bg-navbar:   #182229;
+  --bg-footer:   #182229;
+  --bg-hero:     #1b2a31;
+  --border:      #2e3e4a;
+  --border-faint:#243039;
+  --text:        #f0f4f7;
+  --text-muted:  #8ba5b5;
+  --text-faint:  #5a7585;
 }
 
 /* ─── Reset ──────────────────────────────────────────────────────────────── */
@@ -16,8 +29,8 @@
 html, body { overflow-x: clip; }
 
 body {
-  background: #f9fafb;
-  color: #111827;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   font-size: 15px;
@@ -27,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #111827;
+  color: var(--text);
 }
 
 /* ─── Layout helpers ─────────────────────────────────────────────────────── */
@@ -54,13 +67,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #f3f4f6; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-navbar); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 /* ─── Navbar ─────────────────────────────────────────────────────────────── */
 .navbar {
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--bg-navbar);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -77,33 +90,36 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-logo { text-decoration: none; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .navbar-nav  { display: flex; align-items: center; gap: 4px; }
 .nav-link {
-  color: #374151;
+  color: var(--text-muted);
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 6px;
   white-space: nowrap;
+  transition: color 0.15s;
 }
+.nav-link:hover { color: var(--text); }
 .nav-link-cta {
-  background: #16a34a;
+  background: var(--green-dark);
   color: #fff !important;
   font-weight: 500;
   padding: 8px 14px;
   margin-left: 4px;
 }
+.nav-link-cta:hover { background: var(--green); color: #fff !important; }
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 .hero-section {
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--bg-hero);
+  border-bottom: 1px solid var(--border);
   padding: 48px 24px 40px;
 }
 .hero-heading {
   font-family: var(--font-display);
   font-size: clamp(30px, 5vw, 52px);
   font-weight: 800;
-  color: #111827;
+  color: var(--text);
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin-bottom: 16px;
@@ -111,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .hero-subtext {
   font-size: 16px;
-  color: #6b7280;
+  color: var(--text-muted);
   max-width: 560px;
   line-height: 1.7;
 }

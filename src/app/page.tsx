@@ -87,13 +87,13 @@ export default async function HomePage() {
       {/* Bookmaker list */}
       <div className="section">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: '#111827' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--text)' }}>
             Bedste bookmakers lige nu
           </h2>
-          <a href="/betting-sider" style={{ fontSize: '13.5px', color: '#16a34a', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>
+          <a href="/betting-sider" style={{ fontSize: '13.5px', color: 'var(--green)', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>
         </div>
         {(bookmakers as any[]).length === 0 ? (
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '48px', textAlign: 'center', color: '#9ca3af' }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '48px', textAlign: 'center', color: 'var(--text-faint)' }}>
             <p>Ingen bookmakers endnu — tilføj dem i Sanity Studio.</p>
           </div>
         ) : (
@@ -122,8 +122,8 @@ export default async function HomePage() {
         <section style={{ padding: '48px 24px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '24px' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: '#111827' }}>Seneste guides & artikler</h2>
-              <a href="/blog" style={{ fontSize: '13.5px', color: '#16a34a', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: 'var(--text)' }}>Seneste guides & artikler</h2>
+              <a href="/blog" style={{ fontSize: '13.5px', color: 'var(--green)', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>
             </div>
             <div className="blog-grid">
               {(posts as any[]).map((post: any) => <PostCard key={post._id} {...post} />)}

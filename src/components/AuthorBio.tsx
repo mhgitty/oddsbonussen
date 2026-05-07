@@ -19,10 +19,10 @@ function SocialLink({ href, label, icon }: { href: string; label: string; icon: 
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         width: '34px', height: '34px',
-        background: '#f3f4f6',
-        border: '1px solid #e5e7eb',
+        background: 'var(--bg-raised)',
+        border: '1px solid var(--border)',
         borderRadius: '8px',
-        color: '#6b7280',
+        color: 'var(--text-muted)',
         textDecoration: 'none',
         transition: 'background 0.2s',
       }}
@@ -39,8 +39,8 @@ export function AuthorBio({ author }: AuthorBioProps) {
     <div style={{
       marginTop: '56px',
       padding: '28px',
-      background: '#f9fafb',
-      border: '1px solid #e5e7eb',
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border)',
       borderRadius: '14px',
       display: 'flex',
       gap: '24px',
@@ -56,10 +56,10 @@ export function AuthorBio({ author }: AuthorBioProps) {
       ) : (
         <div style={{
           width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
-          background: '#f0fdf4',
-          border: '2px solid #bbf7d0',
+          background: 'rgba(34,197,94,0.12)',
+          border: '2px solid rgba(34,197,94,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '26px', fontWeight: 800, color: '#16a34a',
+          fontSize: '26px', fontWeight: 800, color: 'var(--green)',
           fontFamily: 'var(--font-display)',
         }}>
           {author.name.charAt(0)}
@@ -69,16 +69,16 @@ export function AuthorBio({ author }: AuthorBioProps) {
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ marginBottom: '4px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.7px' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.7px' }}>
             Skrevet af
           </span>
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700, color: '#111827', marginBottom: '10px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 700, color: 'var(--text)', marginBottom: '10px' }}>
           {author.name}
         </div>
 
         {author.bio && (
-          <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.7, margin: '0 0 16px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, margin: '0 0 16px' }}>
             {author.bio}
           </p>
         )}

@@ -118,24 +118,24 @@ export default async function BlogPostPage({ params }: Props) {
       <Navbar />
 
       {/* Hero header */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '40px 24px 32px' }}>
+      <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-          <div style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '20px' }}>
-            <a href="/" style={{ color: '#9ca3af', textDecoration: 'none' }}>Hjem</a>
+          <div style={{ fontSize: '13px', color: 'var(--text-faint)', marginBottom: '20px' }}>
+            <a href="/" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Hjem</a>
             <span style={{ margin: '0 6px' }}>›</span>
-            <a href="/blog" style={{ color: '#9ca3af', textDecoration: 'none' }}>Guides</a>
+            <a href="/blog" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Guides</a>
             <span style={{ margin: '0 6px' }}>›</span>
-            <span style={{ color: '#6b7280' }}>{post.title}</span>
+            <span style={{ color: 'var(--text-muted)' }}>{post.title}</span>
           </div>
           {post.category && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: '#f0fdf4', color: '#16a34a', fontSize: '12px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', marginBottom: '16px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'rgba(34,197,94,0.12)', color: 'var(--green)', fontSize: '12px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', marginBottom: '16px' }}>
               {post.category.emoji} {post.category.name}
             </div>
           )}
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: '#111827', lineHeight: 1.2, letterSpacing: '-0.03em', marginBottom: '16px', maxWidth: '720px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2, letterSpacing: '-0.03em', marginBottom: '16px', maxWidth: '720px' }}>
             {post.title}
           </h1>
-          {post.excerpt && <p style={{ fontSize: '16px', color: '#6b7280', lineHeight: 1.7, maxWidth: '640px' }}>{post.excerpt}</p>}
+          {post.excerpt && <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '640px' }}>{post.excerpt}</p>}
         </div>
       </div>
 

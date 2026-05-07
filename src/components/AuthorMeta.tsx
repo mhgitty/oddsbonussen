@@ -19,8 +19,8 @@ export function AuthorMeta({ author, lastUpdated, publishedAt }: AuthorMetaProps
       alignItems: 'center',
       gap: '12px',
       padding: '14px 0',
-      borderTop: '1px solid #e5e7eb',
-      borderBottom: '1px solid #e5e7eb',
+      borderTop: '1px solid var(--border)',
+      borderBottom: '1px solid var(--border)',
       marginBottom: '36px',
     }}>
       {author.imageUrl ? (
@@ -32,21 +32,21 @@ export function AuthorMeta({ author, lastUpdated, publishedAt }: AuthorMetaProps
       ) : (
         <div style={{
           width: '36px', height: '36px', borderRadius: '50%',
-          background: '#f0fdf4',
-          border: '1px solid #bbf7d0',
+          background: 'rgba(34,197,94,0.12)',
+          border: '1px solid rgba(34,197,94,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '14px', fontWeight: 700, color: '#16a34a', flexShrink: 0,
+          fontSize: '14px', fontWeight: 700, color: 'var(--green)', flexShrink: 0,
         }}>
           {author.name.charAt(0)}
         </div>
       )}
 
       <div>
-        <div style={{ fontSize: '13px', fontWeight: 500, color: '#111827' }}>
+        <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--text)' }}>
           {author.name}
         </div>
         {date && (
-          <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '1px' }}>
+          <div style={{ fontSize: '12px', color: 'var(--text-faint)', marginTop: '1px' }}>
             Sidst opdateret: {date}
           </div>
         )}

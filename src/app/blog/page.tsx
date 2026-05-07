@@ -44,17 +44,17 @@ export default async function BlogPage({ searchParams }: Props) {
     <>
       <JsonLd data={breadcrumbSchema} />
       <Navbar />
-      <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '40px 24px 32px' }}>
+      <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: '#111827', marginBottom: '8px', letterSpacing: '-0.03em' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px', letterSpacing: '-0.03em' }}>
             Guides & artikler
           </h1>
-          <p style={{ fontSize: '15px', color: '#6b7280' }}>Alt om betting bonusser, bookmakers og odds i Danmark.</p>
+          <p style={{ fontSize: '15px', color: 'var(--text-muted)' }}>Alt om betting bonusser, bookmakers og odds i Danmark.</p>
           {(categories as any[]).length > 0 && (
             <div style={{ display: 'flex', gap: '8px', marginTop: '24px', flexWrap: 'wrap' }}>
-              <Link href="/blog" style={{ padding: '6px 16px', borderRadius: '20px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', background: !kategori ? '#16a34a' : '#f3f4f6', color: !kategori ? '#fff' : '#374151', border: !kategori ? 'none' : '1px solid #e5e7eb' }}>Alle</Link>
+              <Link href="/blog" style={{ padding: '6px 16px', borderRadius: '20px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', background: !kategori ? 'var(--green-dark)' : 'var(--bg-raised)', color: !kategori ? '#fff' : 'var(--text-muted)', border: !kategori ? 'none' : '1px solid var(--border)' }}>Alle</Link>
               {(categories as any[]).map((cat: any) => (
-                <Link key={cat._id} href={`/blog?kategori=${cat.slug.current}`} style={{ padding: '6px 16px', borderRadius: '20px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', background: kategori === cat.slug.current ? '#16a34a' : '#f3f4f6', color: kategori === cat.slug.current ? '#fff' : '#374151', border: kategori === cat.slug.current ? 'none' : '1px solid #e5e7eb' }}>
+                <Link key={cat._id} href={`/blog?kategori=${cat.slug.current}`} style={{ padding: '6px 16px', borderRadius: '20px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', background: kategori === cat.slug.current ? 'var(--green-dark)' : 'var(--bg-raised)', color: kategori === cat.slug.current ? '#fff' : 'var(--text-muted)', border: kategori === cat.slug.current ? 'none' : '1px solid var(--border)' }}>
                   {cat.emoji} {cat.name}
                 </Link>
               ))}
@@ -64,7 +64,7 @@ export default async function BlogPage({ searchParams }: Props) {
       </div>
       <div className="section">
         {(posts as any[]).length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '64px', color: '#9ca3af' }}>
+          <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-faint)' }}>
             <p>Ingen artikler endnu.</p>
             <Link href="/studio" style={{ color: '#16a34a', marginTop: '12px', display: 'inline-block', fontSize: '14px' }}>Tilføj indhold i Sanity Studio →</Link>
           </div>

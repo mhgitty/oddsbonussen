@@ -24,7 +24,7 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       h2: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h2 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: 700, color: '#111827', letterSpacing: '-0.03em', margin: '36px 0 14px', scrollMarginTop: '72px' }}>
+          <h2 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.03em', margin: '36px 0 14px', scrollMarginTop: '72px' }}>
             {children}
           </h2>
         )
@@ -32,7 +32,7 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       h3: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h3 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: '#111827', letterSpacing: '-0.02em', margin: '28px 0 10px', scrollMarginTop: '72px' }}>
+          <h3 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.02em', margin: '28px 0 10px', scrollMarginTop: '72px' }}>
             {children}
           </h3>
         )
@@ -40,28 +40,28 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       h4: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h4 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 600, color: '#111827', margin: '20px 0 8px', scrollMarginTop: '72px' }}>
+          <h4 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 600, color: 'var(--text)', margin: '20px 0 8px', scrollMarginTop: '72px' }}>
             {children}
           </h4>
         )
       },
       normal: ({ children }: any) => (
-        <p style={{ fontSize: '15.5px', color: '#374151', lineHeight: 1.75, marginBottom: '18px' }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '18px' }}>
           {children}
         </p>
       ),
       blockquote: ({ children }: any) => (
-        <blockquote style={{ borderLeft: '3px solid #16a34a', paddingLeft: '18px', margin: '24px 0', color: '#6b7280', fontStyle: 'italic' }}>
+        <blockquote style={{ borderLeft: '3px solid var(--green-dark)', paddingLeft: '18px', margin: '24px 0', color: 'var(--text-muted)', fontStyle: 'italic' }}>
           {children}
         </blockquote>
       ),
     },
     marks: {
-      strong: ({ children }: any) => <strong style={{ color: '#111827', fontWeight: 600 }}>{children}</strong>,
+      strong: ({ children }: any) => <strong style={{ color: 'var(--text)', fontWeight: 600 }}>{children}</strong>,
       em: ({ children }: any) => <em>{children}</em>,
       link: ({ value, children }: any) => (
         <a href={value.href} target={value.blank ? '_blank' : '_self'} rel="noopener noreferrer"
-          style={{ color: '#16a34a', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+          style={{ color: 'var(--green)', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
           {children}
         </a>
       ),
@@ -72,10 +72,10 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
     },
     listItem: {
       bullet: ({ children }: any) => (
-        <li style={{ fontSize: '15px', color: '#374151', lineHeight: 1.65 }}>{children}</li>
+        <li style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>{children}</li>
       ),
       number: ({ children }: any) => (
-        <li style={{ fontSize: '15px', color: '#374151', lineHeight: 1.65 }}>{children}</li>
+        <li style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>{children}</li>
       ),
     },
     types: {

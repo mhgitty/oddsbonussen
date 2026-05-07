@@ -49,8 +49,8 @@ export function TableOfContents({ body }: { body: any[] }) {
 
   return (
     <div style={{
-      background: '#f9fafb',
-      border: '1px solid #e5e7eb',
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border)',
       borderRadius: '12px',
       padding: '20px 24px',
       marginBottom: '32px',
@@ -59,7 +59,7 @@ export function TableOfContents({ body }: { body: any[] }) {
         fontFamily: 'var(--font-display)',
         fontSize: '11px',
         fontWeight: 700,
-        color: '#9ca3af',
+        color: 'var(--text-faint)',
         textTransform: 'uppercase',
         letterSpacing: '0.8px',
         marginBottom: '14px',
@@ -77,11 +77,11 @@ export function TableOfContents({ body }: { body: any[] }) {
                   display: 'block',
                   fontSize: '13.5px',
                   lineHeight: 1.5,
-                  color: activeId === id ? '#16a34a' : '#374151',
+                  color: activeId === id ? 'var(--green)' : 'var(--text-muted)',
                   textDecoration: 'none',
                   padding: '4px 0',
                   paddingLeft: level === 'h3' ? '20px' : level === 'h4' ? '32px' : '8px',
-                  borderLeft: activeId === id ? '2px solid #16a34a' : '2px solid transparent',
+                  borderLeft: activeId === id ? '2px solid var(--green)' : '2px solid transparent',
                   transition: 'color 0.15s, border-color 0.15s',
                   fontWeight: activeId === id ? 500 : 400,
                 }}

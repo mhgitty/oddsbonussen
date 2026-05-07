@@ -2,6 +2,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { ComparisonTable } from '@/components/ComparisonTable'
+import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
@@ -81,6 +82,14 @@ export default async function DynamicPage({ params }: Props) {
           </aside>
         </div>
       )}
+
+      {/* Author block — full width, below all content */}
+      {page.author && (
+        <div className="section" style={{ paddingTop: '0' }}>
+          <AuthorBio author={page.author} compact />
+        </div>
+      )}
+
       <Footer />
     </>
   )

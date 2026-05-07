@@ -44,6 +44,10 @@ export async function getPageBySlug(slug: string) {
     `*[_type == "page" && slug.current == $slug][0] {
       _id, title, slug, intro, body, metaTitle, metaDescription,
       "featuredImage": featuredImage { "url": asset->url, alt },
+      "author": author-> {
+        name, bio, linkedin, x, facebook,
+        "imageUrl": image.asset->url
+      },
       ${COMPARISON_TABLE_FRAGMENT}
     }`,
     { slug }

@@ -184,14 +184,22 @@ export const pageType = defineType({
   type: 'document',
   groups: [
     { name: 'content', title: 'Indhold' },
-    { name: 'seo', title: 'SEO' },
+    { name: 'seo',     title: 'SEO' },
   ],
   fields: [
     defineField({ name: 'title', title: 'Titel', type: 'string', group: 'content', validation: (r) => r.required() }),
-    defineField({ name: 'slug', title: 'Slug', type: 'slug', group: 'content', options: { source: 'title' }, validation: (r) => r.required() }),
-    defineField({ name: 'intro', title: 'Intro', type: 'text', rows: 3, group: 'content' }),
+    defineField({ name: 'slug',  title: 'Slug',  type: 'slug',   group: 'content', options: { source: 'title' }, validation: (r) => r.required() }),
+    defineField({ name: 'intro', title: 'Intro', type: 'text',   rows: 3, group: 'content' }),
     ...comparisonTableFields.map(f => ({ ...f, group: 'content' })) as any,
     { ...bodyField, group: 'content' } as any,
+    defineField({
+      name: 'author',
+      title: 'Forfatter',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      group: 'content',
+      description: 'Vises som et forfatter-kort nederst på siden',
+    }),
     defineField({ name: 'metaTitle', title: 'Meta titel', type: 'string', group: 'seo' }),
     defineField({ name: 'metaDescription', title: 'Meta beskrivelse', type: 'text', rows: 3, group: 'seo' }),
     defineField({

@@ -184,6 +184,102 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
 }
 
+/* ─── Mobile menu button (burger) ────────────────────────────────────────── */
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.mobile-menu-btn:hover { background: var(--bg-raised); }
+
+.burger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 20px;
+}
+.burger-icon span {
+  display: block;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease, width 0.22s ease;
+  transform-origin: center;
+}
+/* Animate to × */
+.burger-icon.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger-icon.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger-icon.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ─── Mobile drawer + backdrop ───────────────────────────────────────────── */
+.mobile-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 52px;  /* navbar height on mobile */
+  background: rgba(0,0,0,0.55);
+  z-index: 40;
+}
+.mobile-menu-drawer {
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  background: var(--bg-navbar);
+  border-bottom: 1px solid var(--border);
+  z-index: 45;
+  padding: 12px 16px 20px;
+  max-height: calc(100vh - 52px);
+  overflow-y: auto;
+  transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s;
+}
+.mobile-menu-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ─── Mobile menu items ──────────────────────────────────────────────────── */
+.mobile-menu-group { border-bottom: 1px solid var(--border-faint); }
+.mobile-menu-group:last-child { border-bottom: none; }
+
+.mobile-menu-link {
+  display: block;
+  padding: 13px 4px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+.mobile-menu-link:active { opacity: 0.7; }
+
+.mobile-menu-link-cta {
+  color: var(--green) !important;
+}
+
+.mobile-menu-sublink {
+  display: block;
+  padding: 9px 12px;
+  margin-bottom: 4px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 6px;
+  background: var(--bg-raised);
+}
+.mobile-menu-sublink:active { opacity: 0.7; }
+
 /* ═══════════════════════════════════════════════════════════════════════════
    MOBILE — ≤ 768px
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -197,6 +293,11 @@ h1, h2, h3, h4, h5, h6 {
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .article-layout { grid-template-columns: 1fr; gap: 0; padding: 28px 16px 60px; }
   .toc-sidebar { display: none; }
+
+  /* Hide desktop nav, show burger */
+  .navbar-nav { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .mobile-menu-backdrop { display: block; }
 
   /* Bookmaker card — stack on mobile */
   .bookmaker-card-inner {

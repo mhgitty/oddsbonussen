@@ -13,7 +13,7 @@ import type { Metadata } from 'next'
 export const revalidate = 3600
 
 const BASE = 'https://oddsbonussen.dk'
-const CANONICAL = `${BASE}/betting-sider`
+const CANONICAL = `${BASE}/betting-sider/`
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('betting-sider').catch(() => null)

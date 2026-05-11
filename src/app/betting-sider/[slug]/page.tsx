@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!bm) return {}
   const title = replaceDateVars(bm.metaTitle || `${bm.name} anmeldelse — bonus & odds`)
   const description = replaceDateVars(bm.metaDescription || bm.intro || `Læs vores anmeldelse af ${bm.name}. Se bonus, gennemspilskrav og vores vurdering.`)
-  const canonical = `${BASE}/betting-sider/${slug}`
+  const canonical = `${BASE}/betting-sider/${slug}/`
   const img = bm.ogImage?.url ? bm.ogImage : bm.logo?.url ? bm.logo : null
   return {
     title,
@@ -81,7 +81,7 @@ export default async function BookmakerPage({ params }: Props) {
   if (!bm) notFound()
   const author = settings?.defaultAuthor ?? null
 
-  const canonical = `${BASE}/betting-sider/${slug}`
+  const canonical = `${BASE}/betting-sider/${slug}/`
 
   const faqs = (bm.body || [])
     .filter((b: any) => b._type === 'faqBlock')
@@ -95,7 +95,7 @@ export default async function BookmakerPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-          { '@type': 'ListItem', position: 2, name: 'Betting sider', item: `${BASE}/betting-sider` },
+          { '@type': 'ListItem', position: 2, name: 'Betting sider', item: `${BASE}/betting-sider/` },
           { '@type': 'ListItem', position: 3, name: bm.name, item: canonical },
         ],
       },

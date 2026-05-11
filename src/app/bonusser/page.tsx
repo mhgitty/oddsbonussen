@@ -10,7 +10,7 @@ const BASE = 'https://oddsbonussen.dk'
 export const metadata: Metadata = {
   title: `Betting bonusser i Danmark ${new Date().getFullYear()}`,
   description: 'Oversigt over de bedste betting bonusser i Danmark. Find velkomstbonusser, free spins og eksklusive tilbud.',
-  alternates: { canonical: `${BASE}/bonusser` },
+  alternates: { canonical: `${BASE}/bonusser/` },
 }
 
 export const revalidate = 3600
@@ -23,7 +23,7 @@ export default async function BonusserPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-      { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/bonusser` },
+      { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/bonusser/` },
     ],
   }
 

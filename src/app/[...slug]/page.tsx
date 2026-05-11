@@ -18,7 +18,7 @@ const BASE = 'https://oddsbonussen.dk'
 interface Props { params: Promise<{ slug: string[] }> }
 
 function buildPath(segments: string[]) {
-  return '/' + segments.join('/')
+  return '/' + segments.join('/') + '/' + '/'
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -45,7 +45,7 @@ export default async function DynamicPage({ params }: Props) {
   // Build breadcrumb — include parent if present
   const breadcrumbItems = [{ name: 'Hjem', item: BASE }]
   if (page.parentSlug && page.parentTitle) {
-    breadcrumbItems.push({ name: page.parentTitle, item: `${BASE}/${page.parentSlug}` })
+    breadcrumbItems.push({ name: page.parentTitle, item: `${BASE}/${page.parentSlug}/` })
   }
   breadcrumbItems.push({ name: page.title, item: canonical })
 

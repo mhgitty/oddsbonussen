@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   description: 'Find de bedste betting bonusser og bookmaker tilbud i Danmark. Vi sammenligner og anmelder alle store bookmakers.',
   keywords: ['betting bonus', 'bookmaker bonus', 'odds bonus', 'gratis spins', 'velkomstbonus', 'betting sider Danmark'],
-  alternates: { canonical: BASE },
+  alternates: { canonical: BASE + '/' },
   openGraph: {
     siteName: 'Oddsbonussen.dk',
     locale: 'da_DK',

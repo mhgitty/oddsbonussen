@@ -11,11 +11,11 @@ const BASE = 'https://oddsbonussen.dk'
 export const metadata: Metadata = {
   title: 'Guides & artikler om betting og bonusser',
   description: 'Læs vores guides om betting bonusser og bookmakers i Danmark.',
-  alternates: { canonical: `${BASE}/blog` },
+  alternates: { canonical: `${BASE}/blog/` },
   openGraph: {
     title: 'Guides & artikler om betting og bonusser',
     description: 'Læs vores guides om betting bonusser og bookmakers i Danmark.',
-    url: `${BASE}/blog`,
+    url: `${BASE}/blog/`,
     type: 'website',
   },
 }
@@ -36,7 +36,7 @@ export default async function BlogPage({ searchParams }: Props) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-      { '@type': 'ListItem', position: 2, name: 'Guides & artikler', item: `${BASE}/blog` },
+      { '@type': 'ListItem', position: 2, name: 'Guides & artikler', item: `${BASE}/blog/` },
     ],
   }
 

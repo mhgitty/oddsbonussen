@@ -22,32 +22,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   return [
-    { url: BASE, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
-    { url: `${BASE}/betting-sider`, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${BASE}/bonusser`, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${BASE}/blog`, changeFrequency: 'daily', priority: 0.8 },
+    { url: BASE + '/', lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
+    { url: `${BASE}/betting-sider/`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${BASE}/bonusser/`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${BASE}/blog/`, changeFrequency: 'daily', priority: 0.8 },
     ...bookmakers.map((b) => ({
-      url: `${BASE}/betting-sider/${b.slug.current}`,
+      url: `${BASE}/betting-sider/${b.slug.current}/`,
       lastModified: b._updatedAt ? new Date(b._updatedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: 0.85,
     })),
     ...bonusser.map((b) => ({
-      url: `${BASE}/bonusser/${b.slug.current}`,
+      url: `${BASE}/bonusser/${b.slug.current}/`,
       lastModified: b._updatedAt ? new Date(b._updatedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     })),
     ...posts.map((p) => ({
-      url: `${BASE}/blog/${p.slug.current}`,
+      url: `${BASE}/blog/${p.slug.current}/`,
       lastModified: p.lastUpdated ? new Date(p.lastUpdated) : p.publishedAt ? new Date(p.publishedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })),
     ...pages.map((p) => ({
       url: p.parentSlug
-        ? `${BASE}/${p.parentSlug}/${p.slug.current}`
-        : `${BASE}/${p.slug.current}`,
+        ? `${BASE}/${p.parentSlug}/${p.slug.current}/`
+        : `${BASE}/${p.slug.current}/`,
       lastModified: p._updatedAt ? new Date(p._updatedAt) : undefined,
       changeFrequency: 'monthly' as const,
       priority: p.parentSlug ? 0.4 : 0.5,

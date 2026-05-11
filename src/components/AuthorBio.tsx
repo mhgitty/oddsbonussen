@@ -104,7 +104,7 @@ export function AuthorBio({ author, compact = false }: AuthorBioProps) {
           {author.name}
         </div>
 
-        {!compact && author.bio && (
+        {author.bio && (
           <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, margin: '0 0 16px' }}>
             {author.bio}
           </p>

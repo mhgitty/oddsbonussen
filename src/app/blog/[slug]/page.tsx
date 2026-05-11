@@ -5,7 +5,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorMeta } from '@/components/AuthorMeta'
 import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
-import { getPostBySlug, getPosts, getSiteSettings } from '@/lib/sanity'
+import { getPostBySlug, getPosts, getSiteSettings, client } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -14,6 +14,13 @@ export const revalidate = 3600
 const BASE = 'https://oddsbonussen.dk'
 
 interface Props { params: Promise<{ slug: string }> }
+
+export async function generateStaticParams() {
+  const posts = await client.fetch<Array<{ slug: { current: string } }>>(
+    `*[_type == "post" && defined(slug.current) && defined(publishedAt)] { slug }`
+  ).catch(() => [])
+  return posts.map((p) => ({ slug: p.slug.current }))
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -85,8 +92,14 @@ export default async function BlogPostPage({ params }: Props) {
       datePublished: post.publishedAt,
       dateModified: post.lastUpdated || post.publishedAt,
       inLanguage: 'da-DK',
-      author: post.author
-        ? { '@type': 'Person', name: post.author.name }
+      author: author
+        ? {
+            '@type': 'Person',
+            name: author.name,
+            ...(author.linkedin || author.x ? {
+              sameAs: [author.linkedin, author.x].filter(Boolean),
+            } : {}),
+          }
         : { '@type': 'Organization', name: 'Oddsbonussen' },
       publisher: {
         '@type': 'Organization',
@@ -95,9 +108,7 @@ export default async function BlogPostPage({ params }: Props) {
         logo: { '@type': 'ImageObject', url: `${BASE}/logo.webp` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-      ...(post.featuredImage?.asset?.url
-        ? { image: post.featuredImage.asset.url }
-        : {}),
+      ...(post.featuredImage?.url ? { image: post.featuredImage.url } : {}),
     },
   ]
 

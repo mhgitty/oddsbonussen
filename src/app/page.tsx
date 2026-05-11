@@ -54,6 +54,7 @@ export default async function HomePage() {
         '@id': `${BASE}/#organization`,
         name: 'Oddsbonussen',
         url: BASE,
+        logo: { '@type': 'ImageObject', url: `${BASE}/logo.webp` },
       },
       ...(faqs.length > 0 ? [{
         '@type': 'FAQPage',
@@ -73,7 +74,7 @@ export default async function HomePage() {
 
       {/* Hero */}
       <section className="hero-section">
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <h1 className="hero-heading">
             {heroHeading}
           </h1>
@@ -108,7 +109,7 @@ export default async function HomePage() {
       {/* Latest articles */}
       {(posts as any[]).length > 0 && (
         <section style={{ padding: '48px 24px' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '24px' }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '22px', fontWeight: 700, color: 'var(--text)' }}>Seneste guides & artikler</h2>
               <a href="/blog" style={{ fontSize: '13.5px', color: 'var(--green)', textDecoration: 'none', fontWeight: 500 }}>Se alle →</a>

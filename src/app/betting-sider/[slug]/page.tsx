@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
-import { getBookmakerBySlug, getPosts, getSiteSettings } from '@/lib/sanity'
+import { getBookmakerBySlug, getPosts, getSiteSettings, client } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -15,16 +15,37 @@ const BASE = 'https://oddsbonussen.dk'
 
 interface Props { params: Promise<{ slug: string }> }
 
+export async function generateStaticParams() {
+  const bookmakers = await client.fetch<Array<{ slug: { current: string } }>>(
+    `*[_type == "bookmaker" && defined(slug.current)] { slug }`
+  ).catch(() => [])
+  return bookmakers.map((b) => ({ slug: b.slug.current }))
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const bm = await getBookmakerBySlug(slug).catch(() => null)
   if (!bm) return {}
   const title = bm.metaTitle || `${bm.name} anmeldelse — bonus & odds`
   const description = bm.metaDescription || bm.intro || `Læs vores anmeldelse af ${bm.name}. Se bonus, gennemspilskrav og vores vurdering.`
+  const canonical = `${BASE}/betting-sider/${slug}`
+  const img = bm.ogImage?.url ? bm.ogImage : bm.logo?.url ? bm.logo : null
   return {
     title,
     description,
-    alternates: { canonical: `${BASE}/betting-sider/${slug}` },
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      type: 'article',
+      ...(img ? { images: [{ url: img.url, alt: img.alt || title }] } : {}),
+    },
+    twitter: {
+      title,
+      description,
+      ...(img ? { images: [img.url] } : {}),
+    },
   }
 }
 

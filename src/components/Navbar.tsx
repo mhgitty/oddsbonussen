@@ -74,7 +74,7 @@ export async function Navbar() {
                   </svg>
                 </Link>
                 <div className="nav-dropdown">
-                  {item.children.map((child) => (
+                  {item.children.map((child: { href: string; label: string }) => (
                     <Link key={child.href + child.label} href={child.href} className="nav-dropdown-item">
                       {child.label}
                     </Link>

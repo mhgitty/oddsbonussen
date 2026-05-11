@@ -179,11 +179,27 @@ export const getSiteSettings = cache(async () => {
         name, bio, linkedin, x, facebook,
         "imageUrl": image.asset->url
       },
-      headerNav[] { label, url, isHighlighted },
+      headerNav[] {
+        label, url, isHighlighted,
+        "pageSlug": pageRef->slug.current,
+        "pageParentSlug": pageRef->parent->slug.current,
+        "bookmakerSlug": bookmakerRef->slug.current,
+        children[] {
+          label, url,
+          "pageSlug": pageRef->slug.current,
+          "pageParentSlug": pageRef->parent->slug.current,
+          "bookmakerSlug": bookmakerRef->slug.current,
+        }
+      },
       footerTagline,
       footerColumns[] {
         title,
-        items[] { label, url }
+        items[] {
+          label, url,
+          "pageSlug": pageRef->slug.current,
+          "pageParentSlug": pageRef->parent->slug.current,
+          "bookmakerSlug": bookmakerRef->slug.current,
+        }
       },
       footerNote,
       footerDisclaimer

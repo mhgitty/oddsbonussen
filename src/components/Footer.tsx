@@ -2,6 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getSiteSettings } from '@/lib/sanity'
 
+function resolveUrl(item: { url?: string; pageSlug?: string; pageParentSlug?: string; bookmakerSlug?: string }): string {
+  if (item.pageSlug) return item.pageParentSlug ? `/${item.pageParentSlug}/${item.pageSlug}/` : `/${item.pageSlug}/`
+  if (item.bookmakerSlug) return `/betting-sider/${item.bookmakerSlug}/`
+  return item.url || '/'
+}
+
 const DEFAULT_COLUMNS = [
   {
     title: 'Sider',
@@ -60,15 +66,18 @@ export async function Footer() {
                 {col.title}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {(col.items || []).map((item: any) => (
-                  <Link
-                    key={item.url}
-                    href={item.url}
-                    style={{ fontSize: '13.5px', color: 'var(--text-muted)', textDecoration: 'none' }}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {(col.items || []).map((item: any) => {
+                  const href = resolveUrl(item)
+                  return (
+                    <Link
+                      key={href + item.label}
+                      href={href}
+                      style={{ fontSize: '13.5px', color: 'var(--text-muted)', textDecoration: 'none' }}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           ))}

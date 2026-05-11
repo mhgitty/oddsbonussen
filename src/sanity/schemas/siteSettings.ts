@@ -1,10 +1,59 @@
 import { defineField, defineType } from 'sanity'
 
-const navItemFields = [
+// ── Shared link fields (used in both top-level and sub-menu items) ─────────────
+// Pick a page OR a bookmaker OR type a custom URL — whichever is set wins (in that order).
+const linkFields = [
   defineField({ name: 'label', title: 'Tekst', type: 'string', validation: (r) => r.required() }),
-  defineField({ name: 'url',   title: 'URL',   type: 'string', description: 'F.eks. /betting-sider eller https://...', validation: (r) => r.required() }),
-  defineField({ name: 'isHighlighted', title: 'Fremhævet (CTA-knap)', type: 'boolean', initialValue: false }),
+  defineField({
+    name: 'pageRef',
+    title: 'Side (vælg fra CMS)',
+    type: 'reference',
+    to: [{ type: 'page' }],
+    description: 'Vælg en side automatisk — URL udfyldes selv',
+  }),
+  defineField({
+    name: 'bookmakerRef',
+    title: 'Bookmaker (vælg fra CMS)',
+    type: 'reference',
+    to: [{ type: 'bookmaker' }],
+    description: 'Vælg en bookmaker — URL udfyldes selv',
+  }),
+  defineField({
+    name: 'url',
+    title: 'URL (tilpasset / ekstern)',
+    type: 'string',
+    description: 'Bruges kun hvis du ikke vælger en side eller bookmaker ovenfor. F.eks. /betting-sider/ eller https://...',
+  }),
 ]
+
+// ── Sub-menu item (no nesting, no CTA highlight) ───────────────────────────────
+const subNavItemFields = [...linkFields]
+
+// ── Top-level nav item ─────────────────────────────────────────────────────────
+const navItemFields = [
+  ...linkFields,
+  defineField({ name: 'isHighlighted', title: 'Fremhævet (CTA-knap)', type: 'boolean', initialValue: false }),
+  defineField({
+    name: 'children',
+    title: 'Undermenu',
+    type: 'array',
+    description: 'Tilføj underpunkter for at skabe en dropdown-menu',
+    of: [{
+      type: 'object',
+      name: 'subNavItem',
+      fields: subNavItemFields,
+      preview: {
+        select: { title: 'label', pageRef: 'pageRef.slug.current', bookmakerRef: 'bookmakerRef.slug.current', url: 'url' },
+        prepare({ title, pageRef, bookmakerRef, url }: any) {
+          return { title, subtitle: pageRef ? `/${pageRef}/` : bookmakerRef ? `/betting-sider/${bookmakerRef}/` : url }
+        },
+      },
+    }],
+  }),
+]
+
+// ── Footer link fields (same as linkFields, no children/CTA) ──────────────────
+const footerLinkFields = [...linkFields]
 
 export const siteSettingsType = defineType({
   name: 'siteSettings',
@@ -16,7 +65,7 @@ export const siteSettingsType = defineType({
     { name: 'footer',  title: '🔻 Footer' },
   ],
   fields: [
-    // ── Default author ────────────────────────────────────────────────────────
+    // ── Default author ──────────────────────────────────────────────────────────
     defineField({
       name: 'defaultAuthor',
       title: 'Standard forfatter',
@@ -26,34 +75,45 @@ export const siteSettingsType = defineType({
       description: 'Vises som forfatter-kort nederst på alle sider, bookmaker- og bonussider',
     }),
 
-    // ── Header ────────────────────────────────────────────────────────────────
+    // ── Header ──────────────────────────────────────────────────────────────────
     defineField({
       name: 'headerNav',
       title: 'Header navigation',
       type: 'array',
       group: 'header',
-      description: 'Elementer der vises i den øverste navigationsmenu. Træk for at ændre rækkefølge.',
+      description: 'Elementer i topmenuen. Træk for at ændre rækkefølge.',
       of: [{
         type: 'object',
         name: 'navItem',
         fields: navItemFields,
         preview: {
-          select: { title: 'label', subtitle: 'url', isHighlighted: 'isHighlighted' },
-          prepare({ title, subtitle, isHighlighted }: any) {
-            return { title: `${isHighlighted ? '⚡ ' : ''}${title}`, subtitle }
+          select: {
+            title: 'label',
+            isHighlighted: 'isHighlighted',
+            pageRef: 'pageRef.slug.current',
+            bookmakerRef: 'bookmakerRef.slug.current',
+            url: 'url',
+            children: 'children',
+          },
+          prepare({ title, isHighlighted, pageRef, bookmakerRef, url, children }: any) {
+            const resolvedUrl = pageRef ? `/${pageRef}/` : bookmakerRef ? `/betting-sider/${bookmakerRef}/` : url
+            const hasChildren = children?.length > 0
+            return {
+              title: `${isHighlighted ? '⚡ ' : ''}${hasChildren ? '▾ ' : ''}${title}`,
+              subtitle: resolvedUrl,
+            }
           },
         },
       }],
     }),
 
-    // ── Footer ────────────────────────────────────────────────────────────────
+    // ── Footer ──────────────────────────────────────────────────────────────────
     defineField({
       name: 'footerTagline',
       title: 'Footer tagline',
       type: 'text',
       rows: 2,
       group: 'footer',
-      description: 'Kort tekst under logoet i footeren',
       initialValue: 'Danmarks uafhængige guide til betting bonusser og bookmakers. Vi sammenligner de bedste tilbud.',
     }),
     defineField({
@@ -61,7 +121,7 @@ export const siteSettingsType = defineType({
       title: 'Footer kolonner',
       type: 'array',
       group: 'footer',
-      description: 'Op til 2 kolonner med links. Træk for at ændre rækkefølge.',
+      description: 'Op til 2 kolonner med links.',
       validation: (r) => r.max(2),
       of: [{
         type: 'object',
@@ -75,9 +135,17 @@ export const siteSettingsType = defineType({
             of: [{
               type: 'object',
               name: 'navItem',
-              fields: navItemFields,
+              fields: footerLinkFields,
               preview: {
-                select: { title: 'label', subtitle: 'url' },
+                select: {
+                  title: 'label',
+                  pageRef: 'pageRef.slug.current',
+                  bookmakerRef: 'bookmakerRef.slug.current',
+                  url: 'url',
+                },
+                prepare({ title, pageRef, bookmakerRef, url }: any) {
+                  return { title, subtitle: pageRef ? `/${pageRef}/` : bookmakerRef ? `/betting-sider/${bookmakerRef}/` : url }
+                },
               },
             }],
           }),

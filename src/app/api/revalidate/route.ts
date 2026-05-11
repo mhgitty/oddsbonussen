@@ -21,24 +21,29 @@ export async function POST(req: NextRequest) {
     if (type === 'homepage') {
       touch('/', 'page')
     } else if (type === 'post') {
-      touch('/blog', 'page')
+      touch('/blog/', 'page')
       touch('/', 'page')
-      if (slug) touch(`/blog/${slug}`, 'page')
+      if (slug) touch(`/blog/${slug}/`, 'page')
       else touch('/blog/[slug]', 'page')
     } else if (type === 'page') {
-      if (slug) touch(`/${slug}`, 'page')
-      else touch('/[slug]', 'page')
+      // Revalidate all dynamic pages — we don't know the parent path from slug alone
+      touch('/', 'layout')
     } else if (type === 'bookmaker') {
-      touch('/betting-sider', 'page')
+      touch('/betting-sider/', 'page')
       touch('/', 'page')
-      if (slug) touch(`/betting-sider/${slug}`, 'page')
+      if (slug) touch(`/betting-sider/${slug}/`, 'page')
       else touch('/betting-sider/[slug]', 'page')
     } else if (type === 'bonus') {
-      touch('/bonusser', 'page')
-      if (slug) touch(`/bonusser/${slug}`, 'page')
+      touch('/bonusser/', 'page')
+      if (slug) touch(`/bonusser/${slug}/`, 'page')
       else touch('/bonusser/[slug]', 'page')
-    } else if (type === 'category' || type === 'author') {
-      touch('/blog', 'page')
+    } else if (type === 'siteSettings' || type === 'comparisonTableTemplate') {
+      // These affect every page (navbar, footer, comparison tables)
+      touch('/', 'layout')
+    } else if (type === 'author') {
+      touch('/', 'layout')
+    } else if (type === 'category') {
+      touch('/blog/', 'page')
     } else {
       touch('/', 'layout')
     }

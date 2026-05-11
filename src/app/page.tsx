@@ -6,6 +6,7 @@ import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
 import { getPosts, getHomepage } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -14,8 +15,8 @@ const BASE = 'https://oddsbonussen.dk'
 
 export async function generateMetadata(): Promise<Metadata> {
   const hp = await getHomepage().catch(() => null)
-  const title = hp?.metaTitle || 'Sammenlign betting bonusser — find de bedste tilbud i Danmark'
-  const description = hp?.metaDescription || 'Danmarks uafhængige guide til betting bonusser. Vi sammenligner og anmelder alle store bookmakers.'
+  const title = replaceDateVars(hp?.metaTitle || 'Sammenlign betting bonusser — find de bedste tilbud i Danmark')
+  const description = replaceDateVars(hp?.metaDescription || 'Danmarks uafhængige guide til betting bonusser. Vi sammenligner og anmelder alle store bookmakers.')
   return {
     title,
     description,
@@ -31,8 +32,8 @@ export default async function HomePage() {
     getHomepage().catch(() => null),
   ])
 
-  const heroHeading = hp?.heroHeading || 'Find de bedste betting bonusser i Danmark'
-  const heroSubtext = hp?.intro || 'Vi sammenligner og anmelder alle store bookmakers i Danmark. Find den bedste velkomstbonus og kom godt i gang.'
+  const heroHeading = replaceDateVars(hp?.heroHeading || 'Find de bedste betting bonusser i Danmark')
+  const heroSubtext = replaceDateVars(hp?.intro || 'Vi sammenligner og anmelder alle store bookmakers i Danmark. Find den bedste velkomstbonus og kom godt i gang.')
 
   const faqs = (hp?.body ?? [])
     .filter((b: any) => b._type === 'faqBlock')

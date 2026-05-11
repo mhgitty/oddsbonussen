@@ -4,6 +4,7 @@ import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
 import { getBookmakerBySlug, getPosts, getSiteSettings, client } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -26,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const bm = await getBookmakerBySlug(slug).catch(() => null)
   if (!bm) return {}
-  const title = bm.metaTitle || `${bm.name} anmeldelse — bonus & odds`
-  const description = bm.metaDescription || bm.intro || `Læs vores anmeldelse af ${bm.name}. Se bonus, gennemspilskrav og vores vurdering.`
+  const title = replaceDateVars(bm.metaTitle || `${bm.name} anmeldelse — bonus & odds`)
+  const description = replaceDateVars(bm.metaDescription || bm.intro || `Læs vores anmeldelse af ${bm.name}. Se bonus, gennemspilskrav og vores vurdering.`)
   const canonical = `${BASE}/betting-sider/${slug}`
   const img = bm.ogImage?.url ? bm.ogImage : bm.logo?.url ? bm.logo : null
   return {
@@ -145,7 +146,7 @@ export default async function BookmakerPage({ params }: Props) {
               <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'var(--text)', marginBottom: '8px' }}>
                 {bm.name} anmeldelse
               </h1>
-              {bm.usp && <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '16px' }}>{bm.usp}</p>}
+              {bm.usp && <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '16px' }}>{replaceDateVars(bm.usp)}</p>}
               {bm.score != null && <ScoreMeter score={bm.score} />}
             </div>
 

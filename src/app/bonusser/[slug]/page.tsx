@@ -6,6 +6,7 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
 import { getBonusBySlug, getSiteSettings, client } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -26,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const bonus = await getBonusBySlug(slug).catch(() => null)
   if (!bonus) return {}
-  const title = bonus.metaTitle || bonus.title
-  const description = bonus.metaDescription || bonus.intro || ''
+  const title = replaceDateVars(bonus.metaTitle || bonus.title)
+  const description = replaceDateVars(bonus.metaDescription || bonus.intro || '')
   const canonical = `${BASE}/bonusser/${slug}`
   const img = bonus.ogImage?.url ? bonus.ogImage
     : bonus.kampagneBillede?.url ? bonus.kampagneBillede

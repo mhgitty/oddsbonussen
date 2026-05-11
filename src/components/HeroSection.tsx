@@ -1,13 +1,15 @@
+import { replaceDateVars } from '@/lib/dateVars'
+
 interface HeroSectionProps {
   title: string
   intro?: string
   eyebrow?: string        // small label above the title (e.g. category name)
   updatedAt?: string      // ISO date string
-  narrow?: boolean        // 760px vs 1200px max-width
+  narrow?: boolean        // 760px vs 1080px max-width
 }
 
 export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }: HeroSectionProps) {
-  const maxWidth = narrow ? '760px' : '1200px'
+  const maxWidth = narrow ? '760px' : '1080px'
 
   const dateStr = updatedAt
     ? new Date(updatedAt).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -42,7 +44,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
           marginBottom: intro ? '16px' : '0',
           maxWidth: '820px',
         }}>
-          {title}
+          {replaceDateVars(title)}
         </h1>
 
         {dateStr && (
@@ -59,7 +61,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false }
             maxWidth: '640px',
             margin: 0,
           }}>
-            {intro}
+            {replaceDateVars(intro)}
           </p>
         )}
       </div>

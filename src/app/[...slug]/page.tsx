@@ -7,6 +7,7 @@ import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
 import { getPageByPath, getSiteSettings } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -24,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const page = await getPageByPath(slug).catch(() => null)
   if (!page) return {}
-  const title = page.metaTitle || page.title
-  const description = page.metaDescription || page.intro || ''
+  const title = replaceDateVars(page.metaTitle || page.title)
+  const description = replaceDateVars(page.metaDescription || page.intro || '')
   const canonical = `${BASE}${buildPath(slug)}`
   return { title, description, alternates: { canonical } }
 }

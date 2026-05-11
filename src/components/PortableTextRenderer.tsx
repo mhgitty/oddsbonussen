@@ -1,4 +1,5 @@
 import { PortableText } from '@portabletext/react'
+import { replaceDateVarsInBlocks } from '@/lib/dateVars'
 import { CalloutBlock } from './CalloutBlock'
 import { FaqBlock } from './FaqBlock'
 import { ProsConsBlock } from './ProsConsBlock'
@@ -128,5 +129,5 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
     },
   }
 
-  return <PortableText value={value} components={components} />
+  return <PortableText value={replaceDateVarsInBlocks(value)} components={components} />
 }

@@ -7,6 +7,7 @@ import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
 import { getPageBySlug, getSiteSettings } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -16,8 +17,8 @@ const CANONICAL = `${BASE}/betting-sider`
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('betting-sider').catch(() => null)
-  const title = page?.metaTitle || page?.title || 'Bedste betting sider i Danmark'
-  const description = page?.metaDescription || page?.intro || 'Sammenlign de bedste danske betting sider.'
+  const title = replaceDateVars(page?.metaTitle || page?.title || 'Bedste betting sider i Danmark')
+  const description = replaceDateVars(page?.metaDescription || page?.intro || 'Sammenlign de bedste danske betting sider.')
   return { title, description, alternates: { canonical: CANONICAL } }
 }
 

@@ -6,6 +6,7 @@ import { AuthorMeta } from '@/components/AuthorMeta'
 import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
 import { getPostBySlug, getPosts, getSiteSettings, client } from '@/lib/sanity'
+import { replaceDateVars } from '@/lib/dateVars'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -26,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug).catch(() => null)
   if (!post) return {}
-  const title = post.metaTitle || post.title
-  const description = post.metaDescription || post.excerpt || ''
+  const title = replaceDateVars(post.metaTitle || post.title)
+  const description = replaceDateVars(post.metaDescription || post.excerpt || '')
   const canonical = `${BASE}/blog/${slug}`
   // Prefer a dedicated OG image; fall back to the featured image
   const img = post.ogImage?.url ? post.ogImage : post.featuredImage?.url ? post.featuredImage : null
@@ -146,9 +147,9 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2, letterSpacing: '-0.03em', marginBottom: '16px', maxWidth: '720px' }}>
-            {post.title}
+            {replaceDateVars(post.title)}
           </h1>
-          {post.excerpt && <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '640px' }}>{post.excerpt}</p>}
+          {post.excerpt && <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '640px' }}>{replaceDateVars(post.excerpt)}</p>}
         </div>
       </div>
 

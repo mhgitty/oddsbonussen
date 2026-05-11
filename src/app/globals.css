@@ -264,18 +264,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 .mobile-menu-link:active { opacity: 0.7; }
 
-/* Toggle button variant (items with children) */
-.mobile-menu-link-toggle {
+/* Row with separate link + chevron toggle */
+.mobile-menu-link-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+}
+.mobile-menu-link-row .mobile-menu-link {
+  flex: 1;
+}
+.mobile-menu-chevron-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 44px;
   background: none;
   border: none;
   cursor: pointer;
-  text-align: left;
-  font-family: inherit;
+  flex-shrink: 0;
+  border-radius: 6px;
 }
+.mobile-menu-chevron-btn:active { background: var(--bg-raised); }
 
 .mobile-menu-chevron {
   flex-shrink: 0;

@@ -45,20 +45,29 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
           return (
             <div key={item.href + item.label} className="mobile-menu-group">
               {hasChildren ? (
-                /* Tapping the row toggles children; chevron indicates state */
-                <button
-                  className={`mobile-menu-link mobile-menu-link-toggle${item.isHighlighted ? ' mobile-menu-link-cta' : ''}`}
-                  onClick={() => setExpanded(isExpanded ? null : item.href + item.label)}
-                  aria-expanded={isExpanded}
-                >
-                  {item.label}
-                  <svg
-                    width="12" height="8" viewBox="0 0 12 8" fill="none"
-                    className={`mobile-menu-chevron${isExpanded ? ' open' : ''}`}
+                /* Label navigates, chevron toggles children */
+                <div className="mobile-menu-link-row">
+                  <Link
+                    href={item.href}
+                    className={`mobile-menu-link${item.isHighlighted ? ' mobile-menu-link-cta' : ''}`}
+                    onClick={() => setOpen(false)}
                   >
-                    <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
+                    {item.label}
+                  </Link>
+                  <button
+                    className="mobile-menu-chevron-btn"
+                    onClick={() => setExpanded(isExpanded ? null : item.href + item.label)}
+                    aria-expanded={isExpanded}
+                    aria-label={isExpanded ? 'Luk undermenu' : 'Åbn undermenu'}
+                  >
+                    <svg
+                      width="12" height="8" viewBox="0 0 12 8" fill="none"
+                      className={`mobile-menu-chevron${isExpanded ? ' open' : ''}`}
+                    >
+                      <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
               ) : (
                 <Link
                   href={item.href}

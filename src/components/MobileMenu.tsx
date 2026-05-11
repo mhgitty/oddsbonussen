@@ -8,10 +8,11 @@ interface NavItem  { label: string; href: string; isHighlighted?: boolean; child
 
 export function MobileMenu({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
   const pathname = usePathname()
 
   // Close menu on route change
-  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => { setOpen(false); setExpanded(null) }, [pathname])
 
   // Lock body scroll when open
   useEffect(() => {
@@ -37,27 +38,54 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
 
       {/* Drawer */}
       <nav className={`mobile-menu-drawer${open ? ' open' : ''}`} aria-hidden={!open}>
-        {items.map((item) => (
-          <div key={item.href + item.label} className="mobile-menu-group">
-            <Link
-              href={item.href}
-              className={`mobile-menu-link${item.isHighlighted ? ' mobile-menu-link-cta' : ''}`}
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </Link>
-            {item.children?.map((child) => (
-              <Link
-                key={child.href + child.label}
-                href={child.href}
-                className="mobile-menu-sublink"
-                onClick={() => setOpen(false)}
-              >
-                {child.label}
-              </Link>
-            ))}
-          </div>
-        ))}
+        {items.map((item) => {
+          const hasChildren = item.children && item.children.length > 0
+          const isExpanded = expanded === item.href + item.label
+
+          return (
+            <div key={item.href + item.label} className="mobile-menu-group">
+              {hasChildren ? (
+                /* Tapping the row toggles children; chevron indicates state */
+                <button
+                  className={`mobile-menu-link mobile-menu-link-toggle${item.isHighlighted ? ' mobile-menu-link-cta' : ''}`}
+                  onClick={() => setExpanded(isExpanded ? null : item.href + item.label)}
+                  aria-expanded={isExpanded}
+                >
+                  {item.label}
+                  <svg
+                    width="12" height="8" viewBox="0 0 12 8" fill="none"
+                    className={`mobile-menu-chevron${isExpanded ? ' open' : ''}`}
+                  >
+                    <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              ) : (
+                <Link
+                  href={item.href}
+                  className={`mobile-menu-link${item.isHighlighted ? ' mobile-menu-link-cta' : ''}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )}
+
+              {hasChildren && isExpanded && (
+                <div className="mobile-menu-children">
+                  {item.children!.map((child) => (
+                    <Link
+                      key={child.href + child.label}
+                      href={child.href}
+                      className="mobile-menu-sublink"
+                      onClick={() => setOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </nav>
     </>
   )

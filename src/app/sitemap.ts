@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: BASE + '/', lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
     { url: `${BASE}/betting-sider/`, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${BASE}/bonusser/`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${BASE}/kampagner/`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE}/blog/`, changeFrequency: 'daily', priority: 0.8 },
     ...bookmakers.map((b) => ({
       url: `${BASE}/betting-sider/${b.slug.current}/`,
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.85,
     })),
     ...bonusser.map((b) => ({
-      url: `${BASE}/bonusser/${b.slug.current}/`,
+      url: `${BASE}/kampagner/${b.slug.current}/`,
       lastModified: b._updatedAt ? new Date(b._updatedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: 0.8,

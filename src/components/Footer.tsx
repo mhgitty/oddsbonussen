@@ -14,7 +14,7 @@ const DEFAULT_COLUMNS = [
     items: [
       { label: 'Forside',           url: '/' },
       { label: 'Betting sider',     url: '/betting-sider' },
-      { label: 'Bonusser',          url: '/bonusser' },
+      { label: 'Bonusser',          url: '/kampagner' },
       { label: 'Guides & artikler', url: '/blog' },
     ],
   },

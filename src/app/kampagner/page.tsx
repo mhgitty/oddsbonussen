@@ -10,7 +10,7 @@ const BASE = 'https://oddsbonussen.dk'
 export const metadata: Metadata = {
   title: `Betting bonusser i Danmark ${new Date().getFullYear()}`,
   description: 'Oversigt over de bedste betting bonusser i Danmark. Find velkomstbonusser, free spins og eksklusive tilbud.',
-  alternates: { canonical: `${BASE}/bonusser/` },
+  alternates: { canonical: `${BASE}/kampagner/` },
 }
 
 export const revalidate = 3600
@@ -23,7 +23,7 @@ export default async function BonusserPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-      { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/bonusser/` },
+      { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/kampagner/` },
     ],
   }
 
@@ -49,7 +49,7 @@ export default async function BonusserPage() {
         ) : (
           <div className="blog-grid">
             {(bonusser as any[]).map((bonus: any) => (
-              <Link key={bonus._id} href={`/bonusser/${bonus.slug.current}`} style={{ textDecoration: 'none' }}>
+              <Link key={bonus._id} href={`/kampagner/${bonus.slug.current}`} style={{ textDecoration: 'none' }}>
                 <article style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '10px', padding: '20px', height: '100%' }}>
                   <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '10px', lineHeight: 1.35 }}>
                     🎁 {bonus.title}

@@ -6,7 +6,7 @@ import { MobileMenu } from './MobileMenu'
 const DEFAULT_NAV = [
   { label: 'Sammenlign',    url: '/',               isHighlighted: false, children: [] },
   { label: 'Betting sider', url: '/betting-sider/', isHighlighted: false, children: [] },
-  { label: 'Bonusser',      url: '/bonusser/',       isHighlighted: false, children: [] },
+  { label: 'Bonusser',      url: '/kampagner/',       isHighlighted: false, children: [] },
   { label: 'Guides',        url: '/blog/',           isHighlighted: false, children: [] },
 ]
 

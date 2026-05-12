@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
       if (slug) touch(`/betting-sider/${slug}/`, 'page')
       else touch('/betting-sider/[slug]', 'page')
     } else if (type === 'bonus') {
-      touch('/bonusser/', 'page')
-      if (slug) touch(`/bonusser/${slug}/`, 'page')
-      else touch('/bonusser/[slug]', 'page')
+      touch('/kampagner/', 'page')
+      if (slug) touch(`/kampagner/${slug}/`, 'page')
+      else touch('/kampagner/[slug]', 'page')
     } else if (type === 'siteSettings' || type === 'comparisonTableTemplate') {
       // These affect every page (navbar, footer, comparison tables)
       touch('/', 'layout')

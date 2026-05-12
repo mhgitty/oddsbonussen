@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!bonus) return {}
   const title = replaceDateVars(bonus.metaTitle || bonus.title)
   const description = replaceDateVars(bonus.metaDescription || bonus.intro || '')
-  const canonical = `${BASE}/bonusser/${slug}/`
+  const canonical = `${BASE}/kampagner/${slug}/`
   const img = bonus.ogImage?.url ? bonus.ogImage
     : bonus.kampagneBillede?.url ? bonus.kampagneBillede
     : bonus.casinoLogo?.url ? bonus.casinoLogo
@@ -62,7 +62,7 @@ export default async function BonusPage({ params }: Props) {
   if (!bonus) notFound()
   const author = settings?.defaultAuthor ?? null
 
-  const canonical = `${BASE}/bonusser/${slug}/`
+  const canonical = `${BASE}/kampagner/${slug}/`
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -70,7 +70,7 @@ export default async function BonusPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-          { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/bonusser/` },
+          { '@type': 'ListItem', position: 2, name: 'Bonusser', item: `${BASE}/kampagner/` },
           { '@type': 'ListItem', position: 3, name: bonus.title, item: canonical },
         ],
       },

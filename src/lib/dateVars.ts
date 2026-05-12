@@ -10,10 +10,16 @@ const MONTHS_DA = [
 export function replaceDateVars(str: string | null | undefined): string {
   if (!str) return str ?? ''
   const now = new Date()
+  const year  = now.getFullYear().toString()
+  const month = MONTHS_DA[now.getMonth()]
+  const date  = now.getDate().toString()
   return str
-    .replace(/\[year\]/gi,  now.getFullYear().toString())
-    .replace(/\[month\]/gi, MONTHS_DA[now.getMonth()])
-    .replace(/\[date\]/gi,  now.getDate().toString())
+    .replace(/\[year\]/gi,         year)
+    .replace(/%%currentyear%%/gi,  year)
+    .replace(/\[month\]/gi,        month)
+    .replace(/%%currentmonth%%/gi, month)
+    .replace(/\[date\]/gi,         date)
+    .replace(/%%currentdate%%/gi,  date)
 }
 
 /**

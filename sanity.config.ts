@@ -3,6 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './src/sanity/schemas'
 import { WideStudioLayout } from './src/sanity/StudioLayout'
+import { previewAction } from './src/sanity/previewAction'
 
 export default defineConfig({
   name: 'default',
@@ -73,6 +74,16 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    actions: (prev, ctx) => {
+      const PREVIEW_TYPES = ['homepage','post','page','bookmaker','bonus']
+      if (PREVIEW_TYPES.includes(ctx.schemaType)) {
+        return [previewAction, ...prev]
+      }
+      return prev
+    },
   },
 
   studio: {

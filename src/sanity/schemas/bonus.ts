@@ -120,12 +120,6 @@ export const bonusType = defineType({
       type: 'string',
       group: 'details',
     }),
-    defineField({
-      name: 'bonuskodePromoTekst',
-      title: 'Bonuskode promo tekst',
-      type: 'string',
-      group: 'details',
-    }),
 
     // ── Campaign ──────────────────────────────────────────────────────────────
     defineField({

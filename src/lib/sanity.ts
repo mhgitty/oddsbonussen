@@ -33,23 +33,22 @@ export async function getPostBySlug(slug: string) {
         _type == "casinoKortBlock" => {
           ...,
           customTitle, customBody, pros, cons,
-          "imageUrl": image.asset->url,
+          "bookmaker": bookmaker-> {
+            name, score, url,
+            "logoUrl": logo.asset->url,
+            "logoAlt": logo.alt,
+          }
+        },
+        _type == "bonusKortBlock" => {
+          ...,
+          customTitle, customBody,
           "bonus": bonus-> {
-            title,
+            "name": coalesce(bookmaker->name, casinoNavn, title),
             "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),
             "logoUrl": coalesce(casinoLogo.asset->url, bookmaker->logo.asset->url),
             "logoAlt": coalesce(casinoLogo.alt, bookmaker->logo.alt),
             "score": bookmaker->score,
             "offerUrl": offerUrl,
-            "terms": terms,
-            "name": coalesce(bookmaker->name, casinoNavn, title),
-            "url": offerUrl,
-          },
-          "bookmaker": bookmaker-> {
-            name, score,
-            "logoUrl": logo.asset->url,
-            "logoAlt": logo.alt,
-            "url": url,
             "terms": terms,
           }
         }

@@ -6,7 +6,8 @@ import { ProsConsBlock } from './ProsConsBlock'
 import { LatestPostsBlock } from './LatestPostsBlock'
 import { TableBlock } from './TableBlock'
 import { headingId } from '@/lib/headingId'
- import { CasinoKort } from './CasinoKort'
+import { CasinoKort } from './CasinoKort'
+import { BonusKort } from './BonusKort'
 
 type Post = {
   _id: string
@@ -115,6 +116,7 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       prosConsBlock: ({ value }: any) => <ProsConsBlock value={value} />,
       tableBlock: ({ value }: any) => <TableBlock value={value} />,
       casinoKortBlock: ({ value }: any) => <CasinoKort value={value} />,
+      bonusKortBlock: ({ value }: any) => <BonusKort value={value} />,
       latestPostsBlock: ({ value: blockValue }: any) =>
         posts ? <LatestPostsBlock value={blockValue} posts={posts} /> : null,
       image: ({ value }: any) => {

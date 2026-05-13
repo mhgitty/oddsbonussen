@@ -13,44 +13,47 @@ const bodyComponents = {
   },
 }
 
-interface CasinoKortData {
+interface BonusKortData {
   customTitle?: string
   customBody?: any[]
-  pros?: string[]
-  cons?: string[]
-  bookmaker?: {
+  bonus?: {
     name: string
-    score: number | null
+    bonusText: string
     logoUrl: string | null
     logoAlt: string | null
-    url: string
+    score: number | null
+    offerUrl: string
+    terms: string | null
   }
 }
 
-export function CasinoKort({ value }: { value: CasinoKortData }) {
-  const bm = value.bookmaker
-  if (!bm) return null
+export function BonusKort({ value }: { value: BonusKortData }) {
+  const bonus = value.bonus
+  if (!bonus) return null
 
-  const name = value.customTitle || bm.name
-  const stars = bm.score ? Math.round(bm.score / 2) : null
+  const name = value.customTitle || bonus.name
+  const stars = bonus.score ? Math.round(bonus.score / 2) : null
 
   return (
     <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', margin: '24px 0' }}>
       <div style={{ padding: '20px' }}>
 
-        {/* Logo + name + score */}
+        {/* Logo + name + bonus text + score */}
         <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', marginBottom: '14px' }}>
-          {bm.logoUrl && (
+          {bonus.logoUrl && (
             <div style={{ flexShrink: 0, width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden' }}>
-              <img src={bm.logoUrl} alt={bm.logoAlt || name} style={{ width: '60px', height: '60px', objectFit: 'cover', display: 'block' }} />
+              <img src={bonus.logoUrl} alt={bonus.logoAlt || name} style={{ width: '60px', height: '60px', objectFit: 'cover', display: 'block' }} />
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '3px' }}>{name}</div>
+            {bonus.bonusText && (
+              <div style={{ fontSize: '14px', color: 'var(--green)', fontWeight: 600, marginBottom: '3px' }}>{bonus.bonusText}</div>
+            )}
             {stars !== null && (
               <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                 {'★'.repeat(stars)}{'☆'.repeat(5 - stars)}
-                <span style={{ marginLeft: '4px' }}>{bm.score?.toFixed(1)}/10</span>
+                <span style={{ marginLeft: '4px' }}>{bonus.score?.toFixed(1)}/10</span>
               </div>
             )}
           </div>
@@ -63,36 +66,17 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
           </div>
         )}
 
-        {/* Pros & Cons */}
-        {((value.pros?.length ?? 0) > 0 || (value.cons?.length ?? 0) > 0) && (
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '14px', flexWrap: 'wrap' }}>
-            {(value.pros?.length ?? 0) > 0 && (
-              <div style={{ flex: 1, minWidth: '140px' }}>
-                {value.pros!.map((pro, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                    <span style={{ color: 'var(--green)', flexShrink: 0 }}>✓</span><span>{pro}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-            {(value.cons?.length ?? 0) > 0 && (
-              <div style={{ flex: 1, minWidth: '140px' }}>
-                {value.cons!.map((con, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                    <span style={{ color: '#ef4444', flexShrink: 0 }}>✗</span><span>{con}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+        {/* CTA */}
+        {bonus.offerUrl && (
+          <a href={bonus.offerUrl} target="_blank" rel="nofollow noopener noreferrer sponsored"
+            style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '13px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', marginBottom: bonus.terms ? '10px' : '0' }}>
+            Få bonus nu →
+          </a>
         )}
 
-        {/* CTA */}
-        {bm.url && (
-          <a href={bm.url} target="_blank" rel="nofollow noopener noreferrer sponsored"
-            style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '13px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
-            Besøg bookmaker →
-          </a>
+        {/* Terms */}
+        {bonus.terms && (
+          <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.5 }}>{bonus.terms}</p>
         )}
 
       </div>

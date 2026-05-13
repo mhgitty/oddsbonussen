@@ -139,84 +139,61 @@ export const bodyField = defineField({
         },
       },
     },
+    // ── Casino kort (bookmaker) ──────────────────────────────────────────────
     {
       type: 'object',
       name: 'casinoKortBlock',
       title: '🎰 Casino kort',
       fields: [
         {
-          name: 'image',
-          title: 'Bannerbillede',
-          type: 'image',
-          options: { hotspot: true },
-        },
-        {
-          name: 'bonus',
-          title: 'Bonus (valgfri)',
-          type: 'reference',
-          to: [{ type: 'bonus' }],
-        },
-        {
           name: 'bookmaker',
-          title: 'Bookmaker (valgfri)',
+          title: 'Vælg bookmaker',
           type: 'reference',
           to: [{ type: 'bookmaker' }],
+          validation: (r: any) => r.required(),
         },
-        {
-          name: 'customTitle',
-          title: 'Tilpasset titel',
-          type: 'string',
-          description: 'Tilsidesætter auto-hentet navn fra bonus/bookmaker',
-        },
+        { name: 'customTitle', title: 'Titel', type: 'string' },
         {
           name: 'customBody',
           title: 'Brødtekst',
           type: 'array',
-          of: [
-            {
-              type: 'block',
-              styles: [{ title: 'Normal', value: 'normal' }],
-              lists: [
-                { title: 'Punktliste', value: 'bullet' },
-                { title: 'Nummerliste', value: 'number' },
-              ],
-              marks: {
-                decorators: [
-                  { title: 'Fed', value: 'strong' },
-                  { title: 'Kursiv', value: 'em' },
-                ],
-              },
-            },
-          ],
+          of: [{ type: 'block', styles: [{ title: 'Normal', value: 'normal' }], lists: [{ title: 'Punktliste', value: 'bullet' }, { title: 'Nummerliste', value: 'number' }], marks: { decorators: [{ title: 'Fed', value: 'strong' }, { title: 'Kursiv', value: 'em' }] } }],
         },
-        {
-          name: 'pros',
-          title: '✅ Fordele',
-          type: 'array',
-          of: [{ type: 'string' }],
+        { name: 'pros', title: '✅ Fordele', type: 'array', of: [{ type: 'string' }] },
+        { name: 'cons', title: '❌ Ulemper', type: 'array', of: [{ type: 'string' }] },
+      ],
+      preview: {
+        select: { customTitle: 'customTitle', name: 'bookmaker.name', logo: 'bookmaker.logo' },
+        prepare({ customTitle, name, logo }: any) {
+          return { title: customTitle || name || 'Casino kort', subtitle: name, media: logo }
         },
+      },
+    },
+    // ── Bonus kort ───────────────────────────────────────────────────────────
+    {
+      type: 'object',
+      name: 'bonusKortBlock',
+      title: '🎁 Bonus kort',
+      fields: [
         {
-          name: 'cons',
-          title: '❌ Ulemper',
+          name: 'bonus',
+          title: 'Vælg bonus',
+          type: 'reference',
+          to: [{ type: 'bonus' }],
+          validation: (r: any) => r.required(),
+        },
+        { name: 'customTitle', title: 'Titel', type: 'string' },
+        {
+          name: 'customBody',
+          title: 'Brødtekst',
           type: 'array',
-          of: [{ type: 'string' }],
+          of: [{ type: 'block', styles: [{ title: 'Normal', value: 'normal' }], lists: [{ title: 'Punktliste', value: 'bullet' }, { title: 'Nummerliste', value: 'number' }], marks: { decorators: [{ title: 'Fed', value: 'strong' }, { title: 'Kursiv', value: 'em' }] } }],
         },
       ],
       preview: {
-        select: {
-          customTitle: 'customTitle',
-          bonusTitle: 'bonus.title',
-          bookmakerName: 'bookmaker.name',
-          bmName: 'bonus.bookmaker.name',
-          logo: 'bookmaker.logo',
-          bonusLogo: 'bonus.casinoLogo',
-        },
-        prepare({ customTitle, bonusTitle, bookmakerName, bmName, logo, bonusLogo }: any) {
-          return {
-            title: customTitle || bookmakerName || bmName || bonusTitle || 'Casino kort',
-            subtitle: bonusTitle || bookmakerName,
-            media: logo || bonusLogo,
-          }
+        select: { customTitle: 'customTitle', bonusTitle: 'bonus.title', bmName: 'bonus.bookmaker.name', logo: 'bonus.casinoLogo' },
+        prepare({ customTitle, bonusTitle, bmName, logo }: any) {
+          return { title: customTitle || bmName || bonusTitle || 'Bonus kort', subtitle: bonusTitle, media: logo }
         },
       },
     },

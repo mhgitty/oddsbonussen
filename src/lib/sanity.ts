@@ -316,6 +316,7 @@ export async function getLigaStillingerBySlug(slug: string) {
   return client.fetch(
     `*[_type == "ligaStillinger" && slug.current == $slug][0] {
       _id, title, leagueName, intro, slug, leagueId, seasonId,
+      "logo": logo { "url": asset->url, alt },
       metaTitle, metaDescription, lastUpdated,
       body[] { ..., _type == "image" => { ..., "url": asset->url } }
     }`,

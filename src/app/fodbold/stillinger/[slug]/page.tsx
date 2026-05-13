@@ -196,18 +196,28 @@ export default async function LigaStillingerPage({ params }: Props) {
             { label: 'Stillinger', href: '/fodbold/stillinger' },
             { label: page.leagueName },
           ]} />
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(24px, 3.5vw, 40px)',
-            fontWeight: 800,
-            color: 'var(--text)',
-            lineHeight: 1.15,
-            letterSpacing: '-0.03em',
-            marginBottom: page.intro ? '16px' : '0',
-            width: '100%',
-          }}>
-            {replaceDateVars(page.title)}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: page.intro ? '16px' : '0' }}>
+            {page.logo?.url && (
+              <img
+                src={page.logo.url}
+                alt={page.logo.alt || page.leagueName}
+                width={56}
+                height={56}
+                style={{ objectFit: 'contain', flexShrink: 0 }}
+              />
+            )}
+            <h1 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(24px, 3.5vw, 40px)',
+              fontWeight: 800,
+              color: 'var(--text)',
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              margin: 0,
+            }}>
+              {replaceDateVars(page.title)}
+            </h1>
+          </div>
           {page.intro && (
             <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.7, width: '100%', margin: 0 }}>
               {replaceDateVars(page.intro)}
@@ -218,7 +228,7 @@ export default async function LigaStillingerPage({ params }: Props) {
 
       {/* Standings table — full width */}
       <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '40px 24px 0' }}>
-        <StandingsTable rows={standings} leagueName={page.leagueName} />
+        <StandingsTable rows={standings} leagueName={page.leagueName} logoUrl={page.logo?.url ?? null} logoAlt={page.logo?.alt ?? null} />
       </div>
 
       {/* Body text + TOC sidebar */}
@@ -243,7 +253,7 @@ export default async function LigaStillingerPage({ params }: Props) {
 
 // ─── Standings table component ────────────────────────────────────────────────
 
-function StandingsTable({ rows, leagueName }: { rows: StandingRow[]; leagueName: string }) {
+function StandingsTable({ rows, leagueName, logoUrl, logoAlt }: { rows: StandingRow[]; leagueName: string; logoUrl?: string | null; logoAlt?: string | null }) {
   if (!rows.length) {
     return (
       <div style={{
@@ -275,7 +285,10 @@ function StandingsTable({ rows, leagueName }: { rows: StandingRow[]; leagueName:
         alignItems: 'center',
         gap: '8px',
       }}>
-        <span style={{ fontSize: '16px' }}>🏆</span>
+        {logoUrl
+          ? <img src={logoUrl} alt={logoAlt || leagueName} width={24} height={24} style={{ objectFit: 'contain', flexShrink: 0 }} />
+          : <span style={{ fontSize: '16px' }}>🏆</span>
+        }
         <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: '14px',

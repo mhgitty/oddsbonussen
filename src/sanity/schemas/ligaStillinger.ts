@@ -31,6 +31,15 @@ export const ligaStillingerType = defineType({
       validation: (R) => R.required(),
     }),
     defineField({
+      name: 'logo',
+      title: 'Liga logo',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        { name: 'alt', title: 'Alt tekst', type: 'string' },
+      ],
+    }),
+    defineField({
       name: 'intro',
       title: 'Intro tekst',
       type: 'text',

@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { AuthorBar } from '@/components/AuthorBar'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorMeta } from '@/components/AuthorMeta'
@@ -145,9 +146,10 @@ export default async function BlogPostPage({ params }: Props) {
               {post.category.emoji} {post.category.name}
             </div>
           )}
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2, letterSpacing: '-0.03em', marginBottom: '16px', maxWidth: '720px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2, letterSpacing: '-0.03em', marginBottom: author ? '20px' : '16px', maxWidth: '720px' }}>
             {replaceDateVars(post.title)}
           </h1>
+          <AuthorBar author={author} updatedAt={post.lastUpdated || post.publishedAt} />
           {post.excerpt && <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '640px' }}>{replaceDateVars(post.excerpt)}</p>}
         </div>
       </div>
@@ -156,13 +158,6 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="article-layout">
         {/* Main content */}
         <article className="article-content">
-          {author && (
-            <AuthorMeta
-              author={author}
-              publishedAt={post.publishedAt}
-              lastUpdated={post.lastUpdated}
-            />
-          )}
           {post.body && <PortableTextRenderer value={post.body} posts={latestPosts} />}
           {author && <AuthorBio author={author} />}
         </article>

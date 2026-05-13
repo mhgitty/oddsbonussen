@@ -77,7 +77,7 @@ export default async function DynamicPage({ params }: Props) {
       <HeroSection
         title={page.title}
         intro={page.intro}
-        author={page.author}
+        author={author}
         factChecker={page.factChecker}
         updatedAt={page.lastUpdated}
         breadcrumbs={[

@@ -1,6 +1,15 @@
 import { defineField, defineType } from 'sanity'
-import { LeaguePicker } from '../components/LeaguePicker'
 import { bodyField } from './page'
+
+// Leagues available on the Sportsmonks free plan.
+// Find IDs in your Sportsmonks dashboard → Leagues, or add more here as you upgrade.
+const AVAILABLE_LEAGUES = [
+  { title: '🇩🇰 Superliga (Danmark)', value: 271 },
+  { title: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Premiership (Skotland)', value: 501 },
+  // Add your other 2 free-plan leagues below (get IDs from Sportsmonks dashboard):
+  // { title: 'Liga navn', value: 12345 },
+  // { title: 'Liga navn', value: 67890 },
+]
 
 export const ligaStillingerType = defineType({
   name: 'ligaStillinger',
@@ -19,7 +28,7 @@ export const ligaStillingerType = defineType({
       name: 'leagueName',
       title: 'Liga navn (visningsnavn)',
       type: 'string',
-      description: 'Fx "Premier League" — bruges til breadcrumbs og interne referencer.',
+      description: 'Fx "Superliga" — bruges til breadcrumbs og interne referencer.',
       validation: (R) => R.required(),
     }),
     defineField({
@@ -31,24 +40,26 @@ export const ligaStillingerType = defineType({
     }),
     defineField({
       name: 'leagueId',
-      title: 'Liga (Sportsmonks)',
+      title: 'Liga',
       type: 'number',
-      description: 'Søg og vælg den liga du vil vise stillinger for.',
-      components: { input: LeaguePicker },
-      validation: (R) => R.required().integer().positive(),
+      description: 'Vælg hvilken liga du vil vise stillinger for.',
+      options: {
+        list: AVAILABLE_LEAGUES,
+        layout: 'radio',
+      },
+      validation: (R) => R.required(),
     }),
     defineField({
       name: 'seasonId',
       title: 'Sæson ID (valgfrit)',
       type: 'number',
-      description: 'Udfyld kun hvis du vil vise en specifik sæson i stedet for den aktuelle.',
+      description: 'Udfyld kun hvis du vil vise en specifik sæson frem for den aktuelle.',
     }),
     defineField({
       ...bodyField,
       title: 'Brødtekst (under stillinger)',
       description: 'Vises under standings-tabellen på frontend.',
     }),
-    // SEO
     defineField({
       name: 'metaTitle',
       title: 'Meta titel',

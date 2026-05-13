@@ -146,7 +146,7 @@ export default async function BookmakerPage({ params }: Props) {
             {/* Title + USP */}
             <div className="bm-hero-title" style={{ minWidth: 0, alignSelf: 'center' }}>
               <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '4px' }}>
-                {bm.titel || `${bm.name} anmeldelse`}
+                {replaceDateVars(bm.titel || `${bm.name} anmeldelse`)}
               </h1>
               {bm.usp && <p style={{ fontSize: '14px', color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
             </div>

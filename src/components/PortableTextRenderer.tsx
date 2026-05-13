@@ -114,6 +114,7 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       faqBlock: ({ value }: any) => <FaqBlock value={value} />,
       prosConsBlock: ({ value }: any) => <ProsConsBlock value={value} />,
       tableBlock: ({ value }: any) => <TableBlock value={value} />,
+      casinoKortBlock: ({ value }: any) => <CasinoKort value={value} />,
       latestPostsBlock: ({ value: blockValue }: any) =>
         posts ? <LatestPostsBlock value={blockValue} posts={posts} /> : null,
       image: ({ value }: any) => {

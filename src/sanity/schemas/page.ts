@@ -146,23 +146,55 @@ export const bodyField = defineField({
       fields: [
         {
           name: 'bonus',
-          title: 'Vælg bonus',
+          title: 'Bonus (valgfri)',
           type: 'reference',
           to: [{ type: 'bonus' }],
-          validation: (r: any) => r.required(),
+        },
+        {
+          name: 'bookmaker',
+          title: 'Bookmaker (valgfri)',
+          type: 'reference',
+          to: [{ type: 'bookmaker' }],
+        },
+        {
+          name: 'customTitle',
+          title: 'Tilpasset titel',
+          type: 'string',
+          description: 'Tilsidesætter auto-hentet navn fra bonus/bookmaker',
+        },
+        {
+          name: 'customBody',
+          title: 'Brødtekst',
+          type: 'text',
+          rows: 3,
+        },
+        {
+          name: 'pros',
+          title: '✅ Fordele',
+          type: 'array',
+          of: [{ type: 'string' }],
+        },
+        {
+          name: 'cons',
+          title: '❌ Ulemper',
+          type: 'array',
+          of: [{ type: 'string' }],
         },
       ],
       preview: {
         select: {
+          customTitle: 'customTitle',
           bonusTitle: 'bonus.title',
-          bookmakerName: 'bonus.bookmaker.name',
-          logo: 'bonus.casinoLogo',
+          bookmakerName: 'bookmaker.name',
+          bmName: 'bonus.bookmaker.name',
+          logo: 'bookmaker.logo',
+          bonusLogo: 'bonus.casinoLogo',
         },
-        prepare({ bonusTitle, bookmakerName, logo }: any) {
+        prepare({ customTitle, bonusTitle, bookmakerName, bmName, logo, bonusLogo }: any) {
           return {
-            title: bookmakerName || bonusTitle || 'Casino kort',
-            subtitle: bonusTitle,
-            media: logo,
+            title: customTitle || bookmakerName || bmName || bonusTitle || 'Casino kort',
+            subtitle: bonusTitle || bookmakerName,
+            media: logo || bonusLogo,
           }
         },
       },

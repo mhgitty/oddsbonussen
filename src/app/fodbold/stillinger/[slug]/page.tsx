@@ -61,18 +61,34 @@ async function fetchStandings(leagueId: number, seasonId?: number | null): Promi
     // Resolve season ID
     let resolvedSeasonId = seasonId
     if (!resolvedSeasonId) {
+      // Strategy 1: league include=currentSeason
       const leagueRes = await fetch(
         `${SM_BASE}/leagues/${leagueId}?api_token=${token}&include=currentSeason`,
         { next: { revalidate: 3600 } }
       )
-      if (!leagueRes.ok) {
-        console.error('[LigaStillinger] League fetch failed:', leagueRes.status)
-        return []
+      if (leagueRes.ok) {
+        const leagueData = await leagueRes.json()
+        resolvedSeasonId = leagueData?.data?.currentSeason?.id
       }
-      const leagueData = await leagueRes.json()
-      resolvedSeasonId = leagueData?.data?.currentSeason?.id
+
+      // Strategy 2: fall back to seasons endpoint, pick the latest
       if (!resolvedSeasonId) {
-        console.error('[LigaStillinger] No currentSeason found for league', leagueId)
+        console.log('[LigaStillinger] Falling back to seasons endpoint for league', leagueId)
+        const seasonsRes = await fetch(
+          `${SM_BASE}/seasons?api_token=${token}&filters=leagueId:${leagueId}&order=starting_at:desc&per_page=5`,
+          { next: { revalidate: 3600 } }
+        )
+        if (seasonsRes.ok) {
+          const seasonsData = await seasonsRes.json()
+          const seasons: any[] = Array.isArray(seasonsData?.data) ? seasonsData.data : []
+          // Prefer a season marked is_current, else take the first (most recent)
+          const current = seasons.find((s: any) => s.is_current) ?? seasons[0]
+          resolvedSeasonId = current?.id
+        }
+      }
+
+      if (!resolvedSeasonId) {
+        console.error('[LigaStillinger] Could not resolve season for league', leagueId)
         return []
       }
     }

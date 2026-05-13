@@ -31,6 +31,13 @@ export const ligaStillingerType = defineType({
       validation: (R) => R.required(),
     }),
     defineField({
+      name: 'intro',
+      title: 'Intro tekst',
+      type: 'text',
+      rows: 3,
+      description: 'Vises under H1 i hero-sektionen på frontend.',
+    }),
+    defineField({
       name: 'slug',
       title: 'URL slug',
       type: 'slug',

@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { AuthorBar } from '@/components/AuthorBar'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { MobileToc } from '@/components/MobileToc'
 import { TableOfContents } from '@/components/TableOfContents'
@@ -204,12 +203,16 @@ export default async function LigaStillingerPage({ params }: Props) {
             color: 'var(--text)',
             lineHeight: 1.15,
             letterSpacing: '-0.03em',
-            marginBottom: author ? '20px' : '0',
+            marginBottom: page.intro ? '16px' : '0',
             width: '100%',
           }}>
             {replaceDateVars(page.title)}
           </h1>
-          <AuthorBar author={author} updatedAt={page.lastUpdated ?? null} />
+          {page.intro && (
+            <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.7, width: '100%', margin: 0 }}>
+              {replaceDateVars(page.intro)}
+            </p>
+          )}
         </div>
       </section>
 

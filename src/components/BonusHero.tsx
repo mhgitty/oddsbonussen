@@ -92,8 +92,8 @@ export function BonusHero({
           </div>
         </div>
 
-        {/* Stat grid — always 3 columns, greyed when empty */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '24px' }}>
+        {/* Stat grid — 2 cols mobile, 3 cols desktop */}
+        <div className="bonus-stats-grid">
 
           <StatBox label="Min. odds" value={minimumOdds ?? null} icon={
             <svg {...svgProps} stroke={minimumOdds ? 'var(--green)' : 'var(--text-faint)'}>

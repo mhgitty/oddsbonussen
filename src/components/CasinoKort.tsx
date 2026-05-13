@@ -34,6 +34,8 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
 
   const name = value.customTitle || bm.name
   const stars = bm.score ? Math.round(bm.score / 2) : null
+  const hasPros = (value.pros?.length ?? 0) > 0
+  const hasCons = (value.cons?.length ?? 0) > 0
 
   return (
     <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden', margin: '24px 0' }}>
@@ -47,7 +49,7 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '3px' }}>{name}</div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', margin: '0 0 3px' }}>{name}</h3>
             {stars !== null && (
               <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                 {'★'.repeat(stars)}{'☆'.repeat(5 - stars)}
@@ -70,9 +72,9 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
         )}
 
         {/* Pros & Cons */}
-        {((value.pros?.length ?? 0) > 0 || (value.cons?.length ?? 0) > 0) && (
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '14px', flexWrap: 'wrap' }}>
-            {(value.pros?.length ?? 0) > 0 && (
+        {(hasPros || hasCons) && (
+          <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', padding: '12px 14px', marginBottom: '14px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            {hasPros && (
               <div style={{ flex: 1, minWidth: '140px' }}>
                 {value.pros!.map((pro, i) => (
                   <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
@@ -81,7 +83,7 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
                 ))}
               </div>
             )}
-            {(value.cons?.length ?? 0) > 0 && (
+            {hasCons && (
               <div style={{ flex: 1, minWidth: '140px' }}>
                 {value.cons!.map((con, i) => (
                   <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>

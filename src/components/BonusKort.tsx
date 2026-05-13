@@ -47,7 +47,7 @@ export function BonusKort({ value }: { value: BonusKortData }) {
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', marginBottom: '3px' }}>{name}</div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 700, color: 'var(--text)', margin: '0 0 3px' }}>{name}</h3>
             {bonus.bonusText && (
               <div style={{ fontSize: '14px', color: 'var(--green)', fontWeight: 600, marginBottom: '3px' }}>{bonus.bonusText}</div>
             )}

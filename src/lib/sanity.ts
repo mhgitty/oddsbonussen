@@ -99,7 +99,27 @@ const PAGE_FIELDS = `
     ...,
     _type == "casinoKortBlock" => {
       ...,
-      "bonus": bonus-> { slug, title }
+      customTitle, customBody, pros, cons,
+      "imageUrl": image.asset->url,
+      "bookmaker": bookmaker-> {
+        name, score, url,
+        "logoUrl": logo.asset->url,
+        "logoAlt": logo.alt,
+      }
+    },
+    _type == "bonusKortBlock" => {
+      ...,
+      customTitle, customBody,
+      "imageUrl": image.asset->url,
+      "bonus": bonus-> {
+        "name": coalesce(bookmaker->name, casinoNavn, title),
+        "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),
+        "logoUrl": coalesce(casinoLogo.asset->url, bookmaker->logo.asset->url),
+        "logoAlt": coalesce(casinoLogo.alt, bookmaker->logo.alt),
+        "score": bookmaker->score,
+        "offerUrl": offerUrl,
+        "terms": terms,
+      }
     }
   },
   "parentSlug": parent->slug.current,

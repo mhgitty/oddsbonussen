@@ -21,7 +21,7 @@ export async function GET() {
   } catch (e: any) { results.seasons_271_error = e.message }
 
   // 3. Try standings directly for a guessed season
-  const guessedSeason = results.league_271?.data?.currentSeason?.id
+  const guessedSeason = results.league_271?.data?.currentseason?.id
   if (guessedSeason) {
     try {
       const r = await fetch(`${SM}/standings/seasons/${guessedSeason}?api_token=${token}&include=participant;details`)

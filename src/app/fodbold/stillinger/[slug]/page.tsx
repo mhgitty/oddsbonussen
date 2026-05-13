@@ -68,7 +68,7 @@ async function fetchStandings(leagueId: number, seasonId?: number | null): Promi
       )
       if (leagueRes.ok) {
         const leagueData = await leagueRes.json()
-        resolvedSeasonId = leagueData?.data?.currentSeason?.id
+        resolvedSeasonId = leagueData?.data?.currentseason?.id
       }
 
       // Strategy 2: fall back to seasons endpoint, pick the latest

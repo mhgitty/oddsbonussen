@@ -205,7 +205,6 @@ export default async function BookmakerPage({ params }: Props) {
                   )}
                 </div>
               )}
-            </div>
           </div>
 
           {/* Bonus bar — full width below, max 1080px */}

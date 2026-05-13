@@ -20,10 +20,9 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false, 
   const hasAuthorBar = author || factChecker || updatedAt
 
   return (
-    <section style={{
+    <section className="hero-section" style={{
       background: 'var(--bg-hero)',
       borderBottom: '1px solid var(--border)',
-      padding: '44px 24px 36px',
     }}>
       <div style={{ maxWidth, margin: '0 auto' }}>
 

@@ -154,18 +154,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 .hero-heading {
   font-family: var(--font-display);
-  font-size: clamp(30px, 5vw, 52px);
+  font-size: clamp(24px, 3.5vw, 40px);
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-bottom: 16px;
-  max-width: 700px;
+  width: 100%;
 }
 .hero-subtext {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-muted);
-  max-width: 560px;
+  width: 100%;
   line-height: 1.7;
 }
 

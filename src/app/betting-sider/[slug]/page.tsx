@@ -136,25 +136,25 @@ export default async function BookmakerPage({ params }: Props) {
           {/* Top row: Logo | Title+USP+Score | 2x2 Stats */}
           <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
-            {/* Logo */}
-            {bm.logo?.url && (
-              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', flexShrink: 0 }}>
-                <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={120} height={60} style={{ objectFit: 'contain', maxHeight: '60px', width: 'auto', display: 'block' }} />
-              </div>
-            )}
+            {/* Logo + Title grouped so they never wrap apart on mobile */}
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flex: 1, minWidth: 0 }}>
+              {bm.logo?.url && (
+                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '14px', flexShrink: 0 }}>
+                  <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={100} height={50} style={{ objectFit: 'contain', maxHeight: '50px', width: 'auto', display: 'block' }} />
+                </div>
+              )}
 
-            {/* Middle: title+score on left, 2x2 immediately to the right */}
-            <div style={{ flex: 1, minWidth: '260px', display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
               {/* Title + USP + Score */}
-              <div style={{ minWidth: '180px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
                   {bm.name} anmeldelse
                 </h1>
                 {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
                 {bm.score != null && <ScoreMeter score={bm.score} />}
               </div>
+            </div>{/* end logo+title group */}
 
-              {/* Stats 2x2 — sits right next to title */}
+            {/* Stats 2x2 */}
               {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flexShrink: 0 }}>
                   {bm.minIndbetaling != null && (

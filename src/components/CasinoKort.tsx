@@ -16,6 +16,7 @@ const bodyComponents = {
 interface CasinoKortData {
   customTitle?: string
   customBody?: any[]
+  imageUrl?: string | null
   pros?: string[]
   cons?: string[]
   bookmaker?: {
@@ -55,6 +56,11 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
             )}
           </div>
         </div>
+
+        {/* Image */}
+        {value.imageUrl && (
+          <img src={value.imageUrl} alt={name} style={{ width: '100%', borderRadius: '8px', display: 'block', marginBottom: '14px', maxHeight: '260px', objectFit: 'cover' }} />
+        )}
 
         {/* Rich text body */}
         {value.customBody && value.customBody.length > 0 && (

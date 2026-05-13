@@ -16,6 +16,7 @@ const bodyComponents = {
 interface BonusKortData {
   customTitle?: string
   customBody?: any[]
+  imageUrl?: string | null
   bonus?: {
     name: string
     bonusText: string
@@ -58,6 +59,11 @@ export function BonusKort({ value }: { value: BonusKortData }) {
             )}
           </div>
         </div>
+
+        {/* Image */}
+        {value.imageUrl && (
+          <img src={value.imageUrl} alt={name} style={{ width: '100%', borderRadius: '8px', display: 'block', marginBottom: '14px', maxHeight: '260px', objectFit: 'cover' }} />
+        )}
 
         {/* Rich text body */}
         {value.customBody && value.customBody.length > 0 && (

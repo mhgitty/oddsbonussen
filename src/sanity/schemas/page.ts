@@ -153,6 +153,7 @@ export const bodyField = defineField({
           validation: (r: any) => r.required(),
         },
         { name: 'customTitle', title: 'Titel', type: 'string' },
+        { name: 'image', title: 'Billede', type: 'image', options: { hotspot: true } },
         {
           name: 'customBody',
           title: 'Brødtekst',
@@ -183,6 +184,7 @@ export const bodyField = defineField({
           validation: (r: any) => r.required(),
         },
         { name: 'customTitle', title: 'Titel', type: 'string' },
+        { name: 'image', title: 'Billede', type: 'image', options: { hotspot: true } },
         {
           name: 'customBody',
           title: 'Brødtekst',

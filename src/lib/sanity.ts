@@ -33,6 +33,7 @@ export async function getPostBySlug(slug: string) {
         _type == "casinoKortBlock" => {
           ...,
           customTitle, customBody, pros, cons,
+          "imageUrl": image.asset->url,
           "bookmaker": bookmaker-> {
             name, score, url,
             "logoUrl": logo.asset->url,
@@ -42,6 +43,7 @@ export async function getPostBySlug(slug: string) {
         _type == "bonusKortBlock" => {
           ...,
           customTitle, customBody,
+          "imageUrl": image.asset->url,
           "bonus": bonus-> {
             "name": coalesce(bookmaker->name, casinoNavn, title),
             "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),

@@ -27,7 +27,14 @@ export async function getPosts(limit = 20, categorySlug?: string) {
 export async function getPostBySlug(slug: string) {
   return client.fetch(
     `*[_type == "post" && slug.current == $slug][0] {
-      _id, title, slug, excerpt, body, publishedAt, lastUpdated, readingTime,
+      _id, title, slug, excerpt, publishedAt, lastUpdated, readingTime,
+      "body": body[] {
+        ...,
+        _type == "casinoKortBlock" => {
+          ...,
+          "bonus": bonus-> { slug, title }
+        }
+      },
       "featuredImage": featuredImage { "url": asset->url, alt },
       "ogImage": ogImage { "url": asset->url, alt },
       metaTitle, metaDescription,
@@ -67,7 +74,14 @@ const COMPARISON_TABLE_FRAGMENT = `
 
 // Page fields shared by single and nested lookups
 const PAGE_FIELDS = `
-  _id, title, slug, intro, body, metaTitle, metaDescription,
+  _id, title, slug, intro, metaTitle, metaDescription,
+  "body": body[] {
+    ...,
+    _type == "casinoKortBlock" => {
+      ...,
+      "bonus": bonus-> { slug, title }
+    }
+  },
   "parentSlug": parent->slug.current,
   "parentTitle": parent->title,
   "featuredImage": featuredImage { "url": asset->url, alt },

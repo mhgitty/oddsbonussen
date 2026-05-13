@@ -6,6 +6,7 @@ import { ProsConsBlock } from './ProsConsBlock'
 import { LatestPostsBlock } from './LatestPostsBlock'
 import { TableBlock } from './TableBlock'
 import { headingId } from '@/lib/headingId'
+ import { CasinoKort } from './CasinoKort'
 
 type Post = {
   _id: string

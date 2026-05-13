@@ -141,6 +141,34 @@ export const bodyField = defineField({
     },
     {
       type: 'object',
+    {
+      type: 'object',
+      name: 'casinoKortBlock',
+      title: '🎰 Casino kort',
+      fields: [
+        {
+          name: 'bonus',
+          title: 'Vælg bonus',
+          type: 'reference',
+          to: [{ type: 'bonus' }],
+          validation: (r: any) => r.required(),
+        },
+      ],
+      preview: {
+        select: {
+          bonusTitle: 'bonus.title',
+          bookmakerName: 'bonus.bookmaker.name',
+          logo: 'bonus.casinoLogo',
+        },
+        prepare({ bonusTitle, bookmakerName, logo }: any) {
+          return {
+            title: bookmakerName || bonusTitle || 'Casino kort',
+            subtitle: bonusTitle,
+            media: logo,
+          }
+        },
+      },
+    },
       name: 'tableBlock',
       title: 'Tabel',
       components: { input: TableBlockInput },

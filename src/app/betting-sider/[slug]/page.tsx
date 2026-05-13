@@ -202,28 +202,32 @@ export default async function BookmakerPage({ params }: Props) {
 
           {/* Bonus bar — full width below, max 1080px */}
           {(bm.indbetalingsbonus || bm.freeSpinsBonus || bm.url) && (
-            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-              {bm.indbetalingsbonus && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
-                  <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
-                </div>
-              )}
-              {bm.freeSpinsBonus && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
-                </div>
-              )}
-              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                {bm.terms && <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.4, maxWidth: '200px' }}>{bm.terms}</p>}
+            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '16px 24px' }}>
+              {/* Top row: bonus info + button */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+                {bm.indbetalingsbonus && (
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
+                    <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
+                  </div>
+                )}
+                {bm.freeSpinsBonus && (
+                  <div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
+                    <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
+                  </div>
+                )}
                 {bm.url && (
                   <a href={bm.url} target="_blank" rel="noopener noreferrer sponsored"
-                    style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '11px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                    style={{ marginLeft: 'auto', display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '11px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap' }}>
                     Hent bonus →
                   </a>
                 )}
               </div>
+              {/* Terms — full width below */}
+              {bm.terms && (
+                <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: '10px 0 0', lineHeight: 1.5 }}>{bm.terms}</p>
+              )}
             </div>
           )}
         </div>

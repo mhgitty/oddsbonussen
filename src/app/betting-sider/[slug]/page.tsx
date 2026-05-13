@@ -133,78 +133,90 @@ export default async function BookmakerPage({ params }: Props) {
             <span style={{ color: 'var(--text-muted)' }}>{bm.name}</span>
           </div>
 
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
             {/* Logo */}
             {bm.logo?.url && (
-              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', flexShrink: 0 }}>
-                <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={120} height={60} style={{ objectFit: 'contain', maxHeight: '60px', width: 'auto' }} />
+              <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '20px', flexShrink: 0, alignSelf: 'flex-start' }}>
+                <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={120} height={60} style={{ objectFit: 'contain', maxHeight: '60px', width: 'auto', display: 'block' }} />
               </div>
             )}
 
-            {/* Title + score */}
-            <div style={{ flex: 1 }}>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, color: 'var(--text)', marginBottom: '8px' }}>
+            {/* Title + score + stats 2x2 */}
+            <div style={{ flex: 1, minWidth: '220px' }}>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
                 {bm.name} anmeldelse
               </h1>
-              {bm.usp && <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '16px' }}>{replaceDateVars(bm.usp)}</p>}
-              {bm.score != null && <ScoreMeter score={bm.score} />}
+              {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
+              {bm.score != null && <div style={{ marginBottom: '20px' }}><ScoreMeter score={bm.score} /></div>}
+
+              {/* Stats 2x2 grid */}
+              {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', maxWidth: '360px' }}>
+                  {bm.minIndbetaling != null && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>💳</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Min. indbetaling</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
+                      </div>
+                    </div>
+                  )}
+                  {bm.gennemspilskrav && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>🔄</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Gennemspilskrav</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
+                      </div>
+                    </div>
+                  )}
+                  {bm.trustpilot != null && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>⭐</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Trustpilot</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.trustpilot.toFixed(1)} / 5</div>
+                      </div>
+                    </div>
+                  )}
+                  {bm.lanceringsdato && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>📅</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Lanceret</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
+                          {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* Quick bonus box */}
-            <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '20px 24px', flexShrink: 0, minWidth: '220px' }}>
+            {/* Quick bonus box — capped width, never full-bleed */}
+            <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '20px 24px', flexShrink: 0, width: '240px', maxWidth: '100%' }}>
               {bm.indbetalingsbonus && (
                 <div style={{ marginBottom: '8px' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.indbetalingsbonus}</div>
+                  <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
                 </div>
               )}
               {bm.freeSpinsBonus && (
-                <div style={{ marginBottom: '16px' }}>
+                <div style={{ marginBottom: '14px' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
                 </div>
               )}
               {bm.url && (
                 <a href={bm.url} target="_blank" rel="noopener noreferrer sponsored"
-                  style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '12px 20px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
+                  style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '11px 16px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', marginTop: bm.indbetalingsbonus || bm.freeSpinsBonus ? '0' : '0' }}>
                   Hent bonus →
                 </a>
               )}
-              {bm.terms && <p style={{ fontSize: '10.5px', color: 'var(--text-faint)', marginTop: '8px', lineHeight: 1.4 }}>{bm.terms}</p>}
+              {bm.terms && <p style={{ fontSize: '10px', color: 'var(--text-faint)', marginTop: '8px', lineHeight: 1.4 }}>{bm.terms}</p>}
             </div>
           </div>
-
-          {/* Stats row */}
-          {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
-            <div style={{ display: 'flex', gap: '24px', marginTop: '24px', flexWrap: 'wrap', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
-              {bm.minIndbetaling != null && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Min. indbetaling</div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
-                </div>
-              )}
-              {bm.gennemspilskrav && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Gennemspilskrav</div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
-                </div>
-              )}
-              {bm.trustpilot != null && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Trustpilot</div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>⭐ {bm.trustpilot.toFixed(1)} / 5</div>
-                </div>
-              )}
-              {bm.lanceringsdato && (
-                <div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Lanceret</div>
-                  <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
-                    {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
 

@@ -23,7 +23,7 @@ function resolveUrl(type: string, doc: Record<string, any>): string | null {
     case 'bonus':
       return slug ? `${BASE}/kampagner/${slug}/` : `${BASE}/kampagner/`
     case 'ligaStillinger':
-      return slug ? `${BASE}/liga-stillinger/${slug}/` : `${BASE}/liga-stillinger/`
+      return slug ? `${BASE}/fodbold/stillinger/${slug}/` : `${BASE}/fodbold/stillinger/`
     default:
       return null
   }

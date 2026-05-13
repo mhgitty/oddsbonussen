@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!page) return {}
   const title = replaceDateVars(page.metaTitle || page.title)
   const description = replaceDateVars(page.metaDescription || `Se ${page.leagueName} stillinger – opdateret live.`)
-  const canonical = `${BASE}/liga-stillinger/${slug}/`
+  const canonical = `${BASE}/fodbold/stillinger/${slug}/`
   return { title, description, alternates: { canonical } }
 }
 
@@ -130,7 +130,7 @@ export default async function LigaStillingerPage({ params }: Props) {
   if (!page) notFound()
 
   const author = settings?.defaultAuthor ?? null
-  const canonical = `${BASE}/liga-stillinger/${slug}/`
+  const canonical = `${BASE}/fodbold/stillinger/${slug}/`
   const standings = await fetchStandings(page.leagueId, page.seasonId)
 
   const jsonLd = {
@@ -140,8 +140,9 @@ export default async function LigaStillingerPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Hjem', item: BASE },
-          { '@type': 'ListItem', position: 2, name: 'Liga stillinger', item: `${BASE}/liga-stillinger/` },
-          { '@type': 'ListItem', position: 3, name: page.leagueName, item: canonical },
+          { '@type': 'ListItem', position: 2, name: 'Fodbold', item: `${BASE}/fodbold/` },
+          { '@type': 'ListItem', position: 3, name: 'Stillinger', item: `${BASE}/fodbold/stillinger/` },
+          { '@type': 'ListItem', position: 4, name: page.leagueName, item: canonical },
         ],
       },
       {
@@ -165,7 +166,8 @@ export default async function LigaStillingerPage({ params }: Props) {
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <Breadcrumbs crumbs={[
             { label: 'Hjem', href: '/' },
-            { label: 'Liga stillinger', href: '/liga-stillinger' },
+            { label: 'Fodbold', href: '/fodbold' },
+            { label: 'Stillinger', href: '/fodbold/stillinger' },
             { label: page.leagueName },
           ]} />
           <h1 style={{

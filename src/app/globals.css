@@ -297,6 +297,34 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 6px;
 }
 
+/* ─── Bookmaker hero responsive grid ─────────────────────────────────────── */
+.bm-hero {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-areas:
+    "logo title"
+    "score score"
+    "stats stats";
+  column-gap: 16px;
+  row-gap: 14px;
+}
+.bm-hero-logo  { grid-area: logo; }
+.bm-hero-title { grid-area: title; }
+.bm-hero-score { grid-area: score; }
+.bm-hero-stats { grid-area: stats; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+@media (min-width: 768px) {
+  .bm-hero {
+    grid-template-columns: 80px 1fr auto;
+    grid-template-areas:
+      "logo title stats"
+      "logo score stats";
+    row-gap: 10px;
+  }
+  .bm-hero-logo  { align-self: start; }
+  .bm-hero-stats { align-self: center; width: 340px; }
+}
+
 .mobile-menu-link-cta {
   color: var(--green) !important;
 }

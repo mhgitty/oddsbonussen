@@ -73,21 +73,29 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
 
         {/* Pros & Cons */}
         {(hasPros || hasCons) && (
-          <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '8px', padding: '12px 14px', marginBottom: '14px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
             {hasPros && (
-              <div style={{ flex: 1, minWidth: '140px' }}>
+              <div style={{ flex: 1, minWidth: '140px', border: '1px solid rgba(34,197,94,0.35)', borderRadius: '8px', padding: '12px 14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+                  <span>✅</span>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--green)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Fordele</span>
+                </div>
                 {value.pros!.map((pro, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                    <span style={{ color: 'var(--green)', flexShrink: 0 }}>✓</span><span>{pro}</span>
+                  <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '6px', lineHeight: 1.5 }}>
+                    <span style={{ color: 'var(--green)', flexShrink: 0, marginTop: '1px' }}>✓</span><span>{pro}</span>
                   </div>
                 ))}
               </div>
             )}
             {hasCons && (
-              <div style={{ flex: 1, minWidth: '140px' }}>
+              <div style={{ flex: 1, minWidth: '140px', border: '1px solid rgba(239,68,68,0.35)', borderRadius: '8px', padding: '12px 14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+                  <span>❌</span>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#ef4444', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Ulemper</span>
+                </div>
                 {value.cons!.map((con, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                    <span style={{ color: '#ef4444', flexShrink: 0 }}>✗</span><span>{con}</span>
+                  <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '6px', lineHeight: 1.5 }}>
+                    <span style={{ color: '#ef4444', flexShrink: 0, marginTop: '1px' }}>✗</span><span>{con}</span>
                   </div>
                 ))}
               </div>

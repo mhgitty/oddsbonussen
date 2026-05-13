@@ -59,6 +59,10 @@ export default defineConfig({
               .title('📄 Sider')
               .schemaType('page')
               .child(S.documentTypeList('page').title('Alle sider')),
+            S.listItem()
+              .title('🏆 Liga stillinger')
+              .schemaType('ligaStillinger')
+              .child(S.documentTypeList('ligaStillinger').title('Liga stillinger')),
             S.divider(),
             S.listItem()
               .title('🔗 Redirects / Go-links')

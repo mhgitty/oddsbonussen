@@ -309,3 +309,22 @@ export async function getHomepage() {
     }`
   )
 }
+
+// ─── Liga stillinger ──────────────────────────────────────────────────────────
+
+export async function getLigaStillingerBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "ligaStillinger" && slug.current == $slug][0] {
+      _id, title, leagueName, slug, leagueId, seasonId,
+      metaTitle, metaDescription, lastUpdated,
+      body[] { ..., _type == "image" => { ..., "url": asset->url } }
+    }`,
+    { slug }
+  )
+}
+
+export async function getLigaStillingerPaths() {
+  return client.fetch<Array<{ slug: { current: string } }>>(
+    `*[_type == "ligaStillinger" && defined(slug.current)] { slug }`
+  ).catch(() => [])
+}

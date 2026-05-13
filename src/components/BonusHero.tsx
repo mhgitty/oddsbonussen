@@ -61,10 +61,9 @@ export function BonusHero({
   }
 
   return (
-    <section style={{
+    <section className="hero-section" style={{
       background: 'var(--bg-hero)',
       borderBottom: '1px solid var(--border)',
-      padding: '48px 24px 40px',
     }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 

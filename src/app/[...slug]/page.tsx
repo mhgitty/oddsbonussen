@@ -80,6 +80,13 @@ export default async function DynamicPage({ params }: Props) {
         author={page.author}
         factChecker={page.factChecker}
         updatedAt={page.lastUpdated}
+        breadcrumbs={[
+          { label: 'Hjem', href: '/' },
+          ...(page.parentSlug && page.parentTitle
+            ? [{ label: page.parentTitle, href: `/${page.parentSlug}` }]
+            : []),
+          { label: page.title },
+        ]}
       />
 
       {/* Comparison table — configured per page in Sanity Studio */}

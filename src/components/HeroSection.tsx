@@ -1,10 +1,13 @@
 import { replaceDateVars } from '@/lib/dateVars'
+import { Breadcrumbs } from './Breadcrumbs'
 
 interface Author {
   name: string
   linkedin?: string | null
   imageUrl?: string | null
 }
+
+interface Crumb { label: string; href?: string }
 
 interface HeroSectionProps {
   title: string
@@ -14,9 +17,10 @@ interface HeroSectionProps {
   narrow?: boolean
   author?: Author | null
   factChecker?: Author | null
+  breadcrumbs?: Crumb[]
 }
 
-export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false, author, factChecker }: HeroSectionProps) {
+export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false, author, factChecker, breadcrumbs }: HeroSectionProps) {
   const maxWidth = narrow ? '760px' : '1080px'
 
   const dateStr = updatedAt
@@ -32,6 +36,8 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false, 
       padding: '44px 24px 36px',
     }}>
       <div style={{ maxWidth, margin: '0 auto' }}>
+
+        {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs crumbs={breadcrumbs} />}
 
         {eyebrow && (
           <div style={{

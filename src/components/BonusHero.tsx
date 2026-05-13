@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { Breadcrumbs } from './Breadcrumbs'
 
 interface BonusHeroProps {
   title: string
@@ -66,6 +67,8 @@ export function BonusHero({
       borderBottom: '1px solid var(--border)',
     }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+
+        <Breadcrumbs crumbs={[{ label: 'Hjem', href: '/' }, { label: 'Bonusser', href: '/kampagner' }, { label: title }]} />
 
         {/* Logo + title */}
         <div style={{ display: 'flex', gap: '18px', alignItems: 'center', marginBottom: '28px' }}>

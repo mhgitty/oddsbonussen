@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { StickyCtaBar } from '@/components/StickyCtaBar'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
@@ -126,13 +127,11 @@ export default async function BookmakerPage({ params }: Props) {
       {/* Hero */}
       <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-          <div style={{ fontSize: '13px', color: 'var(--text-faint)', marginBottom: '20px' }}>
-            <a href="/" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Hjem</a>
-            <span style={{ margin: '0 6px' }}>›</span>
-            <a href="/betting-sider" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Betting sider</a>
-            <span style={{ margin: '0 6px' }}>›</span>
-            <span style={{ color: 'var(--text-muted)' }}>{bm.name}</span>
-          </div>
+          <Breadcrumbs crumbs={[
+            { label: 'Hjem', href: '/' },
+            { label: 'Betting sider', href: '/betting-sider' },
+            { label: bm.name },
+          ]} />
 
           <div className="bm-hero">
 

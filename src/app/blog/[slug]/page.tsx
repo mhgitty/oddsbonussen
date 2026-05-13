@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorMeta } from '@/components/AuthorMeta'
@@ -134,13 +135,11 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Hero header */}
       <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-          <div style={{ fontSize: '13px', color: 'var(--text-faint)', marginBottom: '20px' }}>
-            <a href="/" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Hjem</a>
-            <span style={{ margin: '0 6px' }}>›</span>
-            <a href="/blog" style={{ color: 'var(--text-faint)', textDecoration: 'none' }}>Guides</a>
-            <span style={{ margin: '0 6px' }}>›</span>
-            <span style={{ color: 'var(--text-muted)' }}>{post.title}</span>
-          </div>
+          <Breadcrumbs crumbs={[
+            { label: 'Hjem', href: '/' },
+            { label: 'Guides', href: '/blog' },
+            { label: post.title },
+          ]} />
           {post.category && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'rgba(34,197,94,0.12)', color: 'var(--green)', fontSize: '12px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', marginBottom: '16px' }}>
               {post.category.emoji} {post.category.name}

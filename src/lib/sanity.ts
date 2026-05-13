@@ -180,7 +180,7 @@ export async function getBookmakers() {
 export async function getBookmakerBySlug(slug: string) {
   return client.fetch(
     `*[_type == "bookmaker" && slug.current == $slug][0] {
-      _id, name, slug, usp, score, trustpilot,
+      _id, titel, name, slug, usp, score, trustpilot,
       indbetalingsbonus, freeSpinsBonus, minIndbetaling, gennemspilskrav,
       url, terms, lanceringsdato, intro, body,
       "logo": logo { "url": asset->url, alt },

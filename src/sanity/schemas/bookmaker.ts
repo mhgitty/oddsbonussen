@@ -13,6 +13,13 @@ export const bookmakerType = defineType({
   fields: [
     // ── Identity ─────────────────────────────────────────────────────────────
     defineField({
+      name: 'titel',
+      title: 'Titel (H1)',
+      type: 'string',
+      group: 'info',
+      description: 'Vises som H1 på anmeldelsessiden. Hvis tom bruges "Navn anmeldelse".',
+    }),
+    defineField({
       name: 'name',
       title: 'Navn',
       type: 'string',

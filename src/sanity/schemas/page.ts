@@ -145,6 +145,12 @@ export const bodyField = defineField({
       title: '🎰 Casino kort',
       fields: [
         {
+          name: 'image',
+          title: 'Bannerbillede',
+          type: 'image',
+          options: { hotspot: true },
+        },
+        {
           name: 'bonus',
           title: 'Bonus (valgfri)',
           type: 'reference',

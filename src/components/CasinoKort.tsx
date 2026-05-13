@@ -1,6 +1,7 @@
 interface CasinoKortData {
   customTitle?: string
   customBody?: string
+  imageUrl?: string | null
   pros?: string[]
   cons?: string[]
   bonus?: {
@@ -44,11 +45,22 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
     <div style={{
       background: 'var(--bg-card)',
       border: '1px solid var(--border)',
-      borderLeft: '3px solid var(--green)',
       borderRadius: '12px',
-      padding: '20px',
+      overflow: 'hidden',
       margin: '24px 0',
     }}>
+      {/* Banner image */}
+      {value.imageUrl && (
+        <img
+          src={value.imageUrl}
+          alt={name}
+          style={{ width: '100%', display: 'block', maxHeight: '280px', objectFit: 'cover' }}
+        />
+      )}
+
+      {/* Content */}
+      <div style={{ padding: '20px' }}>
+
       {/* Top row: logo + name + bonus + score + CTA */}
       <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
         {/* Logo */}
@@ -156,6 +168,8 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
           {terms}
         </p>
       )}
+
+      </div>{/* end content */}
     </div>
   )
 }

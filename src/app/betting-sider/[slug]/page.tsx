@@ -133,102 +133,94 @@ export default async function BookmakerPage({ params }: Props) {
             <span style={{ color: 'var(--text-muted)' }}>{bm.name}</span>
           </div>
 
-          {/* Top row: Logo | [Title+USP+Score + 2x2] */}
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'nowrap' }}>
-
-            {/* Logo — square, clipped with border-radius */}
+          {/* Row 1: Logo + Title + USP — always side by side */}
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
             {bm.logo?.url && (
               <div style={{ flexShrink: 0, width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden' }}>
-                <Image
-                  src={bm.logo.url}
-                  alt={bm.logo.alt || bm.name}
-                  width={80}
-                  height={80}
-                  style={{ objectFit: 'cover', width: '80px', height: '80px', display: 'block' }}
-                />
+                <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={80} height={80} style={{ objectFit: 'cover', width: '80px', height: '80px', display: 'block' }} />
               </div>
             )}
+            <div style={{ minWidth: 0 }}>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '4px' }}>
+                {bm.name} anmeldelse
+              </h1>
+              {bm.usp && <p style={{ fontSize: '14px', color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
+            </div>
+          </div>
 
-            {/* Content: title+score on left, 2x2 to the right — wraps on mobile */}
-            <div style={{ flex: 1, minWidth: 0, display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          {/* Row 2: Score — full width */}
+          {bm.score != null && (
+            <div style={{ display: 'flex', marginTop: '16px' }}>
+              <ScoreMeter score={bm.score} />
+            </div>
+          )}
 
-              {/* Title + USP + Score */}
-              <div style={{ minWidth: 0 }}>
-                <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
-                  {bm.name} anmeldelse
-                </h1>
-                {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
-                {bm.score != null && <div style={{ display: 'flex' }}><ScoreMeter score={bm.score} /></div>}
-              </div>
-
-              {/* Stats 2x2 */}
-              {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: '1 1 300px', minWidth: 0 }}>
-                  {bm.minIndbetaling != null && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
-                      </svg>
-                      <div>
-                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Min. indbetaling</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
-                      </div>
+          {/* Row 3: 2x2 Stats — full width */}
+          {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' }}>
+              {bm.minIndbetaling != null && (
+                <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+                  </svg>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Min. indbetaling</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
+                  </div>
+                </div>
+              )}
+              {bm.gennemspilskrav && (
+                <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/>
+                  </svg>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Gennemspilskrav</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
+                  </div>
+                </div>
+              )}
+              {bm.trustpilot != null && (
+                <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Trustpilot</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.trustpilot.toFixed(1)} / 5</div>
+                  </div>
+                </div>
+              )}
+              {bm.lanceringsdato && (
+                <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Lanceret</div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
+                      {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
                     </div>
-                  )}
-                  {bm.gennemspilskrav && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/>
-                      </svg>
-                      <div>
-                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Gennemspilskrav</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
-                      </div>
-                    </div>
-                  )}
-                  {bm.trustpilot != null && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                      </svg>
-                      <div>
-                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Trustpilot</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.trustpilot.toFixed(1)} / 5</div>
-                      </div>
-                    </div>
-                  )}
-                  {bm.lanceringsdato && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                      </svg>
-                      <div>
-                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Lanceret</div>
-                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
-                          {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
               )}
             </div>
-          </div>
+          )}
 
           {/* Bonus bar — full width below */}
           {(bm.indbetalingsbonus || bm.freeSpinsBonus || bm.url) && (
             <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {/* Bonus amounts row */}
               {(bm.indbetalingsbonus || bm.freeSpinsBonus) && (
-                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
                   {bm.indbetalingsbonus && (
-                    <div>
+                    <div style={{ textAlign: 'center' }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
                       <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
                     </div>
                   )}
                   {bm.freeSpinsBonus && (
-                    <div>
+                    <div style={{ textAlign: 'center' }}>
                       <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
                       <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
                     </div>

@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function ScoreMeter({ score }: { score: number }) {
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
       <div style={{ fontSize: '36px', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--green)' }}>
         {score.toFixed(1)}
       </div>
@@ -133,28 +133,33 @@ export default async function BookmakerPage({ params }: Props) {
             <span style={{ color: 'var(--text-muted)' }}>{bm.name}</span>
           </div>
 
-          {/* Top row: Logo | Title+USP+Score | 2x2 Stats */}
-          <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          {/* Top row: Logo | [Title+USP+Score + 2x2] */}
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'nowrap' }}>
 
-            {/* Logo + Title grouped so they never wrap apart on mobile */}
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flex: 1, minWidth: 0, flexWrap: 'nowrap' }}>
-              {bm.logo?.url && (
-                <div style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '10px', flexShrink: 0, width: '76px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={56} height={40} style={{ objectFit: 'contain', maxWidth: '56px', maxHeight: '40px', width: 'auto', height: 'auto', display: 'block' }} />
-                </div>
-              )}
+            {/* Logo — bare image, no box */}
+            {bm.logo?.url && (
+              <Image
+                src={bm.logo.url}
+                alt={bm.logo.alt || bm.name}
+                width={80}
+                height={64}
+                style={{ objectFit: 'contain', borderRadius: '10px', flexShrink: 0, width: '80px', height: '64px', display: 'block' }}
+              />
+            )}
+
+            {/* Content: title+score on left, 2x2 to the right — wraps on mobile */}
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
               {/* Title + USP + Score */}
-              <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ minWidth: 0 }}>
                 <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
                   {bm.name} anmeldelse
                 </h1>
                 {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
-                {bm.score != null && <ScoreMeter score={bm.score} />}
+                {bm.score != null && <div style={{ display: 'flex' }}><ScoreMeter score={bm.score} /></div>}
               </div>
-            </div>{/* end logo+title group */}
 
-            {/* Stats 2x2 */}
+              {/* Stats 2x2 */}
               {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flexShrink: 0 }}>
                   {bm.minIndbetaling != null && (
@@ -205,6 +210,7 @@ export default async function BookmakerPage({ params }: Props) {
                   )}
                 </div>
               )}
+            </div>
           </div>
 
           {/* Bonus bar — full width below, max 1080px */}

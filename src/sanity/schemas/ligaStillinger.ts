@@ -5,10 +5,9 @@ import { bodyField } from './page'
 // Find IDs in your Sportsmonks dashboard → Leagues, or add more here as you upgrade.
 const AVAILABLE_LEAGUES = [
   { title: '🇩🇰 Superliga (Danmark)', value: 271 },
+  { title: '🇩🇰 Superliga Play-offs (Danmark)', value: 1659 },
   { title: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Premiership (Skotland)', value: 501 },
-  // Add your other 2 free-plan leagues below (get IDs from Sportsmonks dashboard):
-  // { title: 'Liga navn', value: 12345 },
-  // { title: 'Liga navn', value: 67890 },
+  { title: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Premiership Play-Offs (Skotland)', value: 513 },
 ]
 
 export const ligaStillingerType = defineType({

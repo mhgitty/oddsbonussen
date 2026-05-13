@@ -2,6 +2,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { PostCard } from '@/components/PostCard'
 import { JsonLd } from '@/components/JsonLd'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { getPosts, getCategories } from '@/lib/sanity'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -46,6 +47,7 @@ export default async function BlogPage({ searchParams }: Props) {
       <Navbar />
       <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <Breadcrumbs crumbs={[{ label: 'Hjem', href: '/' }, { label: 'Guides' }]} />
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px', letterSpacing: '-0.03em' }}>
             Guides & artikler
           </h1>

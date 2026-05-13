@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { getBonusser } from '@/lib/sanity'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -34,6 +35,7 @@ export default async function BonusserPage() {
 
       <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 24px 32px' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <Breadcrumbs crumbs={[{ label: 'Hjem', href: '/' }, { label: 'Bonusser' }]} />
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px', letterSpacing: '-0.03em' }}>
             Betting bonusser
           </h1>

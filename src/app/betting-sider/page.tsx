@@ -6,6 +6,7 @@ import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
+import { MobileToc } from '@/components/MobileToc'
 import { getPageBySlug, getSiteSettings } from '@/lib/sanity'
 import { replaceDateVars } from '@/lib/dateVars'
 import type { Metadata } from 'next'
@@ -55,7 +56,11 @@ export default async function BettingSiderPage() {
     return (
       <>
         <Navbar />
-        <HeroSection title="Betting sider" intro="Oversigt over alle danske bookmakers." />
+        <HeroSection
+        title="Betting sider"
+        intro="Oversigt over alle danske bookmakers."
+        breadcrumbs={[{ label: 'Hjem', href: '/' }, { label: 'Betting sider' }]}
+      />
         {author && (
           <div className="section" style={{ paddingTop: '0' }}>
             <AuthorBio author={author} compact />
@@ -70,7 +75,14 @@ export default async function BettingSiderPage() {
     <>
       <JsonLd data={jsonLd} />
       <Navbar />
-      <HeroSection title={page.title} intro={page.intro} />
+      <HeroSection
+        title={page.title}
+        intro={page.intro}
+        author={author}
+        updatedAt={(page as any).lastUpdated ?? null}
+        factChecker={(page as any).factChecker ?? null}
+        breadcrumbs={[{ label: 'Hjem', href: '/' }, { label: page.title }]}
+      />
 
       {page.showComparisonTable && page.comparisonTable && (
         <div className="section" style={{ paddingBottom: page.body ? '0' : undefined }}>
@@ -86,6 +98,7 @@ export default async function BettingSiderPage() {
       {page.body && (
         <div className="article-layout">
           <article className="article-content">
+            <MobileToc body={page.body} />
             <PortableTextRenderer value={page.body} />
           </article>
           <aside className="toc-sidebar">

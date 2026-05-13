@@ -134,7 +134,7 @@ export default async function BookmakerPage({ params }: Props) {
           </div>
 
           {/* Top row: Logo | Title+USP+Score | 2x2 Stats */}
-          <div style={{ display: 'flex', gap: '28px', alignItems: 'center', flexWrap: 'wrap', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
             {/* Logo */}
             {bm.logo?.url && (
@@ -143,85 +143,86 @@ export default async function BookmakerPage({ params }: Props) {
               </div>
             )}
 
-            {/* Title + USP + Score */}
-            <div style={{ flex: 1, minWidth: '200px' }}>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
-                {bm.name} anmeldelse
-              </h1>
-              {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
-              {bm.score != null && <ScoreMeter score={bm.score} />}
-            </div>
+            {/* Middle: title+score on left, 2x2 immediately to the right */}
+            <div style={{ flex: 1, minWidth: '260px', display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              {/* Title + USP + Score */}
+              <div style={{ minWidth: '180px' }}>
+                <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '6px' }}>
+                  {bm.name} anmeldelse
+                </h1>
+                {bm.usp && <p style={{ fontSize: '15px', color: 'var(--text-muted)', marginBottom: '14px', lineHeight: 1.5 }}>{replaceDateVars(bm.usp)}</p>}
+                {bm.score != null && <ScoreMeter score={bm.score} />}
+              </div>
 
-            {/* Stats 2x2 grid */}
-            {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flexShrink: 0 }}>
-                {bm.minIndbetaling != null && (
-                  <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '18px', lineHeight: 1 }}>💳</span>
-                    <div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Min. indbetaling</div>
-                      <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
-                    </div>
-                  </div>
-                )}
-                {bm.gennemspilskrav && (
-                  <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '18px', lineHeight: 1 }}>🔄</span>
-                    <div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Gennemspilskrav</div>
-                      <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
-                    </div>
-                  </div>
-                )}
-                {bm.trustpilot != null && (
-                  <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '18px', lineHeight: 1 }}>⭐</span>
-                    <div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Trustpilot</div>
-                      <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.trustpilot.toFixed(1)} / 5</div>
-                    </div>
-                  </div>
-                )}
-                {bm.lanceringsdato && (
-                  <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '18px', lineHeight: 1 }}>📅</span>
-                    <div>
-                      <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Lanceret</div>
-                      <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
-                        {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
+              {/* Stats 2x2 — sits right next to title */}
+              {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flexShrink: 0 }}>
+                  {bm.minIndbetaling != null && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>💳</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Min. indbetaling</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.minIndbetaling} kr.</div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                  {bm.gennemspilskrav && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>🔄</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Gennemspilskrav</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.gennemspilskrav}</div>
+                      </div>
+                    </div>
+                  )}
+                  {bm.trustpilot != null && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>⭐</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Trustpilot</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{bm.trustpilot.toFixed(1)} / 5</div>
+                      </div>
+                    </div>
+                  )}
+                  {bm.lanceringsdato && (
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '18px', lineHeight: 1 }}>📅</span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Lanceret</div>
+                        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
+                          {new Date(bm.lanceringsdato).toLocaleDateString('da-DK', { year: 'numeric', month: 'long' })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Bonus bar — full width below, max 1080px */}
           {(bm.indbetalingsbonus || bm.freeSpinsBonus || bm.url) && (
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '20px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: '28px', flex: 1, flexWrap: 'wrap' }}>
-                {bm.indbetalingsbonus && (
-                  <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Indbetalingsbonus</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
-                  </div>
-                )}
-                {bm.freeSpinsBonus && (
-                  <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Free spins</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.freeSpinsBonus}</div>
-                  </div>
-                )}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+              {bm.indbetalingsbonus && (
+                <div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
+                  <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
+                </div>
+              )}
+              {bm.freeSpinsBonus && (
+                <div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
+                  <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
+                </div>
+              )}
+              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                {bm.terms && <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.4, maxWidth: '200px' }}>{bm.terms}</p>}
                 {bm.url && (
                   <a href={bm.url} target="_blank" rel="noopener noreferrer sponsored"
-                    style={{ display: 'inline-block', background: 'var(--green-dark)', color: '#fff', padding: '12px 28px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '11px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap' }}>
                     Hent bonus →
                   </a>
                 )}
-                {bm.terms && <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, textAlign: 'right', maxWidth: '300px', lineHeight: 1.4 }}>{bm.terms}</p>}
               </div>
             </div>
           )}

@@ -74,7 +74,7 @@ const COMPARISON_TABLE_FRAGMENT = `
     tableType,
     bonuses[]-> {
       _id, title, slug, active,
-      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      oddsBonusTitel, minimumOdds, minimumIndbetaling, gennemspilskrav,
       offerUrl, terms, casinoNavn,
       "casinoLogo":      casinoLogo      { "url": asset->url, alt },
       "kampagneBillede": kampagneBillede { "url": asset->url, alt },
@@ -197,7 +197,7 @@ export async function getBonuses(limit = 50) {
   return client.fetch(
     `*[_type == "bonus" && active == true] | order(_createdAt desc) [0...$limit] {
       _id, title, slug,
-      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      oddsBonusTitel, minimumOdds, minimumIndbetaling, gennemspilskrav,
       offerUrl, terms, casinoNavn,
       "casinoLogo":    casinoLogo    { "url": asset->url, alt },
       "kampagneBillede": kampagneBillede { "url": asset->url, alt },

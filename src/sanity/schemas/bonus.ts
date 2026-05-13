@@ -65,6 +65,13 @@ export const bonusType = defineType({
       fields: [defineField({ name: 'alt', title: 'Alt-tekst', type: 'string' })],
     }),
     defineField({
+      name: 'oddsBonusTitel',
+      title: 'Odds bonus titel',
+      type: 'string',
+      group: 'info',
+      description: 'F.eks. "Få 500 kr. i freebet" — vises i sammenligningskortet',
+    }),
+    defineField({
       name: 'offerUrl',
       title: 'Offer URL',
       type: 'url',

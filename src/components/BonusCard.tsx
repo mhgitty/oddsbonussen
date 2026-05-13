@@ -5,6 +5,7 @@ interface BonusCardProps {
   _id: string
   title: string
   slug: { current: string }
+  oddsBonusTitel?: string
   minimumOdds?: string
   minimumIndbetaling?: number
   gennemspilskrav?: string
@@ -19,12 +20,12 @@ interface BonusCardProps {
 
 export function BonusCard({
   title, slug,
-  minimumOdds, minimumIndbetaling, gennemspilskrav,
+  oddsBonusTitel, minimumOdds, minimumIndbetaling, gennemspilskrav,
   offerUrl, terms, casinoNavn,
   casinoLogo, kampagneBillede, bookmaker,
   rank,
 }: BonusCardProps) {
-  const bonusTitle = title
+  const bonusTitle = oddsBonusTitel || title
 
   // Banner image — prefer casino logo, fall back to campaign image
   const bannerImage = casinoLogo?.url ? casinoLogo : kampagneBillede

@@ -351,6 +351,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.breadcrumb-link {
+  color: var(--text-faint);
+  text-decoration: none;
+}
+.breadcrumb-link:hover {
+  color: var(--text-muted);
+}
+
 .mobile-menu-link-cta {
   color: var(--green) !important;
 }

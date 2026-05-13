@@ -16,10 +16,7 @@ export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
             {isLast || !crumb.href ? (
               <span style={{ color: isLast ? 'var(--text-muted)' : 'var(--text-faint)' }}>{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} style={{ color: 'var(--text-faint)', textDecoration: 'none' }}
-                onMouseOver={e => (e.currentTarget.style.color = 'var(--text-muted)')}
-                onMouseOut={e => (e.currentTarget.style.color = 'var(--text-faint)')}
-              >
+              <Link href={crumb.href} className="breadcrumb-link">
                 {crumb.label}
               </Link>
             )}

@@ -137,10 +137,10 @@ export default async function BookmakerPage({ params }: Props) {
           <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
             {/* Logo + Title grouped so they never wrap apart on mobile */}
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flex: 1, minWidth: 0, flexWrap: 'nowrap' }}>
               {bm.logo?.url && (
-                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '14px', flexShrink: 0 }}>
-                  <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={100} height={50} style={{ objectFit: 'contain', maxHeight: '50px', width: 'auto', display: 'block' }} />
+                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px', flexShrink: 0, width: '80px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={56} height={40} style={{ objectFit: 'contain', maxWidth: '56px', maxHeight: '40px', width: 'auto', height: 'auto', display: 'block' }} />
                 </div>
               )}
 

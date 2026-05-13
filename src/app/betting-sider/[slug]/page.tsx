@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function ScoreMeter({ score }: { score: number }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
       <div style={{ fontSize: '36px', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--green)' }}>
         {score.toFixed(1)}
       </div>
@@ -139,7 +139,7 @@ export default async function BookmakerPage({ params }: Props) {
             {/* Logo + Title grouped so they never wrap apart on mobile */}
             <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flex: 1, minWidth: 0, flexWrap: 'nowrap' }}>
               {bm.logo?.url && (
-                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px', flexShrink: 0, width: '80px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '10px', flexShrink: 0, width: '76px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Image src={bm.logo.url} alt={bm.logo.alt || bm.name} width={56} height={40} style={{ objectFit: 'contain', maxWidth: '56px', maxHeight: '40px', width: 'auto', height: 'auto', display: 'block' }} />
                 </div>
               )}

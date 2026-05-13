@@ -60,6 +60,11 @@ export default defineConfig({
               .child(S.documentTypeList('page').title('Alle sider')),
             S.divider(),
             S.listItem()
+              .title('🔗 Redirects / Go-links')
+              .schemaType('redirect')
+              .child(S.documentTypeList('redirect').title('Alle redirects')),
+            S.divider(),
+            S.listItem()
               .title('👤 Forfattere')
               .schemaType('author')
               .child(S.documentTypeList('author').title('Forfattere')),
@@ -78,7 +83,7 @@ export default defineConfig({
 
   document: {
     actions: (prev, ctx) => {
-      const PREVIEW_TYPES = ['homepage','post','page','bookmaker','bonus']
+      const PREVIEW_TYPES = ['homepage', 'post', 'page', 'bookmaker', 'bonus']
       if (PREVIEW_TYPES.includes(ctx.schemaType)) {
         return [previewAction, ...prev]
       }

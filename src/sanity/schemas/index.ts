@@ -7,6 +7,7 @@ import { bookmakerType } from './bookmaker'
 import { bonusType } from './bonus'
 import { comparisonTableTemplateType } from './comparisonTableTemplate'
 import { siteSettingsType } from './siteSettings'
+import { redirectType } from './redirect'
 
 export const schemaTypes = [
   siteSettingsType,
@@ -18,4 +19,5 @@ export const schemaTypes = [
   pageType,
   authorType,
   categoryType,
+  redirectType,
 ]

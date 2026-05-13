@@ -72,75 +72,11 @@ export const bonusType = defineType({
       description: 'Affiliate link til bonustilbuddet',
     }),
     defineField({
-      name: 'bonusType',
-      title: 'Bonus type',
-      type: 'string',
-      group: 'info',
-      options: {
-        list: [
-          { title: 'Velkomstbonus', value: 'velkomstbonus' },
-          { title: 'Indbetalingsbonus', value: 'indbetalingsbonus' },
-          { title: 'Odds bonus', value: 'odds_bonus' },
-          { title: 'Free spins', value: 'free_spins' },
-          { title: 'Casino bonus', value: 'casino_bonus' },
-          { title: 'Bonus uden indbetaling', value: 'bonus_uden_indbetaling' },
-          { title: 'Bonus uden omsætningskrav', value: 'bonus_uden_omsaetningskrav' },
-          { title: 'Cashback', value: 'cashback' },
-          { title: 'Kampagne', value: 'kampagne' },
-        ],
-      },
-    }),
-
-    // ── Odds bonus ────────────────────────────────────────────────────────────
-    defineField({
-      name: 'oddsBonusTitel',
-      title: 'Odds bonus titel',
-      type: 'string',
-      group: 'info',
-    }),
-    defineField({
-      name: 'oddsBonusPlacering',
-      title: 'Odds bonus placering',
-      type: 'number',
-      group: 'info',
-      description: 'Sorteringsrækkefølge på siden',
-    }),
-    defineField({
       name: 'minimumOdds',
       title: 'Minimum odds',
       type: 'string',
       group: 'info',
       description: 'F.eks. "1.70"',
-    }),
-
-    // ── Indbetalingsbonus ─────────────────────────────────────────────────────
-    defineField({
-      name: 'indbetalingsbonusTitel',
-      title: 'Indbetalingsbonus titel',
-      type: 'string',
-      group: 'info',
-    }),
-    defineField({
-      name: 'indbetalingsbonusBeskrivelse',
-      title: 'Indbetalingsbonus beskrivelse',
-      type: 'text',
-      rows: 2,
-      group: 'info',
-    }),
-
-    // ── Velkomstbonus ─────────────────────────────────────────────────────────
-    defineField({
-      name: 'velkomstbonusTitel',
-      title: 'Velkomstbonus titel',
-      type: 'string',
-      group: 'info',
-    }),
-    defineField({
-      name: 'velkomstbonusBeskrivelse',
-      title: 'Velkomstbonus beskrivelse',
-      type: 'text',
-      rows: 2,
-      group: 'info',
     }),
 
     // ── Bonus details ─────────────────────────────────────────────────────────
@@ -188,27 +124,6 @@ export const bonusType = defineType({
       name: 'bonuskodePromoTekst',
       title: 'Bonuskode promo tekst',
       type: 'string',
-      group: 'details',
-    }),
-
-    // ── Free spins ────────────────────────────────────────────────────────────
-    defineField({
-      name: 'freeSpinsTitel',
-      title: 'Free spins titel',
-      type: 'string',
-      group: 'details',
-    }),
-    defineField({
-      name: 'freeSpinsUdenIndbetalingTitel',
-      title: 'Free spins uden indbetaling titel',
-      type: 'string',
-      group: 'details',
-    }),
-    defineField({
-      name: 'freeSpinsUdenIndbetalingBeskrivelse',
-      title: 'Free spins uden indbetaling beskrivelse',
-      type: 'text',
-      rows: 2,
       group: 'details',
     }),
 

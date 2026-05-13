@@ -46,7 +46,7 @@ export async function getPostBySlug(slug: string) {
           "imageUrl": image.asset->url,
           "bonus": bonus-> {
             "name": coalesce(bookmaker->name, casinoNavn, title),
-            "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),
+            "bonusText": title,
             "logoUrl": coalesce(casinoLogo.asset->url, bookmaker->logo.asset->url),
             "logoAlt": coalesce(casinoLogo.alt, bookmaker->logo.alt),
             "score": bookmaker->score,
@@ -74,7 +74,6 @@ const COMPARISON_TABLE_FRAGMENT = `
     tableType,
     bonuses[]-> {
       _id, title, slug, active,
-      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
       minimumOdds, minimumIndbetaling, gennemspilskrav,
       offerUrl, terms, casinoNavn,
       "casinoLogo":      casinoLogo      { "url": asset->url, alt },
@@ -191,11 +190,10 @@ export async function getBookmakerBySlug(slug: string) {
 
 export async function getBonuses(limit = 50) {
   return client.fetch(
-    `*[_type == "bonus" && active == true] | order(oddsBonusPlacering asc, _createdAt desc) [0...$limit] {
+    `*[_type == "bonus" && active == true] | order(_createdAt desc) [0...$limit] {
       _id, title, slug,
-      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
-      oddsBonusPlacering, minimumOdds, minimumIndbetaling, gennemspilskrav,
-      offerUrl, terms, bonusType, casinoNavn,
+      minimumOdds, minimumIndbetaling, gennemspilskrav,
+      offerUrl, terms, casinoNavn,
       "casinoLogo":    casinoLogo    { "url": asset->url, alt },
       "kampagneBillede": kampagneBillede { "url": asset->url, alt },
       "bookmaker": bookmaker-> { name, slug }
@@ -211,9 +209,8 @@ export async function getBonusBySlug(slug: string) {
   return client.fetch(
     `*[_type == "bonus" && slug.current == $slug][0] {
       _id, title, slug, body, metaTitle, metaDescription,
-      oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
       minimumOdds, minimumIndbetaling, gennemspilskrav,
-      offerUrl, terms, bonusType, casinoNavn,
+      offerUrl, terms, casinoNavn,
       "casinoLogo":      casinoLogo      { "url": asset->url, alt },
       "kampagneBillede": kampagneBillede { "url": asset->url, alt },
       "ogImage":         ogImage         { "url": asset->url, alt },
@@ -287,7 +284,7 @@ export async function getHomepage() {
           "imageUrl": image.asset->url,
           "bonus": bonus-> {
             "name": coalesce(bookmaker->name, casinoNavn, title),
-            "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),
+            "bonusText": title,
             "logoUrl": coalesce(casinoLogo.asset->url, bookmaker->logo.asset->url),
             "logoAlt": coalesce(casinoLogo.alt, bookmaker->logo.alt),
             "score": bookmaker->score,

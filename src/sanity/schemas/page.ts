@@ -171,8 +171,23 @@ export const bodyField = defineField({
         {
           name: 'customBody',
           title: 'Brødtekst',
-          type: 'text',
-          rows: 3,
+          type: 'array',
+          of: [
+            {
+              type: 'block',
+              styles: [{ title: 'Normal', value: 'normal' }],
+              lists: [
+                { title: 'Punktliste', value: 'bullet' },
+                { title: 'Nummerliste', value: 'number' },
+              ],
+              marks: {
+                decorators: [
+                  { title: 'Fed', value: 'strong' },
+                  { title: 'Kursiv', value: 'em' },
+                ],
+              },
+            },
+          ],
         },
         {
           name: 'pros',

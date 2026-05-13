@@ -141,8 +141,6 @@ export const bodyField = defineField({
     },
     {
       type: 'object',
-    {
-      type: 'object',
       name: 'casinoKortBlock',
       title: '🎰 Casino kort',
       fields: [
@@ -169,6 +167,8 @@ export const bodyField = defineField({
         },
       },
     },
+    {
+      type: 'object',
       name: 'tableBlock',
       title: 'Tabel',
       components: { input: TableBlockInput },

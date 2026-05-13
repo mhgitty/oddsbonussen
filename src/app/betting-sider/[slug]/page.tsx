@@ -136,15 +136,15 @@ export default async function BookmakerPage({ params }: Props) {
           {/* Top row: Logo | [Title+USP+Score + 2x2] */}
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'nowrap' }}>
 
-            {/* Logo — clipped with border-radius */}
+            {/* Logo — square, clipped with border-radius */}
             {bm.logo?.url && (
-              <div style={{ flexShrink: 0, width: '80px', height: '72px', borderRadius: '12px', overflow: 'hidden' }}>
+              <div style={{ flexShrink: 0, width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden' }}>
                 <Image
                   src={bm.logo.url}
                   alt={bm.logo.alt || bm.name}
                   width={80}
-                  height={72}
-                  style={{ objectFit: 'cover', width: '80px', height: '72px', display: 'block' }}
+                  height={80}
+                  style={{ objectFit: 'cover', width: '80px', height: '80px', display: 'block' }}
                 />
               </div>
             )}
@@ -163,9 +163,9 @@ export default async function BookmakerPage({ params }: Props) {
 
               {/* Stats 2x2 */}
               {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: '1 1 260px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: '1 1 300px', minWidth: 0 }}>
                   {bm.minIndbetaling != null && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
                       </svg>
@@ -176,7 +176,7 @@ export default async function BookmakerPage({ params }: Props) {
                     </div>
                   )}
                   {bm.gennemspilskrav && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M21 3v5h-5"/><path d="M3 21v-5h5"/>
                       </svg>
@@ -187,7 +187,7 @@ export default async function BookmakerPage({ params }: Props) {
                     </div>
                   )}
                   {bm.trustpilot != null && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                       </svg>
@@ -198,7 +198,7 @@ export default async function BookmakerPage({ params }: Props) {
                     </div>
                   )}
                   {bm.lanceringsdato && (
-                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, overflow: 'hidden' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                         <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                       </svg>
@@ -215,33 +215,36 @@ export default async function BookmakerPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Bonus bar — full width below, max 1080px */}
+          {/* Bonus bar — full width below */}
           {(bm.indbetalingsbonus || bm.freeSpinsBonus || bm.url) && (
-            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '16px 24px' }}>
-              {/* Top row: bonus info + button */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-                {bm.indbetalingsbonus && (
-                  <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
-                    <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
-                  </div>
-                )}
-                {bm.freeSpinsBonus && (
-                  <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
-                    <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
-                  </div>
-                )}
-                {bm.url && (
-                  <a href={bm.url} target="_blank" rel="noopener noreferrer sponsored"
-                    style={{ marginLeft: 'auto', display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '11px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 600, textDecoration: 'none', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                    Hent bonus →
-                  </a>
-                )}
-              </div>
-              {/* Terms — full width below */}
+            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Bonus amounts row */}
+              {(bm.indbetalingsbonus || bm.freeSpinsBonus) && (
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                  {bm.indbetalingsbonus && (
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Indbetalingsbonus</div>
+                      <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{bm.indbetalingsbonus}</div>
+                    </div>
+                  )}
+                  {bm.freeSpinsBonus && (
+                    <div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Free spins</div>
+                      <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--green)' }}>{bm.freeSpinsBonus}</div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* CTA button */}
+              {bm.url && (
+                <a href={bm.url} target="_blank" rel="noopener noreferrer sponsored"
+                  style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '13px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
+                  Hent bonus →
+                </a>
+              )}
+              {/* Terms */}
               {bm.terms && (
-                <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: '10px 0 0', lineHeight: 1.5 }}>{bm.terms}</p>
+                <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.5 }}>{bm.terms}</p>
               )}
             </div>
           )}

@@ -268,7 +268,34 @@ export const getSiteSettings = cache(async () => {
 export async function getHomepage() {
   return client.fetch(
     `*[_type == "homepage" && _id == "homepage"][0] {
-      heroHeading, heroGreenText, intro, body,
+      heroHeading, heroGreenText, intro,
+      "body": body[] {
+        ...,
+        _type == "casinoKortBlock" => {
+          ...,
+          customTitle, customBody, pros, cons,
+          "imageUrl": image.asset->url,
+          "bookmaker": bookmaker-> {
+            name, score, url,
+            "logoUrl": logo.asset->url,
+            "logoAlt": logo.alt,
+          }
+        },
+        _type == "bonusKortBlock" => {
+          ...,
+          customTitle, customBody,
+          "imageUrl": image.asset->url,
+          "bonus": bonus-> {
+            "name": coalesce(bookmaker->name, casinoNavn, title),
+            "bonusText": coalesce(velkomstbonusTitel, oddsBonusTitel, indbetalingsbonusTitel, title),
+            "logoUrl": coalesce(casinoLogo.asset->url, bookmaker->logo.asset->url),
+            "logoAlt": coalesce(casinoLogo.alt, bookmaker->logo.alt),
+            "score": bookmaker->score,
+            "offerUrl": offerUrl,
+            "terms": terms,
+          }
+        }
+      },
       howItWorksTitle, showHowItWorks, howItWorksItems,
       metaTitle, metaDescription,
       "featuredImage": featuredImage { "url": asset->url, alt },

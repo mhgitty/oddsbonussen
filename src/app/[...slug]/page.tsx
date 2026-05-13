@@ -74,7 +74,13 @@ export default async function DynamicPage({ params }: Props) {
     <>
       <JsonLd data={jsonLd} />
       <Navbar />
-      <HeroSection title={page.title} intro={page.intro} />
+      <HeroSection
+        title={page.title}
+        intro={page.intro}
+        author={page.author}
+        factChecker={page.factChecker}
+        updatedAt={page.lastUpdated}
+      />
 
       {/* Comparison table — configured per page in Sanity Studio */}
       {page.showComparisonTable && page.comparisonTable && (

@@ -124,8 +124,13 @@ const PAGE_FIELDS = `
   "parentSlug": parent->slug.current,
   "parentTitle": parent->title,
   "featuredImage": featuredImage { "url": asset->url, alt },
+  lastUpdated,
   "author": author-> {
     name, bio, linkedin, x, facebook,
+    "imageUrl": image.asset->url
+  },
+  "factChecker": factChecker-> {
+    name, linkedin,
     "imageUrl": image.asset->url
   },
   ${COMPARISON_TABLE_FRAGMENT}

@@ -210,11 +210,15 @@ export async function getBonusBySlug(slug: string) {
     `*[_type == "bonus" && slug.current == $slug][0] {
       _id, title, slug, body, metaTitle, metaDescription,
       minimumOdds, minimumIndbetaling, gennemspilskrav,
+      maksGevinst, bonuskode, spinVaerdi,
       offerUrl, terms, casinoNavn,
       "casinoLogo":      casinoLogo      { "url": asset->url, alt },
       "kampagneBillede": kampagneBillede { "url": asset->url, alt },
       "ogImage":         ogImage         { "url": asset->url, alt },
-      "bookmaker": bookmaker-> { name, slug }
+      "bookmaker": bookmaker-> {
+        name, slug,
+        "logo": logo { "url": asset->url, alt }
+      }
     }`,
     { slug }
   )

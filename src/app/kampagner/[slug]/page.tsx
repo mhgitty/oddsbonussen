@@ -1,6 +1,6 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { HeroSection } from '@/components/HeroSection'
+import { BonusHero } from '@/components/BonusHero'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -90,7 +90,20 @@ export default async function BonusPage({ params }: Props) {
     <>
       <JsonLd data={jsonLd} />
       <Navbar />
-      <HeroSection title={bonus.title} intro={bonus.intro} />
+      <BonusHero
+        title={bonus.title}
+        casinoNavn={bonus.casinoNavn}
+        logoUrl={bonus.casinoLogo?.url ?? bonus.bookmaker?.logo?.url ?? null}
+        logoAlt={bonus.casinoLogo?.alt ?? bonus.bookmaker?.logo?.alt ?? null}
+        offerUrl={bonus.offerUrl}
+        terms={bonus.terms}
+        minimumOdds={bonus.minimumOdds}
+        minimumIndbetaling={bonus.minimumIndbetaling}
+        gennemspilskrav={bonus.gennemspilskrav}
+        maksGevinst={bonus.maksGevinst}
+        bonuskode={bonus.bonuskode}
+        spinVaerdi={bonus.spinVaerdi}
+      />
       <div className="article-layout">
         <article className="article-content">
           {bonus.body && <PortableTextRenderer value={bonus.body} />}

@@ -1,7 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { mediaPlugin } from 'sanity-plugin-media'
+import { media } from 'sanity-plugin-media'
 import { schemaTypes } from './src/sanity/schemas'
 import { WideStudioLayout } from './src/sanity/StudioLayout'
 import { previewAction } from './src/sanity/previewAction'
@@ -76,7 +76,7 @@ export default defineConfig({
           ]),
     }),
     visionTool(),
-    mediaPlugin(),
+    media(),
   ],
 
   schema: {

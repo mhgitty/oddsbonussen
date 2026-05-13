@@ -4,6 +4,7 @@ import { StickyCtaBar } from '@/components/StickyCtaBar'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
+import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
 import { getBookmakerBySlug, getPosts, getSiteSettings, client } from '@/lib/sanity'
 import { replaceDateVars } from '@/lib/dateVars'
@@ -259,6 +260,7 @@ export default async function BookmakerPage({ params }: Props) {
       {/* Body content */}
       <div className="article-layout">
         <article className="article-content">
+          {bm.body && <MobileToc body={bm.body} />}
           {bm.body && <PortableTextRenderer value={bm.body} posts={latestPosts as any} />}
         </article>
         {bm.body && (

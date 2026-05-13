@@ -4,6 +4,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { AuthorBar } from '@/components/AuthorBar'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
+import { MobileToc } from '@/components/MobileToc'
 import { AuthorMeta } from '@/components/AuthorMeta'
 import { AuthorBio } from '@/components/AuthorBio'
 import { JsonLd } from '@/components/JsonLd'
@@ -158,6 +159,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="article-layout">
         {/* Main content */}
         <article className="article-content">
+          {post.body && <MobileToc body={post.body} />}
           {post.body && <PortableTextRenderer value={post.body} posts={latestPosts} />}
           {author && <AuthorBio author={author} />}
         </article>

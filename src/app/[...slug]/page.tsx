@@ -5,6 +5,7 @@ import { ComparisonTable } from '@/components/ComparisonTable'
 import { AuthorBio } from '@/components/AuthorBio'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
+import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
 import { getPageByPath, getSiteSettings } from '@/lib/sanity'
 import { replaceDateVars } from '@/lib/dateVars'
@@ -104,6 +105,7 @@ export default async function DynamicPage({ params }: Props) {
       {page.body && (
         <div className="article-layout">
           <article className="article-content">
+            <MobileToc body={page.body} />
             <PortableTextRenderer value={page.body} />
           </article>
           <aside className="toc-sidebar">

@@ -359,6 +359,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-muted);
 }
 
+/* Mobile TOC — hidden on desktop (sidebar handles it), visible on mobile/tablet */
+.mobile-toc { display: none; }
+@media (max-width: 1024px) {
+  .mobile-toc { display: block; }
+}
+
 .mobile-menu-link-cta {
   color: var(--green) !important;
 }

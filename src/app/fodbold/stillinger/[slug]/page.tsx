@@ -108,27 +108,38 @@ async function fetchStandings(leagueId: number, seasonId?: number | null): Promi
     const getDetail = (details: any[], typeId: number): number =>
       details?.find((d: any) => d.type_id === typeId)?.value ?? 0
 
-    return rows
-      .map((row: any) => {
-        const details: any[] = Array.isArray(row.details) ? row.details : []
-        const gf = getDetail(details, 133)
-        const ga = getDetail(details, 134)
-        return {
-          position: row.position ?? 0,
-          teamName: row.participant?.name ?? '—',
-          teamLogo: row.participant?.image_path ?? null,
-          played: getDetail(details, 129),
-          won:    getDetail(details, 130),
-          draw:   getDetail(details, 131),
-          lost:   getDetail(details, 132),
-          goalsFor: gf,
-          goalsAgainst: ga,
-          goalDiff: gf - ga,
-          points: row.points ?? 0,
-          form: row.form ?? null,
-        }
-      })
-      .sort((a: StandingRow, b: StandingRow) => a.position - b.position)
+    const mapped = rows.map((row: any) => {
+      const details: any[] = Array.isArray(row.details) ? row.details : []
+      const gf = getDetail(details, 133)
+      const ga = getDetail(details, 134)
+      return {
+        position: row.position ?? 0,
+        teamName: row.participant?.name ?? '—',
+        teamLogo: row.participant?.image_path ?? null,
+        played: getDetail(details, 129),
+        won:    getDetail(details, 130),
+        draw:   getDetail(details, 131),
+        lost:   getDetail(details, 132),
+        goalsFor: gf,
+        goalsAgainst: ga,
+        goalDiff: gf - ga,
+        points: row.points ?? 0,
+        form: row.form ?? null,
+      }
+    })
+
+    // Deduplicate: keep the entry with the most points for each team
+    const seen = new Map<string, StandingRow>()
+    for (const row of mapped) {
+      const existing = seen.get(row.teamName)
+      if (!existing || row.points > existing.points) {
+        seen.set(row.teamName, row)
+      }
+    }
+
+    return Array.from(seen.values())
+      .sort((a, b) => b.points - a.points || (b.goalDiff - a.goalDiff))
+      .map((row, i) => ({ ...row, position: i + 1 }))
   } catch (err) {
     console.error('[LigaStillinger] Exception:', err)
     return []
@@ -202,30 +213,25 @@ export default async function LigaStillingerPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Standings table + optional TOC sidebar */}
-      <div className="article-layout">
-        <div style={{ minWidth: 0 }}>
+      {/* Standings table — full width */}
+      <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '40px 24px 0' }}>
+        <StandingsTable rows={standings} leagueName={page.leagueName} />
+      </div>
 
-          {/* Standings */}
-          <div style={{ marginBottom: '48px' }}>
-            <StandingsTable rows={standings} leagueName={page.leagueName} />
-          </div>
-
-          {/* Body text */}
-          {page.body && (
-            <>
-              <MobileToc body={page.body} />
-              <PortableTextRenderer value={page.body} />
-            </>
-          )}
-        </div>
-
-        {page.body && (
+      {/* Body text + TOC sidebar */}
+      {page.body && (
+        <div className="article-layout">
+          <article className="article-content">
+            <MobileToc body={page.body} />
+            <PortableTextRenderer value={page.body} />
+          </article>
           <aside className="toc-sidebar">
             <TableOfContents body={page.body} />
           </aside>
-        )}
-      </div>
+        </div>
+      )}
+
+      {!page.body && <div style={{ paddingBottom: '80px' }} />}
 
       <Footer />
     </>

@@ -16,13 +16,34 @@ interface BonusHeroProps {
   spinVaerdi?: string | null
 }
 
-const stats: { key: keyof BonusHeroProps; label: string; icon: string; format?: (v: any) => string }[] = [
-  { key: 'minimumOdds',       label: 'Min. odds',        icon: '📊' },
-  { key: 'minimumIndbetaling',label: 'Min. indbetaling', icon: '💳', format: (v) => `${v} kr.` },
-  { key: 'gennemspilskrav',   label: 'Gennemspilskrav',  icon: '🔄' },
-  { key: 'maksGevinst',       label: 'Maks gevinst',     icon: '🏆' },
-  { key: 'spinVaerdi',        label: 'Spinværdi',        icon: '🎰' },
-]
+const svgProps = {
+  width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none',
+  strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const,
+  style: { flexShrink: 0 },
+}
+
+function StatBox({ label, value, icon }: { label: string; value: string | null; icon: React.ReactNode }) {
+  const empty = !value
+  return (
+    <div style={{
+      background: 'var(--bg-raised)',
+      border: `1px solid var(--border)`,
+      borderRadius: '10px', padding: '10px 14px',
+      display: 'flex', alignItems: 'center', gap: '10px',
+      minWidth: 0, opacity: empty ? 0.4 : 1,
+    }}>
+      {icon}
+      <div style={{ minWidth: 0 }}>
+        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>
+          {label}
+        </div>
+        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>
+          {value ?? '—'}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function BonusHero({
   title, casinoNavn, logoUrl, logoAlt, offerUrl, terms,
@@ -30,12 +51,6 @@ export function BonusHero({
   maksGevinst, bonuskode, spinVaerdi,
 }: BonusHeroProps) {
   const [copied, setCopied] = useState(false)
-
-  const values: Record<string, any> = {
-    minimumOdds, minimumIndbetaling, gennemspilskrav, maksGevinst, spinVaerdi,
-  }
-
-  const visibleStats = stats.filter(s => values[s.key] != null && values[s.key] !== '')
 
   function copyCode() {
     if (!bonuskode) return
@@ -53,7 +68,7 @@ export function BonusHero({
     }}>
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
 
-        {/* Logo + title row */}
+        {/* Logo + title */}
         <div style={{ display: 'flex', gap: '18px', alignItems: 'center', marginBottom: '28px' }}>
           {logoUrl && (
             <div style={{ flexShrink: 0, width: '72px', height: '72px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border)' }}>
@@ -69,99 +84,114 @@ export function BonusHero({
             <h1 style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(22px, 3.5vw, 38px)',
-              fontWeight: 800,
-              color: 'var(--text)',
-              lineHeight: 1.2,
-              letterSpacing: '-0.03em',
-              margin: 0,
+              fontWeight: 800, color: 'var(--text)',
+              lineHeight: 1.2, letterSpacing: '-0.03em', margin: 0,
             }}>
               {title}
             </h1>
           </div>
         </div>
 
-        {/* Stat chips */}
-        {visibleStats.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '24px' }}>
-            {visibleStats.map(s => {
-              const raw = values[s.key]
-              const display = s.format ? s.format(raw) : String(raw)
-              return (
-                <div key={s.key} style={{
-                  display: 'flex', flexDirection: 'column',
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  borderRadius: '10px', padding: '10px 16px',
-                  minWidth: '110px',
-                }}>
-                  <span style={{ fontSize: '11px', color: 'var(--text-faint)', fontWeight: 500, marginBottom: '3px' }}>
-                    {s.icon} {s.label}
-                  </span>
-                  <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text)' }}>
-                    {display}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        )}
+        {/* Stat grid — always 3 columns, greyed when empty */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '24px' }}>
 
-        {/* Bonuskode */}
-        {bonuskode && (
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '12px',
-            background: 'rgba(34,197,94,0.08)',
-            border: '1px dashed rgba(34,197,94,0.5)',
-            borderRadius: '10px', padding: '10px 16px',
-            marginBottom: '24px',
-          }}>
-            <div>
-              <div style={{ fontSize: '11px', color: 'var(--green)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>
-                🎫 Bonuskode
+          <StatBox label="Min. odds" value={minimumOdds ?? null} icon={
+            <svg {...svgProps} stroke={minimumOdds ? 'var(--green)' : 'var(--text-faint)'}>
+              {/* bar chart */}
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          } />
+
+          <StatBox label="Min. indbetaling" value={minimumIndbetaling != null ? `${minimumIndbetaling} kr.` : null} icon={
+            <svg {...svgProps} stroke={minimumIndbetaling != null ? 'var(--green)' : 'var(--text-faint)'}>
+              {/* credit card */}
+              <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          } />
+
+          <StatBox label="Gennemspilskrav" value={gennemspilskrav ?? null} icon={
+            <svg {...svgProps} stroke={gennemspilskrav ? 'var(--green)' : 'var(--text-faint)'}>
+              {/* refresh */}
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+              <path d="M21 3v5h-5"/><path d="M3 21v-5h5"/>
+            </svg>
+          } />
+
+          <StatBox label="Maks gevinst" value={maksGevinst ?? null} icon={
+            <svg {...svgProps} stroke={maksGevinst ? 'var(--green)' : 'var(--text-faint)'}>
+              {/* trophy */}
+              <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
+              <path d="M6 9a6 6 0 0 0 12 0"/><line x1="12" y1="15" x2="12" y2="19"/><line x1="8" y1="19" x2="16" y2="19"/>
+            </svg>
+          } />
+
+          <StatBox label="Spinværdi" value={spinVaerdi ?? null} icon={
+            <svg {...svgProps} stroke={spinVaerdi ? 'var(--green)' : 'var(--text-faint)'}>
+              {/* zap / spin */}
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+            </svg>
+          } />
+
+          {/* Bonuskode — spans full width if present, otherwise a normal greyed box */}
+          {bonuskode ? (
+            <div style={{
+              background: 'rgba(34,197,94,0.08)',
+              border: '1px dashed rgba(34,197,94,0.5)',
+              borderRadius: '10px', padding: '10px 14px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                <svg {...svgProps} stroke="var(--green)">
+                  {/* tag */}
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                  <line x1="7" y1="7" x2="7.01" y2="7"/>
+                </svg>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: '10px', color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>Bonuskode</div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', letterSpacing: '0.06em' }}>{bonuskode}</div>
+                </div>
               </div>
-              <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)', letterSpacing: '0.08em' }}>
-                {bonuskode}
-              </div>
-            </div>
-            <button
-              onClick={copyCode}
-              style={{
+              <button onClick={copyCode} style={{
                 background: copied ? 'var(--green-dark)' : 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: '6px', padding: '6px 12px',
-                fontSize: '12px', fontWeight: 600,
+                border: '1px solid var(--border)', borderRadius: '6px',
+                padding: '5px 10px', fontSize: '11px', fontWeight: 600,
                 color: copied ? '#fff' : 'var(--text-muted)',
                 cursor: 'pointer', transition: 'all .15s', flexShrink: 0,
-              }}
-            >
-              {copied ? '✓ Kopieret' : 'Kopiér'}
-            </button>
-          </div>
-        )}
+              }}>
+                {copied ? '✓ Kopieret' : 'Kopiér'}
+              </button>
+            </div>
+          ) : (
+            <StatBox label="Bonuskode" value={null} icon={
+              <svg {...svgProps} stroke="var(--text-faint)">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+            } />
+          )}
 
-        {/* CTA + terms */}
+        </div>
+
+        {/* CTA — full width */}
         {offerUrl && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '400px' }}>
+          <div>
             <a
               href={offerUrl}
               target="_blank"
               rel="nofollow noopener noreferrer sponsored"
               style={{
-                display: 'block',
-                background: 'var(--green-dark)',
-                color: '#fff',
-                padding: '14px 28px',
-                borderRadius: '10px',
-                fontSize: '16px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                textAlign: 'center',
-                letterSpacing: '-0.01em',
+                display: 'block', width: '100%',
+                background: 'var(--green-dark)', color: '#fff',
+                padding: '15px 28px', borderRadius: '10px',
+                fontSize: '16px', fontWeight: 700,
+                textDecoration: 'none', textAlign: 'center',
+                letterSpacing: '-0.01em', boxSizing: 'border-box',
               }}
             >
               Hent bonus nu →
             </a>
             {terms && (
-              <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontSize: '10px', color: 'var(--text-faint)', margin: '10px 0 0', lineHeight: 1.5 }}>
                 {terms}
               </p>
             )}

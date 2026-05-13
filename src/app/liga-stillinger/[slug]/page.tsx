@@ -52,49 +52,69 @@ interface StandingRow {
 
 async function fetchStandings(leagueId: number, seasonId?: number | null): Promise<StandingRow[]> {
   const token = process.env.SPORTSMONKS_API_TOKEN
-  if (!token) return []
+  if (!token) {
+    console.error('[LigaStillinger] SPORTSMONKS_API_TOKEN is not set')
+    return []
+  }
 
   try {
-    let url: string
-
-    if (seasonId) {
-      url = `${SM_BASE}/standings/seasons/${seasonId}?api_token=${token}&include=participant`
-    } else {
-      // Get current season for the league first
+    // Resolve season ID
+    let resolvedSeasonId = seasonId
+    if (!resolvedSeasonId) {
       const leagueRes = await fetch(
         `${SM_BASE}/leagues/${leagueId}?api_token=${token}&include=currentSeason`,
         { next: { revalidate: 3600 } }
       )
+      if (!leagueRes.ok) {
+        console.error('[LigaStillinger] League fetch failed:', leagueRes.status)
+        return []
+      }
       const leagueData = await leagueRes.json()
-      const currentSeasonId = leagueData?.data?.currentSeason?.id
-      if (!currentSeasonId) return []
-      url = `${SM_BASE}/standings/seasons/${currentSeasonId}?api_token=${token}&include=participant`
+      resolvedSeasonId = leagueData?.data?.currentSeason?.id
+      if (!resolvedSeasonId) {
+        console.error('[LigaStillinger] No currentSeason found for league', leagueId)
+        return []
+      }
     }
 
+    // Fetch standings — include participant + details for stats
+    const url = `${SM_BASE}/standings/seasons/${resolvedSeasonId}?api_token=${token}&include=participant;details`
     const res = await fetch(url, { next: { revalidate: 3600 } })
+    if (!res.ok) {
+      console.error('[LigaStillinger] Standings fetch failed:', res.status)
+      return []
+    }
     const data = await res.json()
-    const rows = data?.data || []
+    const rows: any[] = Array.isArray(data?.data) ? data.data : []
+
+    // Sportsmonks v3: details is an array of { type_id, value } objects
+    // Common type IDs: 129=GP, 130=W, 131=D, 132=L, 133=GF, 134=GA
+    const getDetail = (details: any[], typeId: number): number =>
+      details?.find((d: any) => d.type_id === typeId)?.value ?? 0
 
     return rows
       .map((row: any) => {
-        const d = row.details || {}
+        const details: any[] = Array.isArray(row.details) ? row.details : []
+        const gf = getDetail(details, 133)
+        const ga = getDetail(details, 134)
         return {
           position: row.position ?? 0,
           teamName: row.participant?.name ?? '—',
           teamLogo: row.participant?.image_path ?? null,
-          played: d.values?.GP?.all ?? d.values?.['GP']?.all ?? 0,
-          won: d.values?.W?.all ?? 0,
-          draw: d.values?.D?.all ?? 0,
-          lost: d.values?.L?.all ?? 0,
-          goalsFor: d.values?.['Goals For']?.all ?? d.values?.GF?.all ?? 0,
-          goalsAgainst: d.values?.['Goals Against']?.all ?? d.values?.GA?.all ?? 0,
-          goalDiff: d.values?.['Goal Difference']?.all ?? 0,
-          points: d.values?.PTS?.all ?? row.points ?? 0,
+          played: getDetail(details, 129),
+          won:    getDetail(details, 130),
+          draw:   getDetail(details, 131),
+          lost:   getDetail(details, 132),
+          goalsFor: gf,
+          goalsAgainst: ga,
+          goalDiff: gf - ga,
+          points: row.points ?? 0,
           form: row.form ?? null,
         }
       })
       .sort((a: StandingRow, b: StandingRow) => a.position - b.position)
-  } catch {
+  } catch (err) {
+    console.error('[LigaStillinger] Exception:', err)
     return []
   }
 }

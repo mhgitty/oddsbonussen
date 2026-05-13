@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { StickyCtaBar } from '@/components/StickyCtaBar'
 import { PortableTextRenderer } from '@/components/PortableTextRenderer'
 import { TableOfContents } from '@/components/TableOfContents'
 import { JsonLd } from '@/components/JsonLd'
@@ -245,6 +246,16 @@ export default async function BookmakerPage({ params }: Props) {
           )}
         </div>
       </div>
+
+      {/* Sticky CTA — appears after hero scrolls out of view */}
+      {bm.url && (
+        <StickyCtaBar
+          url={bm.url}
+          name={bm.name}
+          logoUrl={bm.logo?.url ?? null}
+          logoAlt={bm.logo?.alt ?? null}
+        />
+      )}
 
       {/* Body content */}
       <div className="article-layout">

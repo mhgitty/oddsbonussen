@@ -5,9 +5,6 @@ interface BonusCardProps {
   _id: string
   title: string
   slug: { current: string }
-  oddsBonusTitel?: string
-  indbetalingsbonusTitel?: string
-  velkomstbonusTitel?: string
   minimumOdds?: string
   minimumIndbetaling?: number
   gennemspilskrav?: string
@@ -22,14 +19,12 @@ interface BonusCardProps {
 
 export function BonusCard({
   title, slug,
-  oddsBonusTitel, indbetalingsbonusTitel, velkomstbonusTitel,
   minimumOdds, minimumIndbetaling, gennemspilskrav,
   offerUrl, terms, casinoNavn,
   casinoLogo, kampagneBillede, bookmaker,
   rank,
 }: BonusCardProps) {
-  // Main bonus headline — prefer odds bonus titel, then indbetaling, then velkomst
-  const bonusTitle = oddsBonusTitel || indbetalingsbonusTitel || velkomstbonusTitel
+  const bonusTitle = title
 
   // Banner image — prefer casino logo, fall back to campaign image
   const bannerImage = casinoLogo?.url ? casinoLogo : kampagneBillede
@@ -116,27 +111,18 @@ export function BonusCard({
             padding: '20px 32px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            {bonusTitle ? (
-              <p style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(18px, 2vw, 26px)',
-                fontWeight: 800,
-                color: 'var(--text)',
-                lineHeight: 1.2,
-                letterSpacing: '-0.03em',
-                textAlign: 'center',
-                margin: 0,
-              }}>
-                {bonusTitle}
-              </p>
-            ) : (
-              <p style={{
-                fontSize: '14px', color: 'var(--text-faint)',
-                textAlign: 'center', margin: 0,
-              }}>
-                {displayName}
-              </p>
-            )}
+            <p style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(18px, 2vw, 26px)',
+              fontWeight: 800,
+              color: 'var(--text)',
+              lineHeight: 1.2,
+              letterSpacing: '-0.03em',
+              textAlign: 'center',
+              margin: 0,
+            }}>
+              {bonusTitle}
+            </p>
           </div>
         </div>
 

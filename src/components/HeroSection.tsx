@@ -127,7 +127,7 @@ export function HeroSection({ title, intro, eyebrow, updatedAt, narrow = false, 
             fontSize: '15px',
             color: 'var(--text-muted)',
             lineHeight: 1.7,
-            maxWidth: '680px',
+            width: '100%',
             margin: 0,
           }}>
             {replaceDateVars(intro)}

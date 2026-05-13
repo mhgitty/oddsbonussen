@@ -325,6 +325,19 @@ h1, h2, h3, h4, h5, h6 {
   .bm-hero-stats { align-self: center; width: 340px; }
 }
 
+.pros-cons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+@media (min-width: 600px) {
+  .pros-cons-grid {
+    flex-direction: row;
+  }
+}
+
 .mobile-menu-link-cta {
   color: var(--green) !important;
 }

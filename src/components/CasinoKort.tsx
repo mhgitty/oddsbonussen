@@ -73,7 +73,7 @@ export function CasinoKort({ value }: { value: CasinoKortData }) {
 
         {/* Pros & Cons */}
         {(hasPros || hasCons) && (
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+          <div className="pros-cons-grid">
             {hasPros && (
               <div style={{ flex: 1, minWidth: '140px', border: '1px solid rgba(34,197,94,0.35)', borderRadius: '8px', padding: '12px 14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>

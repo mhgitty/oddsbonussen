@@ -22,6 +22,8 @@ function resolveUrl(type: string, doc: Record<string, any>): string | null {
       return slug ? `${BASE}/betting-sider/${slug}/` : `${BASE}/betting-sider/`
     case 'bonus':
       return slug ? `${BASE}/kampagner/${slug}/` : `${BASE}/kampagner/`
+    case 'ligaStillinger':
+      return slug ? `${BASE}/liga-stillinger/${slug}/` : `${BASE}/liga-stillinger/`
     default:
       return null
   }

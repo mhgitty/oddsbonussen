@@ -136,15 +136,17 @@ export default async function BookmakerPage({ params }: Props) {
           {/* Top row: Logo | [Title+USP+Score + 2x2] */}
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', flexWrap: 'nowrap' }}>
 
-            {/* Logo — bare image, no box */}
+            {/* Logo — clipped with border-radius */}
             {bm.logo?.url && (
-              <Image
-                src={bm.logo.url}
-                alt={bm.logo.alt || bm.name}
-                width={80}
-                height={64}
-                style={{ objectFit: 'contain', borderRadius: '10px', flexShrink: 0, width: '80px', height: '64px', display: 'block' }}
-              />
+              <div style={{ flexShrink: 0, width: '80px', height: '72px', borderRadius: '12px', overflow: 'hidden' }}>
+                <Image
+                  src={bm.logo.url}
+                  alt={bm.logo.alt || bm.name}
+                  width={80}
+                  height={72}
+                  style={{ objectFit: 'cover', width: '80px', height: '72px', display: 'block' }}
+                />
+              </div>
             )}
 
             {/* Content: title+score on left, 2x2 to the right — wraps on mobile */}
@@ -161,7 +163,7 @@ export default async function BookmakerPage({ params }: Props) {
 
               {/* Stats 2x2 */}
               {(bm.minIndbetaling != null || bm.gennemspilskrav || bm.trustpilot != null || bm.lanceringsdato) && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flexShrink: 0 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', flex: '1 1 260px' }}>
                   {bm.minIndbetaling != null && (
                     <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>

@@ -1,40 +1,40 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { headingId } from '@/lib/headingId'
 
 interface Heading {
   id: string
   text: string
-  level: 'h2' | 'h3' | 'h4'
 }
 
 function extractHeadings(body: any[]): Heading[] {
   if (!body?.length) return []
   return body
-    .filter((block: any) => block._type === 'block' && ['h2', 'h3', 'h4'].includes(block.style))
+    .filter((block: any) => block._type === 'block' && block.style === 'h2')
     .map((block: any) => {
       const text = block.children?.map((c: any) => c.text).join('') || ''
-      return {
-        id: headingId(text),
-        text,
-        level: block.style as 'h2' | 'h3' | 'h4',
-      }
+      return { id: headingId(text), text }
     })
     .filter((h) => h.text.length > 0)
 }
 
 export function TableOfContents({ body }: { body: any[] }) {
   const [activeId, setActiveId] = useState<string>('')
+  const navRef = useRef<HTMLElement>(null)
+  const itemRefs = useRef<Record<string, HTMLLIElement | null>>({})
   const headings = extractHeadings(body)
 
+  // Observe h2s in the page and update activeId
   useEffect(() => {
     if (!headings.length) return
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveId(entry.target.id)
-        })
+        // Pick the topmost intersecting heading
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        if (visible.length) setActiveId(visible[0].target.id)
       },
       { rootMargin: '0px 0px -60% 0px' }
     )
@@ -44,6 +44,21 @@ export function TableOfContents({ body }: { body: any[] }) {
     })
     return () => observer.disconnect()
   }, [headings.length])
+
+  // Auto-scroll the TOC so the active item stays visible
+  useEffect(() => {
+    if (!activeId || !navRef.current) return
+    const activeEl = itemRefs.current[activeId]
+    if (!activeEl) return
+    const nav = navRef.current
+    const navTop = nav.scrollTop
+    const navBottom = navTop + nav.clientHeight
+    const elTop = activeEl.offsetTop
+    const elBottom = elTop + activeEl.offsetHeight
+    if (elTop < navTop || elBottom > navBottom) {
+      nav.scrollTo({ top: elTop - nav.clientHeight / 2 + activeEl.offsetHeight / 2, behavior: 'smooth' })
+    }
+  }, [activeId])
 
   if (!headings.length) return null
 
@@ -67,10 +82,10 @@ export function TableOfContents({ body }: { body: any[] }) {
         Indholdsfortegnelse
       </h4>
 
-      <nav>
+      <nav ref={navRef} style={{ overflowY: 'auto', maxHeight: '60vh' }}>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          {headings.map(({ id, text, level }) => (
-            <li key={id}>
+          {headings.map(({ id, text }) => (
+            <li key={id} ref={(el) => { itemRefs.current[id] = el }}>
               <a
                 href={`#${id}`}
                 style={{
@@ -79,8 +94,7 @@ export function TableOfContents({ body }: { body: any[] }) {
                   lineHeight: 1.5,
                   color: activeId === id ? 'var(--green)' : 'var(--text-muted)',
                   textDecoration: 'none',
-                  padding: '4px 0',
-                  paddingLeft: level === 'h3' ? '20px' : level === 'h4' ? '32px' : '8px',
+                  padding: '4px 0 4px 8px',
                   borderLeft: activeId === id ? '2px solid var(--green)' : '2px solid transparent',
                   transition: 'color 0.15s, border-color 0.15s',
                   fontWeight: activeId === id ? 500 : 400,

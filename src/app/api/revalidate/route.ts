@@ -12,43 +12,31 @@ export async function POST(req: NextRequest) {
     const type = body?._type as string | undefined
     const slug = body?.slug?.current as string | undefined
 
-    const revalidated: string[] = []
-    const touch = (path: string, kind?: 'page' | 'layout') => {
-      revalidatePath(path, kind)
-      revalidated.push(path)
-    }
+    // Always bust the full layout — guarantees every page is fresh.
+    // Also revalidate specific paths so ISR picks them up immediately.
+    revalidatePath('/', 'layout')
 
-    if (type === 'homepage') {
-      touch('/', 'page')
-    } else if (type === 'post') {
-      touch('/blog/', 'page')
-      touch('/', 'page')
-      if (slug) touch(`/blog/${slug}/`, 'page')
-      else touch('/blog/[slug]', 'page')
-    } else if (type === 'page') {
-      // Revalidate all dynamic pages — we don't know the parent path from slug alone
-      touch('/', 'layout')
+    const specific: string[] = []
+
+    if (type === 'post') {
+      revalidatePath('/blog/[slug]', 'page')
+      if (slug) { revalidatePath(`/blog/${slug}/`, 'page'); specific.push(`/blog/${slug}/`) }
     } else if (type === 'bookmaker') {
-      touch('/betting-sider/', 'page')
-      touch('/', 'page')
-      if (slug) touch(`/betting-sider/${slug}/`, 'page')
-      else touch('/betting-sider/[slug]', 'page')
+      revalidatePath('/betting-sider/[slug]', 'page')
+      if (slug) { revalidatePath(`/betting-sider/${slug}/`, 'page'); specific.push(`/betting-sider/${slug}/`) }
     } else if (type === 'bonus') {
-      touch('/kampagner/', 'page')
-      if (slug) touch(`/kampagner/${slug}/`, 'page')
-      else touch('/kampagner/[slug]', 'page')
-    } else if (type === 'siteSettings' || type === 'comparisonTableTemplate') {
-      // These affect every page (navbar, footer, comparison tables)
-      touch('/', 'layout')
-    } else if (type === 'author') {
-      touch('/', 'layout')
-    } else if (type === 'category') {
-      touch('/blog/', 'page')
-    } else {
-      touch('/', 'layout')
+      revalidatePath('/kampagner/[slug]', 'page')
+      if (slug) { revalidatePath(`/kampagner/${slug}/`, 'page'); specific.push(`/kampagner/${slug}/`) }
     }
 
-    return NextResponse.json({ revalidated: true, type: type ?? 'unknown', paths: revalidated })
+    return NextResponse.json({
+      revalidated: true,
+      type: type ?? 'unknown',
+      slug: slug ?? null,
+      layout: '/',
+      specific,
+      ts: new Date().toISOString(),
+    })
   } catch (err) {
     return NextResponse.json({ message: 'Revalidation failed', error: String(err) }, { status: 500 })
   }
